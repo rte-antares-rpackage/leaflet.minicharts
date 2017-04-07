@@ -116,7 +116,8 @@ addMinicharts <- function(map, lng, lat, data = 1, maxValues = NULL, type = "aut
 
   map %>%
     invokeMethod(NULL, "addMinicharts",
-                 options, data, unname(maxValues), colorPalette)
+                 options, data, unname(maxValues), colorPalette) %>%
+    expandLimits(lat, lng)
 }
 
 #' @export
