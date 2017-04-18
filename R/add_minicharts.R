@@ -54,7 +54,6 @@
 #' mymap %>% updateMinicharts("c1", maxValues = 6)
 #' mymap %>% updateMinicharts("c1", type="pie")
 #'
-#' @import leaflet
 #' @export
 #'
 addMinicharts <- function(map, lng, lat, data = 1, maxValues = NULL, type = "auto",
@@ -115,7 +114,7 @@ addMinicharts <- function(map, lng, lat, data = 1, maxValues = NULL, type = "aut
   map$dependencies <- c(map$dependencies, list(minichartDep))
 
   map %>%
-    invokeMethod(NULL, "addMinicharts",
+    invokeMethod(data = leaflet::getMapData(map), "addMinicharts",
                  options, data, unname(maxValues), colorPalette) %>%
     expandLimits(lat, lng)
 }

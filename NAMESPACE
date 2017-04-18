@@ -2,4 +2,6 @@
 
 export(addMinicharts)
 export(updateMinicharts)
-import(leaflet)
+importFrom(leaflet,"%>%")
+importFrom(leaflet,expandLimits)
+importFrom(leaflet,invokeMethod)

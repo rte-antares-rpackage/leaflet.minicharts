@@ -17,7 +17,7 @@ let's have a look to a concrete example.
 
 ## Data
 
-The package provides a table that contains the production, consumption and exchanges of France from january 2010 to february 2017 and of 12 french regions from january 2013 to february 2017. 
+The package provides a table that contains the electric production, consumption and exchanges of France from january 2010 to february 2017 and of 12 french regions from january 2013 to february 2017. 
 
 In addition to the total production, the table contains one column for each type of production. The table also contains the lattitude and longitude of the center of the regions.
 
