@@ -32,8 +32,6 @@
 #' @param showLabels Should values be displayed above chart elements.
 #' @param labelStyle Character string containing CSS properties to apply to the
 #'   labels.
-#' @param labelPrecision Integer indicating the number of signficant digits to
-#'   keep when displaying numerci values
 #' @param labelText character vector containing the text content of the charts.
 #'   Used only if \code{data} contains only one column.
 #' @param transitionTime duration of the transitions when a property of a chart
@@ -59,8 +57,7 @@
 addMinicharts <- function(map, lng, lat, data = 1, maxValues = NULL, type = "auto",
                           fillColor = NULL, colorPalette = NULL,
                           width = 30, height = 30, opacity = 1, showLabels = FALSE,
-                          labelStyle = NULL,
-                          labelPrecision = 0, labelText = NULL,
+                          labelStyle = NULL, labelText = NULL,
                           transitionTime = 750, popup = NULL, layerId = NULL) {
 
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
@@ -99,7 +96,7 @@ addMinicharts <- function(map, lng, lat, data = 1, maxValues = NULL, type = "aut
     required = list(lng = lng, lat = lat),
     optional = list(type = type, width = width, height = height,
                     opacity = opacity, labels = labels,
-                    labelStyle = labelStyle, labelPrecision = labelPrecision,
+                    labelStyle = labelStyle,
                     transitionTime = transitionTime,
                     popup = popup, layerId = layerId, fillColor = fillColor)
   )
@@ -124,8 +121,7 @@ addMinicharts <- function(map, lng, lat, data = 1, maxValues = NULL, type = "aut
 updateMinicharts <- function(map, layerId, data = NULL, maxValues = NULL, type = NULL,
                              fillColor = NULL, colorPalette = NULL,
                              width = NULL, height = NULL, opacity = NULL, showLabels = NULL,
-                             labelStyle = NULL,
-                             labelPrecision = NULL, labelText = NULL,
+                             labelStyle = NULL, labelText = NULL,
                              transitionTime = NULL, popup = NULL) {
 
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
@@ -164,7 +160,7 @@ updateMinicharts <- function(map, layerId, data = NULL, maxValues = NULL, type =
     required = list(layerId = layerId),
     optional = list(type = type, width = width, height = height,
                     opacity = opacity, labels = labels,
-                    labelStyle = labelStyle, labelPrecision = labelPrecision,
+                    labelStyle = labelStyle,
                     labelText = labelText, transitionTime = transitionTime,
                     popup = popup, fillColor = fillColor)
   )

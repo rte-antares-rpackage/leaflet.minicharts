@@ -7,15 +7,13 @@
 \usage{
 addMinicharts(map, lng, lat, data = 1, maxValues = NULL, type = "auto",
   fillColor = NULL, colorPalette = NULL, width = 30, height = 30,
-  opacity = 1, showLabels = FALSE, labelStyle = NULL,
-  labelPrecision = 0, labelText = NULL, transitionTime = 750,
-  popup = NULL, layerId = NULL)
+  opacity = 1, showLabels = FALSE, labelStyle = NULL, labelText = NULL,
+  transitionTime = 750, popup = NULL, layerId = NULL)
 
 updateMinicharts(map, layerId, data = NULL, maxValues = NULL, type = NULL,
   fillColor = NULL, colorPalette = NULL, width = NULL, height = NULL,
   opacity = NULL, showLabels = NULL, labelStyle = NULL,
-  labelPrecision = NULL, labelText = NULL, transitionTime = NULL,
-  popup = NULL)
+  labelText = NULL, transitionTime = NULL, popup = NULL)
 }
 \arguments{
 \item{map}{A leaflet map object created with \code{\link[leaflet]{leaflet}}.}
@@ -56,9 +54,6 @@ one column.}
 
 \item{labelStyle}{Character string containing CSS properties to apply to the
 labels.}
-
-\item{labelPrecision}{Integer indicating the number of signficant digits to
-keep when displaying numerci values}
 
 \item{labelText}{character vector containing the text content of the charts.
 Used only if \code{data} contains only one column.}

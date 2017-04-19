@@ -8,9 +8,9 @@ Authors@R: c(
     person("RTE", role = "cph")
     )
 Maintainer: Francois Guillem <francois.guillem@rte-france.com>
-Description: This package provides functions to add and modify small charts on 
-    an interactive map created with package "leaflet". They can be used to 
-    represent at same time multiple variables on a single map.
+Description: Add and modify small charts on an interactive map created with 
+    package 'leaflet'. These charts can be used to represent at same time multiple 
+    variables on a single map.
 License: GPL (>= 2) | file LICENSE
 Depends: R (>= 2.10)
 Imports: leaflet,
