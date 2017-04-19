@@ -10,9 +10,9 @@ For a few years now, it has become easy to create interactive maps with R thanks
 
 Here are screenshots of sample outputs:
 
-![](vignettes/piecharts.gif)
-![](vignettes/barcharts.gif)
-![](vignettes/bubblecharts.gif)
+![](vignettes/piecharts.png)
+![](vignettes/barcharts.png)
+![](vignettes/bubblecharts.png)
 
 And here is an example using this package inside a shiny application:
 
