@@ -1,24 +1,32 @@
+[![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/leaflet.minicharts)](https://cran.r-project.org/package=leaflet.minicharts)
 [![Travis-CI Build Status](https://travis-ci.org/rte-antares-rpackage/leaflet.minicharts.svg?branch=master)](https://travis-ci.org/rte-antares-rpackage/leaflet.minicharts)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rte-antares-rpackage/leaflet.minicharts?branch=master&svg=true)](https://ci.appveyor.com/project/rte-antares-rpackage/leaflet.minicharts)
 
 # Minicharts for Interactive Maps
 
-For a few years now, it has become very to create interactive maps with R thanks to the package `leaflet` by the Rstudio team. Nevertheless, it only provides only a few functions to create basic shapes on a map, so the information that can be represented on a single map is limited: if you have some data associated to some points, you can only represent at most two variables by drawing circles and changing their radius and color according to data.
+For a few years now, it has become easy to create interactive maps with R thanks to the package `leaflet` by the Rstudio team. Nevertheless, it only provides only a few functions to create basic shapes on a map, so the information that can be represented on a single map is limited: if you have some data associated to some points, you can only represent at most two variables by drawing circles and changing their radius and color according to data.
 
 `leaflet.minicharts` is an R package that provides two functions to add and update small charts on an interactive maps created with the package `leaflet`. These charts can be used to represent as many variables as desired associated to geographical points. Currently, three types of chart are supported: barcharts (the default), pie charts and polar area charts.
 
-Here is an example using this package inside a shiny application:
+Here are screenshots of sample outputs:
+
+![](vignettes/piecharts.gif)
+![](vignettes/barcharts.gif)
+![](vignettes/bubblecharts.gif)
+
+And here is an example using this package inside a shiny application:
 
 ![](vignettes/minicharts_shiny.gif)
 
-## Installation
+## Installation and usage
 
-For now, the package is only available on Github. You can install it with package `devtools`:
+You can install the package from CRAN:
 
 ```r
-install.packages("rte-antares-rpackage/leaflet.minicharts")
+install.packages("leaflet.minicharts")
 ```
 
+To see how simple it is to use this package, have a look at the [package vignette](https://cran.r-project.org/web/packages/leaflet.minicharts/vignettes/introduction.html).
 
 ## Contributing:
 
