@@ -7,14 +7,15 @@
 \usage{
 addMinicharts(map, lng, lat, data = 1, maxValues = NULL, type = "auto",
   fillColor = "blue", colorPalette = d3.schemeCategory10, width = 30,
-  height = 30, opacity = 1, showLabels = FALSE, labelStyle = NULL,
-  labelText = NULL, transitionTime = 750, popup = NULL, layerId = NULL,
-  legend = TRUE)
+  height = 30, opacity = 1, showLabels = FALSE, labelText = NULL,
+  labelMinSize = 8, labelMaxSize = 24, labelStyle = NULL,
+  transitionTime = 750, popup = NULL, layerId = NULL, legend = TRUE)
 
 updateMinicharts(map, layerId, data = NULL, maxValues = NULL, type = NULL,
   fillColor = NULL, colorPalette = NULL, width = NULL, height = NULL,
-  opacity = NULL, showLabels = NULL, labelStyle = NULL,
-  labelText = NULL, transitionTime = NULL, popup = NULL)
+  opacity = NULL, showLabels = NULL, labelText = NULL,
+  labelMinSize = NULL, labelMaxSize = NULL, labelStyle = NULL,
+  transitionTime = NULL, popup = NULL)
 }
 \arguments{
 \item{map}{A leaflet map object created with \code{\link[leaflet]{leaflet}}.}
@@ -53,20 +54,28 @@ one column.}
 
 \item{showLabels}{Should values be displayed above chart elements.}
 
-\item{labelStyle}{Character string containing CSS properties to apply to the
-labels.}
-
 \item{labelText}{character vector containing the text content of the charts.
 Used only if \code{data} contains only one column.}
 
-\item{transitionTime}{duration of the transitions when a property of a chart
-is updated}
+\item{labelMinSize}{Minimal height of labels in pixels. When there is not
+enough space for labels, they are hidden.}
+
+\item{labelMaxSize}{Maximal height of labels in pixels.}
+
+\item{labelStyle}{Character string containing CSS properties to apply to the
+labels.}
+
+\item{transitionTime}{Duration in milliseconds of the transitions when a
+property of a chart is updated.}
 
 \item{popup}{Content of the popup bind to a given chart. This can be html
 text.}
 
 \item{layerId}{An ID variable. It is mandatoy when one wants to update some
-chart.}
+chart with \code{updateMinicharts}.}
+
+\item{legend}{If TRUE and if data has column names, then a legend is
+automatically added to the map.}
 }
 \value{
 The modified leaflet map object.
