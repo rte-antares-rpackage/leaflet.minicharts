@@ -5,15 +5,16 @@
 \alias{updateMinicharts}
 \title{Add or update charts on a leaflet map}
 \usage{
-addMinicharts(map, lng, lat, data = 1, maxValues = NULL, type = "auto",
-  fillColor = "blue", colorPalette = d3.schemeCategory10, width = 30,
-  height = 30, opacity = 1, showLabels = FALSE, labelText = NULL,
-  labelMinSize = 8, labelMaxSize = 24, labelStyle = NULL,
-  transitionTime = 750, popup = NULL, layerId = NULL, legend = TRUE)
+addMinicharts(map, lng, lat, data = 1, time = NULL, maxValues = NULL,
+  type = "auto", fillColor = "blue", colorPalette = d3.schemeCategory10,
+  width = 30, height = 30, opacity = 1, showLabels = FALSE,
+  labelText = NULL, labelMinSize = 8, labelMaxSize = 24,
+  labelStyle = NULL, transitionTime = 750, popup = NULL, layerId = NULL,
+  legend = TRUE)
 
-updateMinicharts(map, layerId, data = NULL, maxValues = NULL, type = NULL,
-  fillColor = NULL, colorPalette = NULL, width = NULL, height = NULL,
-  opacity = NULL, showLabels = NULL, labelText = NULL,
+updateMinicharts(map, layerId, data = NULL, time = NULL, maxValues = NULL,
+  type = NULL, fillColor = NULL, colorPalette = NULL, width = NULL,
+  height = NULL, opacity = NULL, showLabels = NULL, labelText = NULL,
   labelMinSize = NULL, labelMaxSize = NULL, labelStyle = NULL,
   transitionTime = NULL, popup = NULL)
 }
@@ -26,7 +27,15 @@ updateMinicharts(map, layerId, data = NULL, maxValues = NULL, type = NULL,
 
 \item{data}{A numeric matrix with number of rows equal to the number of
 elements in \code{lng} or \code{lat} and number of column equal to the
-number of variables to represent.}
+number of variables to represent. If parameter \code{time} is set, the
+number of rows must be equal to the length of \code{lng} times the number
+of unique time steps in the data.}
+
+\item{time}{A vector with length equal to the number of rows in \code{data}
+and containing either numbers representing time indices or dates or
+datetimes. Each unique value must appear as many times as the others. This
+parameter can be used when one wants to represent the evolution of some
+variables on a map.}
 
 \item{maxValues}{maximal absolute values of the variables to represent.
 It can be a vector with one value per column of \code{data} or a single

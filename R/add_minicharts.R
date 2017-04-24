@@ -11,7 +11,14 @@
 #' @param lat Lattitude where to place the charts.
 #' @param data A numeric matrix with number of rows equal to the number of
 #'   elements in \code{lng} or \code{lat} and number of column equal to the
-#'   number of variables to represent.
+#'   number of variables to represent. If parameter \code{time} is set, the
+#'   number of rows must be equal to the length of \code{lng} times the number
+#'   of unique time steps in the data.
+#' @param time A vector with length equal to the number of rows in \code{data}
+#'   and containing either numbers representing time indices or dates or
+#'   datetimes. Each unique value must appear as many times as the others. This
+#'   parameter can be used when one wants to represent the evolution of some
+#'   variables on a map.
 #' @param maxValues maximal absolute values of the variables to represent.
 #'   It can be a vector with one value per column of \code{data} or a single
 #'   value. Using a single value enforces charts to use a unique scale for all
@@ -59,7 +66,7 @@
 #'
 #' @export
 #'
-addMinicharts <- function(map, lng, lat, data = 1, maxValues = NULL, type = "auto",
+addMinicharts <- function(map, lng, lat, data = 1, time = NULL, maxValues = NULL, type = "auto",
                           fillColor = "blue", colorPalette = d3.schemeCategory10,
                           width = 30, height = 30, opacity = 1, showLabels = FALSE,
                           labelText = NULL, labelMinSize = 8, labelMaxSize = 24,
@@ -73,7 +80,7 @@ addMinicharts <- function(map, lng, lat, data = 1, maxValues = NULL, type = "aut
 
   # When adding only one minichart, data can be a vector or a data frame, so it
   # needs to be converted to a matrix with correct lines and columns
-  if (max(length(lng), length(lat)) == 1) {
+  if (max(length(lng), length(lat)) == 1 & is.null(time)) {
     data <- matrix(data, nrow = 1)
   } else {
     if (is.vector(data)) {
@@ -91,6 +98,16 @@ addMinicharts <- function(map, lng, lat, data = 1, maxValues = NULL, type = "aut
   # else we draw bar charts by default.
   if (type == "auto") {
     type <- ifelse (ncol(data) == 1, "polar-area", "bar")
+  }
+
+  # Split data by timeId
+  if (is.null(time)) {
+    data <- list(data)
+  } else {
+    ncols <- ncol(data)
+    data <- split(data, time) %>%
+      lapply(., matrix, ncol = ncols) %>%
+      unname()
   }
 
   if (showLabels) {
@@ -122,6 +139,7 @@ addMinicharts <- function(map, lng, lat, data = 1, maxValues = NULL, type = "aut
   map <- invokeMethod(map, data = leaflet::getMapData(map), "addMinicharts",
                       options, data, unname(maxValues), colorPalette)
 
+  # Generate a legend
   if (legend && !is.null(legendLab)) {
     legendCol <- colorPalette[(seq_len(ncol(data))-1) %% ncol(data) + 1]
     map <- addLegend(map, labels = legendLab, colors = legendCol, opacity = 1)
@@ -132,7 +150,7 @@ addMinicharts <- function(map, lng, lat, data = 1, maxValues = NULL, type = "aut
 
 #' @export
 #' @rdname addMinicharts
-updateMinicharts <- function(map, layerId, data = NULL, maxValues = NULL, type = NULL,
+updateMinicharts <- function(map, layerId, data = NULL, time = NULL, maxValues = NULL, type = NULL,
                              fillColor = NULL, colorPalette = NULL,
                              width = NULL, height = NULL, opacity = NULL, showLabels = NULL,
                              labelText = NULL, labelMinSize = NULL,
@@ -143,7 +161,7 @@ updateMinicharts <- function(map, layerId, data = NULL, maxValues = NULL, type =
 
   # Data preparation
   if (!is.null(data)) {
-    if (length(layerId) == 1) {
+    if (length(layerId) == 1 & is.null(time)) {
       data <- matrix(data, nrow = 1)
     } else {
       if (is.vector(data)) {
@@ -155,6 +173,16 @@ updateMinicharts <- function(map, layerId, data = NULL, maxValues = NULL, type =
 
     if (type == "auto") {
       type <- ifelse (ncol(data) == 1, "polar-area", "bar")
+    }
+
+    # Split data by timeId
+    if (is.null(time)) {
+      data <- list(data)
+    } else {
+      ncols <- ncol(data)
+      data <- split(data, time) %>%
+        lapply(., matrix, ncol = ncols) %>%
+        unname()
     }
   } else {
     type <- NULL

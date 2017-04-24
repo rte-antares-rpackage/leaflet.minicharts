@@ -1,14 +1,36 @@
 // Copyright © 2016 RTE Réseau de transport d’électricité
 
+/*
+- data: Array with one element per time id. Each element has one element per minichart
+        that contains data for this minichart.
+
+*/
 LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPalette) {
+  // Add method to update time
+  if (!L.Minichart.prototype.setTimeId) {
+    L.Minichart.prototype.setTimeId = function(timeId) {
+      if (typeof this.data[timeId] !== 'undefined') {
+        this.setOptions({data: this.data[timeId]});
+        this.timeId = timeId;
+      }
+    };
+  }
+
   for (var i = 0; i < options.lng.length; i++) {
     var opt = {};
+    var inddata = [];
     for (var k in options) {
       if (options.hasOwnProperty(k)) opt[k] = options[k][i];
     }
 
     if (data) {
-      opt.data = data[i];
+      for (var j = 0; j < data.length; j++) {
+        inddata.push(data[j][i]);
+      }
+
+      opt.data = inddata[0];
+
+
       if (opt.data.length > 1) opt.labelText = null;
     }
     if (maxValues) opt.maxValues = maxValues;
@@ -20,12 +42,19 @@ LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPa
     l.fillColor = opt.fillColor || "blue";
     l.colorPalette = colorPalette || ["#1f77b4", "#ff7f0e", "#2ca02c", "#d62728", "#9467bd",
                                       "#8c564b", "e377c2", "#7f7f7f", "#bcbd22", "#17becf"];
-    l.data = data[i];
+    l.data = inddata;
+    l.timeId = 0;
 
     if (options.popup) l.bindPopup(options.popup[i]);
 
     var id = options.layerId ? options.layerId[i] : undefined;
     this.layerManager.addLayer(l, "minichart", id);
+
+    var timeId = 0;
+    setInterval(function() {
+      timeId ++;
+      l.setTimeId(timeId % l.data.length);
+    }, 1000);
   }
 };
 
@@ -39,8 +68,12 @@ LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colo
     }
 
     if (data) {
-      l.data = data[i];
-      opt.data = data[i];
+      l.data = [];
+      for (var j = 0; j < data.length; j++) {
+        l.data.push(data[j][i]);
+      }
+
+      opt.data = l.data[l.timeId];
     }
 
     if (maxValues) opt.maxValues = maxValues;
