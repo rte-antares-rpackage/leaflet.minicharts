@@ -55,10 +55,11 @@
 #' @export
 #'
 addMinicharts <- function(map, lng, lat, data = 1, maxValues = NULL, type = "auto",
-                          fillColor = NULL, colorPalette = NULL,
+                          fillColor = "blue", colorPalette = d3.schemeCategory10,
                           width = 30, height = 30, opacity = 1, showLabels = FALSE,
                           labelStyle = NULL, labelText = NULL,
-                          transitionTime = 750, popup = NULL, layerId = NULL) {
+                          transitionTime = 750, popup = NULL, layerId = NULL,
+                          legend = TRUE) {
 
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
 
@@ -74,6 +75,7 @@ addMinicharts <- function(map, lng, lat, data = 1, maxValues = NULL, type = "aut
     }
   }
 
+  legendLab <- dimnames(data)[[2]]
   data <- unname(as.matrix(data))
 
   # If maxValues is not set explicitely, we use the maximal observed value
@@ -110,10 +112,15 @@ addMinicharts <- function(map, lng, lat, data = 1, maxValues = NULL, type = "aut
   )
   map$dependencies <- c(map$dependencies, list(minichartDep))
 
-  map %>%
-    invokeMethod(data = leaflet::getMapData(map), "addMinicharts",
-                 options, data, unname(maxValues), colorPalette) %>%
-    expandLimits(lat, lng)
+  map <- invokeMethod(map, data = leaflet::getMapData(map), "addMinicharts",
+                      options, data, unname(maxValues), colorPalette)
+
+  if (legend && !is.null(legendLab)) {
+    legendCol <- colorPalette[(seq_len(ncol(data))-1) %% ncol(data) + 1]
+    map <- addLegend(map, labels = legendLab, colors = legendCol, opacity = 1)
+  }
+
+  map %>% expandLimits(lat, lng)
 }
 
 #' @export

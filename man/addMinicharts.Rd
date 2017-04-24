@@ -6,9 +6,10 @@
 \title{Add or update charts on a leaflet map}
 \usage{
 addMinicharts(map, lng, lat, data = 1, maxValues = NULL, type = "auto",
-  fillColor = NULL, colorPalette = NULL, width = 30, height = 30,
-  opacity = 1, showLabels = FALSE, labelStyle = NULL, labelText = NULL,
-  transitionTime = 750, popup = NULL, layerId = NULL)
+  fillColor = "blue", colorPalette = d3.schemeCategory10, width = 30,
+  height = 30, opacity = 1, showLabels = FALSE, labelStyle = NULL,
+  labelText = NULL, transitionTime = 750, popup = NULL, layerId = NULL,
+  legend = TRUE)
 
 updateMinicharts(map, layerId, data = NULL, maxValues = NULL, type = NULL,
   fillColor = NULL, colorPalette = NULL, width = NULL, height = NULL,

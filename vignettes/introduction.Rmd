@@ -83,11 +83,6 @@ basemap %>%
     data = prod2016[, c("renewable", "non_renewable")], 
     colorPalette = colors, 
     width = 60 * sqrt(prod2016$total) / sqrt(max(prod2016$total))
-  ) %>% 
-  addLegend(
-    "topright",
-    colors = colors, opacity = 1,
-    labels = c("Renewable", "Non renewable")
   )
 ```
 
@@ -104,11 +99,6 @@ basemap %>%
     data = renewable2016,
     colorPalette = colors,
     width = 45, height = 45
-  ) %>% 
-  addLegend(
-    "topright",
-    colors = colors, opacity = 1,
-    labels = c("Hydraulic", "Solar", "Wind")
   )
 ```
 
@@ -167,11 +157,6 @@ server <- function(input, output, session) {
         colorPalette = colors,
         width = 45, height = 45,
         layerId = data$area
-      ) %>% 
-      addLegend(
-        "topright",
-        colors = colors, opacity = 1,
-        labels = c("Hydraulic", "Solar", "Wind")
       )
   })
   

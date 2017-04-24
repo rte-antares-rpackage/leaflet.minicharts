@@ -3,5 +3,6 @@
 export(addMinicharts)
 export(updateMinicharts)
 importFrom(leaflet,"%>%")
+importFrom(leaflet,addLegend)
 importFrom(leaflet,expandLimits)
 importFrom(leaflet,invokeMethod)

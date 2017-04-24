@@ -26,3 +26,14 @@
 #' @references \url{http://www.rte-france.com/fr/eco2mix/eco2mix}
 #' @keywords datasets
 "regions"
+
+#' d3 color palette
+#'
+#' @description
+#' A character vector containing ten colors. These colors are used as the default
+#' color palette
+#' @docType data
+#' @author Francois Guillem \email{francois.guillem@rte-france.com}
+#' @references \url{https://github.com/d3/d3-scale}
+#' @keywords datasets
+"d3.schemeCategory10"
