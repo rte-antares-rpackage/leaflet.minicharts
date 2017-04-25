@@ -103,6 +103,7 @@ addMinicharts <- function(map, lng, lat, data = 1, time = NULL, maxValues = NULL
   # Split data by timeId
   if (is.null(time)) {
     data <- list(data)
+    time <- 1
   } else {
     ncols <- ncol(data)
     data <- split(data, time) %>%
@@ -132,12 +133,13 @@ addMinicharts <- function(map, lng, lat, data = 1, time = NULL, maxValues = NULL
     "minichart",
     "0.2.2",
     src = system.file(package = "leaflet.minicharts"),
-    script = c("leaflet.minichart.min.js", "minichart_bindings.js")
+    script = c("leaflet.minichart.min.js", "minichart_bindings.js", "timeslider.js")
   )
   map$dependencies <- c(map$dependencies, list(minichartDep))
 
   map <- invokeMethod(map, data = leaflet::getMapData(map), "addMinicharts",
-                      options, data, unname(maxValues), colorPalette)
+                      options, data, unname(maxValues), colorPalette,
+                      sort(unique(time)))
 
   # Generate a legend
   if (legend && !is.null(legendLab)) {

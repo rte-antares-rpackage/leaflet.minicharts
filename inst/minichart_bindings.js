@@ -5,10 +5,12 @@
         that contains data for this minichart.
 
 */
-LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPalette) {
+LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPalette, timeLabels) {
+  var layerManager = this.layerManager;
   // Add method to update time
   if (!L.Minichart.prototype.setTimeId) {
     L.Minichart.prototype.setTimeId = function(timeId) {
+      console.log("set time id")
       if (typeof this.data[timeId] !== 'undefined') {
         this.setOptions({data: this.data[timeId]});
         this.timeId = timeId;
@@ -48,14 +50,23 @@ LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPa
     if (options.popup) l.bindPopup(options.popup[i]);
 
     var id = options.layerId ? options.layerId[i] : undefined;
-    this.layerManager.addLayer(l, "minichart", id);
+    layerManager.addLayer(l, "minichart", id);
+    console.log(this);
 
-    var timeId = 0;
-    setInterval(function() {
-      timeId ++;
-      l.setTimeId(timeId % l.data.length);
-    }, 1000);
   }
+
+  var tslider = L.timeSlider({
+    timeLabels: timeLabels,
+    onTimeIdChange: function(timeId) {
+      var charts = layerManager._byCategory.minichart;
+      console.log(charts);
+      for (var k in charts) {
+        charts[k].setTimeId(timeId);
+      }
+    }
+  });
+  this.controls.add(tslider, "tslider");
+
 };
 
 LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colorPalette) {
