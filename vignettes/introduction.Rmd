@@ -59,7 +59,7 @@ head(prod2016)
 
 We also create a base map that will be used in all the following examples
 
-```{r message=FALSE}
+```{r message=FALSE, results='hide'}
 library(leaflet)
 
 tilesURL <- "http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
@@ -71,7 +71,7 @@ basemap <- leaflet(width = "100%", height = "400px") %>%
 basemap
 ```
 
-We now add to the base map a pie chart for each region that represents the share of renewable energies. We also change the width of the pie charts so their area is proportional to the total production of the corresponding region. Finally we use `addLegend` a function of leaflet package to create a legend.
+We now add to the base map a pie chart for each region that represents the share of renewable energies. We also change the width of the pie charts so their area is proportional to the total production of the corresponding region.
 
 ```{r}
 colors <- c("#4fc13c", "#cccccc")
@@ -120,11 +120,32 @@ basemap %>%
 
 This is nice, isn't it?
 
-## Updating existing mini charts
+## Animated maps
 
-The second function of the package, `updateMinicharts` can be used inside a shiny application to update the data or the appearance of existing minicharts on a map. 
+Until now, we have only represented aggregated data but it would be nice to create a map that represents the evolution over time of some variables. It is actually easy with `leaflet.minicharts`. The first step is to construct a table containing longitude, lattitude, a time column and the variables we want to represent. The table `eco2mix` already has all these columns. We only need to filter the rows containing data for the entire country.
 
-To illustrate this, let create a simple application to visualize the evolution of the different renewable productions. First we prepare the data for our application by splitting it by month. But before splitting the data, we compute the maximal value of the columns we will represent. Indeed, the function `addMinichart` will only have a small proportion of the data and so it won't be able to correctly set the maximal value data can take. This will create invalid scales and truncated charts.
+```{r}
+prodRegions <- eco2mix %>% filter(area != "France")
+```
+
+Now we can create our animated map by using the argument "time":
+
+```{r}
+basemap %>% 
+  addMinicharts(
+    prodRegions$lng, prodRegions$lat, 
+    data = prodRegions[, c("hydraulic", "solar", "wind")],
+    time = prodRegions$month,
+    colorPalette = colors,
+    width = 45, height = 45
+  )
+```
+
+## Use in shiny web applications
+
+`leaflet.minicharts` contains a function called `updateMinicharts` that can be used inside a shiny application to update the data or the appearance of existing minicharts on a map. 
+
+To illustrate this, let create a simple application to visualize the evolution of the different renewable electric productions. First we prepare the data for our application by splitting it by month. But before splitting the data, we compute the maximal value of the columns we will represent. Indeed, the function `addMinichart` will only have a small proportion of the data and so it won't be able to correctly set the maximal value data can take. This will create invalid scales and truncated charts.
 
 ```{r}
 appdata <- eco2mix %>% filter(area != "France")
@@ -135,6 +156,8 @@ appdata <- split(appdata, appdata$month)
 `appdata` is a list with one data.frame for each month in the data. We can now create our shiny application. The important thing to note is the usage of parameter `layerId`. This parameter is mandatory if one wants to use `updateMinicharts` and it must contain only unique values.
 
 ```{r eval=FALSE}
+library(shiny)
+
 ui <- fluidPage(
   sliderInput("monthId", "", 1, length(appdata), value = 1, step = 1, animate = TRUE),
   tags$h4(textOutput("month")),

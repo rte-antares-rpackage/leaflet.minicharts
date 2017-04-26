@@ -75,6 +75,8 @@ addMinicharts <- function(map, lng, lat, data = 1, time = NULL, maxValues = NULL
                           legend = TRUE) {
 
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
+  if (is.null(layerId)) layerId <- sprintf("minichart (%s,%s)", lng, lat)
+  if (is.null(time)) time <- 1
 
   # Data preparation
 
@@ -101,16 +103,6 @@ addMinicharts <- function(map, lng, lat, data = 1, time = NULL, maxValues = NULL
     type <- ifelse (ncol(data) == 1, "polar-area", "bar")
   }
 
-  # Split data by timeId
-  if (is.null(time)) {
-    data <- list(data)
-    time <- 1
-  } else {
-    data <- split(data, time) %>%
-      lapply(., matrix, ncol = ncols) %>%
-      unname()
-  }
-
   if (showLabels) {
     if (!is.null(labelText)) labels <- labelText
     else labels <- "auto"
@@ -119,16 +111,28 @@ addMinicharts <- function(map, lng, lat, data = 1, time = NULL, maxValues = NULL
   }
 
   options <- .prepareOptions(
-    required = list(lng = lng, lat = lat),
+    required = list(lng = lng, lat = lat, layerId = layerId, time = time),
     optional = list(type = type, width = width, height = height,
                     opacity = opacity, labels = labels,
                     labelMinSize = labelMinSize, labelMaxSize = labelMaxSize,
                     labelStyle = labelStyle,
                     transitionTime = transitionTime,
-                    popup = popup, layerId = layerId, fillColor = fillColor)
+                    popup = popup, fillColor = fillColor)
   )
 
-  # Add minichart to the map dependencies
+  # Ensure data and options are correctly sorted
+  correctOrder <- order(options$time, options$layerId)
+  data <- data[correctOrder, ]
+  options <- options[correctOrder, ]
+
+  # Split data by time
+  data <- split(data, options$time) %>%
+    lapply(., matrix, ncol = ncols) %>%
+    unname()
+
+  options <- options[!duplicated(options$layerId),]
+
+  # Add minichart and font-awesome to the map dependencies
   minichartDep <- htmltools::htmlDependency(
     "minichart",
     "0.2.2",

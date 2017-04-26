@@ -1,6 +1,6 @@
 L.TimeSlider = L.Control.extend({
   options: {
-    position: "bottomleft",
+    position: "bottomright",
     timeLabels: null,
     interval: 1000,
     onTimeIdChange: function(timeId) {console.log(timeId)}
@@ -33,7 +33,7 @@ L.TimeSlider = L.Control.extend({
 
   onAdd: function(map) {
     var self = this;
-    self._slider.onchange = function(e) {self.options.onTimeIdChange(self._slider.value)};
+    self._slider.onchange = function(e) {self.setTimeId(self.getTimeId(), true)};
     self._btn.onclick = function(e) {self.playPause()};
 
     self.setTimeLabels(self.options.timeLabels);
@@ -72,9 +72,9 @@ L.TimeSlider = L.Control.extend({
     }
   },
 
-  setTimeId: function(timeId) {
+  setTimeId: function(timeId, skip) {
     var self = this;
-    self._slider.value = timeId;
+    if (!skip) self._slider.value = timeId;
     self._label.innerHTML = self.options.timeLabels[timeId];
     self.options.onTimeIdChange(timeId);
   },
@@ -86,9 +86,9 @@ L.TimeSlider = L.Control.extend({
   setTimeLabels: function(timeLabels) {
     var self = this;
 
-    if (typeof timeLabels == "undefined" || timeLabels.length < 2) {
+    if (typeof timeLabels == "undefined" || timeLabels.constructor != Array || timeLabels.length < 2) {
       self._container.style.display = "none";
-      setTimeId(0);
+      self.setTimeId(0);
     } else {
       self._container.style.display = "block";
       var currentTimeLabel = self.options.timeLabels[self.getTimeId()];
