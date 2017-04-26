@@ -80,7 +80,7 @@ basemap %>%
   addMinicharts(
     prod2016$lng, prod2016$lat,
     type = "pie",
-    data = prod2016[, c("renewable", "non_renewable")], 
+    chartdata = prod2016[, c("renewable", "non_renewable")], 
     colorPalette = colors, 
     width = 60 * sqrt(prod2016$total) / sqrt(max(prod2016$total))
   )
@@ -96,7 +96,7 @@ colors <- c("#3093e5", "#fcba50", "#a0d9e8")
 basemap %>%
   addMinicharts(
     prod2016$lng, prod2016$lat,
-    data = renewable2016,
+    chartdata = renewable2016,
     colorPalette = colors,
     width = 45, height = 45
   )
@@ -112,7 +112,7 @@ Hydraulic production is far more important than solar and wind. Without surprise
 basemap %>%
   addMinicharts(
     prod2016$lng, prod2016$lat,
-    data = prod2016$load,
+    chartdata = prod2016$load,
     showLabels = TRUE,
     width = 45
   )
@@ -134,7 +134,7 @@ Now we can create our animated map by using the argument "time":
 basemap %>% 
   addMinicharts(
     prodRegions$lng, prodRegions$lat, 
-    data = prodRegions[, c("hydraulic", "solar", "wind")],
+    chartdata = prodRegions[, c("hydraulic", "solar", "wind")],
     time = prodRegions$month,
     colorPalette = colors,
     width = 45, height = 45

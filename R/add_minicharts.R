@@ -3,26 +3,26 @@
 #' Add or update charts on a leaflet map
 #'
 #' these functions add or update minicharts in a leaflet map at given coordinates:
-#' they can be bar charts, pie charts or polar charts where data is encoded
+#' they can be bar charts, pie charts or polar charts where chartdata is encoded
 #' either by area or by radius.
 #'
 #' @param map A leaflet map object created with \code{\link[leaflet]{leaflet}}.
 #' @param lng Longitude where to place the charts.
 #' @param lat Lattitude where to place the charts.
-#' @param data A numeric matrix with number of rows equal to the number of
+#' @param chartdata A numeric matrix with number of rows equal to the number of
 #'   elements in \code{lng} or \code{lat} and number of column equal to the
 #'   number of variables to represent. If parameter \code{time} is set, the
 #'   number of rows must be equal to the length of \code{lng} times the number
 #'   of unique time steps in the data.
-#' @param time A vector with length equal to the number of rows in \code{data}
+#' @param time A vector with length equal to the number of rows in \code{chartdata}
 #'   and containing either numbers representing time indices or dates or
 #'   datetimes. Each unique value must appear as many times as the others. This
 #'   parameter can be used when one wants to represent the evolution of some
 #'   variables on a map.
 #' @param maxValues maximal absolute values of the variables to represent.
-#'   It can be a vector with one value per column of \code{data} or a single
+#'   It can be a vector with one value per column of \code{chartdata} or a single
 #'   value. Using a single value enforces charts to use a unique scale for all
-#'   variables. If it is \code{NULL}, the maximum value of \code{data} is used.
+#'   variables. If it is \code{NULL}, the maximum value of \code{chartdata} is used.
 #' @param type Type of chart. Possible values are \code{"bar"} for bar charts,
 #'   \code{"pie"} for pie charts, \code{"polar-area"} and \code{"polar-radius"}
 #'   for polar area charts where the values are represented respectively by the
@@ -31,14 +31,14 @@
 #'   chart will be a single circle, else it is a barchart.
 #' @param fillColor Used only if data contains only one column. It is the color
 #'   used to fill the circles.
-#' @param colorPalette Color palette to use when \code{data} contains more than
+#' @param colorPalette Color palette to use when \code{chartdata} contains more than
 #'   one column.
 #' @param width maximal width of the created elements.
 #' @param height maximal height of the created elements.
 #' @param opacity Opacity of the chart.
 #' @param showLabels Should values be displayed above chart elements.
 #' @param labelText character vector containing the text content of the charts.
-#'   Used only if \code{data} contains only one column.
+#'   Used only if \code{chartdata} contains only one column.
 #' @param labelStyle Character string containing CSS properties to apply to the
 #'   labels.
 #' @param labelMinSize Minimal height of labels in pixels. When there is not
@@ -58,7 +58,7 @@
 #'
 #' @examples
 #' require(leaflet)
-#' mymap <- leaflet() %>% addTiles() %>% addMinicharts(0, 0, data = 1:3, layerId = "c1")
+#' mymap <- leaflet() %>% addTiles() %>% addMinicharts(0, 0, chartdata = 1:3, layerId = "c1")
 #'
 #' mymap
 #' mymap %>% updateMinicharts("c1", maxValues = 6)
@@ -66,42 +66,17 @@
 #'
 #' @export
 #'
-addMinicharts <- function(map, lng, lat, data = 1, time = NULL, maxValues = NULL, type = "auto",
+addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues = NULL, type = "auto",
                           fillColor = "blue", colorPalette = d3.schemeCategory10,
                           width = 30, height = 30, opacity = 1, showLabels = FALSE,
                           labelText = NULL, labelMinSize = 8, labelMaxSize = 24,
                           labelStyle = NULL,
                           transitionTime = 750, popup = NULL, layerId = NULL,
                           legend = TRUE) {
-
+  # Prepare options
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
   if (is.null(layerId)) layerId <- sprintf("minichart (%s,%s)", lng, lat)
   if (is.null(time)) time <- 1
-
-  # Data preparation
-
-  # When adding only one minichart, data can be a vector or a data frame, so it
-  # needs to be converted to a matrix with correct lines and columns
-  if (max(length(lng), length(lat)) == 1 & is.null(time)) {
-    data <- matrix(data, nrow = 1)
-  } else {
-    if (is.vector(data)) {
-      data <- matrix(data, ncol = 1, nrow = max(length(lng), length(lat)))
-    }
-  }
-
-  legendLab <- dimnames(data)[[2]]
-  data <- unname(as.matrix(data))
-  ncols <- ncol(data)
-
-  # If maxValues is not set explicitely, we use the maximal observed value
-  if (is.null(maxValues)) maxValues <- max(abs(data))
-
-  # If there is only one variable in data, we draw circles with different radius
-  # else we draw bar charts by default.
-  if (type == "auto") {
-    type <- ifelse (ncol(data) == 1, "polar-area", "bar")
-  }
 
   if (showLabels) {
     if (!is.null(labelText)) labels <- labelText
@@ -110,7 +85,7 @@ addMinicharts <- function(map, lng, lat, data = 1, time = NULL, maxValues = NULL
     labels <- "none"
   }
 
-  options <- .prepareOptions(
+  options <- .makeOptions(
     required = list(lng = lng, lat = lat, layerId = layerId, time = time),
     optional = list(type = type, width = width, height = height,
                     opacity = opacity, labels = labels,
@@ -120,17 +95,9 @@ addMinicharts <- function(map, lng, lat, data = 1, time = NULL, maxValues = NULL
                     popup = popup, fillColor = fillColor)
   )
 
-  # Ensure data and options are correctly sorted
-  correctOrder <- order(options$time, options$layerId)
-  data <- data[correctOrder, ]
-  options <- options[correctOrder, ]
+  args <- .prepareArgs(options, chartdata)
 
-  # Split data by time
-  data <- split(data, options$time) %>%
-    lapply(., matrix, ncol = ncols) %>%
-    unname()
-
-  options <- options[!duplicated(options$layerId),]
+  if (is.null(maxValues)) maxValues <- args$maxValues
 
   # Add minichart and font-awesome to the map dependencies
   minichartDep <- htmltools::htmlDependency(
@@ -148,26 +115,24 @@ addMinicharts <- function(map, lng, lat, data = 1, time = NULL, maxValues = NULL
     stylesheet = "css/font-awesome.min.css"
   )
 
-  map$dependencies <- c(map$dependencies, list(minichartDep))
-
-  map$dependencies <- c(map$dependencies, list(fontAwesomeDep))#list(rmarkdown::html_dependency_font_awesome()))
+  map$dependencies <- c(map$dependencies, list(minichartDep,fontAwesomeDep))
 
   map <- invokeMethod(map, data = leaflet::getMapData(map), "addMinicharts",
-                      options, data, unname(maxValues), colorPalette,
+                      args$options, args$chartdata, maxValues, colorPalette,
                       sort(unique(time)))
 
   # Generate a legend
-  if (legend && !is.null(legendLab)) {
-    legendCol <- colorPalette[(seq_len(ncols)-1) %% ncols + 1]
-    map <- addLegend(map, labels = legendLab, colors = legendCol, opacity = 1)
+  if (legend && !is.null(args$legendLab)) {
+    legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
+    map <- addLegend(map, labels = args$legendLab, colors = legendCol, opacity = 1)
   }
 
-  map %>% expandLimits(lat, lng)
+  map %>% expandLimits(args$options$lat, args$options$lng)
 }
 
 #' @export
 #' @rdname addMinicharts
-updateMinicharts <- function(map, layerId, data = NULL, time = NULL, maxValues = NULL, type = NULL,
+updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxValues = NULL, type = NULL,
                              fillColor = NULL, colorPalette = NULL,
                              width = NULL, height = NULL, opacity = NULL, showLabels = NULL,
                              labelText = NULL, labelMinSize = NULL,
@@ -175,29 +140,30 @@ updateMinicharts <- function(map, layerId, data = NULL, time = NULL, maxValues =
                              transitionTime = NULL, popup = NULL) {
 
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
+  if (is.null(time)) time <- 1
 
   # Data preparation
-  if (!is.null(data)) {
+  if (!is.null(chartdata)) {
     if (length(layerId) == 1 & is.null(time)) {
-      data <- matrix(data, nrow = 1)
+      chartdata <- matrix(chartdata, nrow = 1)
     } else {
-      if (is.vector(data)) {
-        data <- matrix(data, ncol = 1, nrow = length(layerId))
+      if (is.vector(chartdata)) {
+        chartdata <- matrix(chartdata, ncol = 1, nrow = length(layerId))
       }
     }
 
-    data <- unname(as.matrix(data))
+    chartdata <- unname(as.matrix(chartdata))
 
     if (type == "auto") {
-      type <- ifelse (ncol(data) == 1, "polar-area", "bar")
+      type <- ifelse (ncol(chartdata) == 1, "polar-area", "bar")
     }
 
     # Split data by timeId
     if (is.null(time)) {
-      data <- list(data)
+      chartdata <- list(chartdata)
     } else {
-      ncols <- ncol(data)
-      data <- split(data, time) %>%
+      ncols <- ncol(chartdata)
+      chartdata <- split(chartdata, time) %>%
         lapply(., matrix, ncol = ncols) %>%
         unname()
     }
@@ -216,7 +182,7 @@ updateMinicharts <- function(map, layerId, data = NULL, time = NULL, maxValues =
     }
   }
 
-  options <- .prepareOptions(
+  options <- .makeOptions(
     required = list(layerId = layerId),
     optional = list(type = type, width = width, height = height,
                     opacity = opacity, labels = labels,
@@ -228,6 +194,6 @@ updateMinicharts <- function(map, layerId, data = NULL, time = NULL, maxValues =
 
   map %>%
     invokeMethod(NULL, "updateMinicharts",
-                 options, data, unname(maxValues), colorPalette)
+                 options, chartdata, unname(maxValues), colorPalette)
 
 }

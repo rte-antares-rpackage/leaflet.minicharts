@@ -12,7 +12,7 @@
 #'
 #' @noRd
 #'
-.prepareOptions <- function(required, optional) {
+.makeOptions <- function(required, optional) {
   options <- do.call(data.frame, required)
   for (o in names(optional)) {
     if (!is.null(optional[[o]])) options[[o]] <- optional[[o]]
