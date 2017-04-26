@@ -10,7 +10,6 @@ LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPa
   // Add method to update time
   if (!L.Minichart.prototype.setTimeId) {
     L.Minichart.prototype.setTimeId = function(timeId) {
-      console.log("set time id")
       if (typeof this.data[timeId] !== 'undefined') {
         this.setOptions({data: this.data[timeId]});
         this.timeId = timeId;
@@ -59,7 +58,6 @@ LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPa
     timeLabels: timeLabels,
     onTimeIdChange: function(timeId) {
       var charts = layerManager._byCategory.minichart;
-      console.log(charts);
       for (var k in charts) {
         charts[k].setTimeId(timeId);
       }

@@ -9,23 +9,25 @@ L.TimeSlider = L.Control.extend({
   initialize: function(options) {
     L.Control.prototype.initialize.call(this, options);
 
-    var container = L.DomUtil.create('div', "leaflet-bar leaflet-control leaflet-control-custom");
+    var container = L.DomUtil.create('div', "leaflet-bar leaflet-control");
     container.style.padding = "5px";
     container.style.backgroundColor = 'white';
 
-    var slider = L.DomUtil.create("input", "", container);
+    var label = L.DomUtil.create("p", "container", container);
+    var sliderContainer = L.DomUtil.create("div", "leaflet-control-slider", container);
+
+    var slider = L.DomUtil.create("input", "time-slider", sliderContainer);
     slider.type = "range";
     slider.min = 0;
     slider.max = options.timeLabels.length - 1;
-    slider.value = 0;
 
-    var btn = L.DomUtil.create("button", "", container);
-    btn.innerHTML = "play";
+    var btn = L.DomUtil.create("i", "playpause fa fa-play", sliderContainer);
 
     this._container = container;
     this._slider = slider;
     this._play = false;
     this._btn = btn;
+    this._label = label;
   },
 
   onAdd: function(map) {
@@ -33,6 +35,7 @@ L.TimeSlider = L.Control.extend({
     self._slider.onchange = function(e) {self.options.onTimeIdChange(self._slider.value)};
     self._btn.onclick = function(e) {self.playPause()};
 
+    self.setTimeId(0);
 
     L.DomEvent.on(self._slider, 'mousedown mouseup click', L.DomEvent.stopPropagation);
     L.DomEvent.on(self._slider, 'mouseenter', function(e) {
@@ -46,27 +49,35 @@ L.TimeSlider = L.Control.extend({
   },
 
   playPause: function() {
-    console.log("playpause");
     var self = this;
     self._play = !self._play;
     if(self._play) {
+      self._btn.className = "playpause fa fa-pause";
       if (self._slider.value == self._slider.max) {
-        self._slider.value = 0;
-        self.options.onTimeIdChange(self._slider.value);
+        self.setTimeId(0);
       }
 
       self._intervalId = setInterval(function() {
-        self._slider.value ++;
-        self.options.onTimeIdChange(self._slider.value);
+        self.setTimeId(parseInt(self._slider.value) + 1);
         if (self._slider.value == self._slider.max) {
           clearInterval(self._intervalId);
           self._play = false;
+          self._btn.className = "playpause fa fa-play";
         }
       }, self.options.interval);
     } else {
       clearInterval(self._intervalId);
+      self._btn.className = "playpause fa fa-play";
     }
   },
+
+  setTimeId: function(timeId) {
+    var self = this;
+    self._slider.value = timeId;
+    console.log(timeId);
+    self._label.innerHTML = self.options.timeLabels[timeId];
+    self.options.onTimeIdChange(timeId);
+  }
 });
 
 L.timeSlider = function(options) {

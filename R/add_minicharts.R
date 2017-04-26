@@ -90,6 +90,7 @@ addMinicharts <- function(map, lng, lat, data = 1, time = NULL, maxValues = NULL
 
   legendLab <- dimnames(data)[[2]]
   data <- unname(as.matrix(data))
+  ncols <- ncol(data)
 
   # If maxValues is not set explicitely, we use the maximal observed value
   if (is.null(maxValues)) maxValues <- max(abs(data))
@@ -105,7 +106,6 @@ addMinicharts <- function(map, lng, lat, data = 1, time = NULL, maxValues = NULL
     data <- list(data)
     time <- 1
   } else {
-    ncols <- ncol(data)
     data <- split(data, time) %>%
       lapply(., matrix, ncol = ncols) %>%
       unname()
@@ -133,9 +133,20 @@ addMinicharts <- function(map, lng, lat, data = 1, time = NULL, maxValues = NULL
     "minichart",
     "0.2.2",
     src = system.file(package = "leaflet.minicharts"),
+    stylesheet = c("timeslider.css"),
     script = c("leaflet.minichart.min.js", "minichart_bindings.js", "timeslider.js")
   )
+
+  fontAwesomeDep <- htmltools::htmlDependency(
+    "font-awesome",
+    "4.7.0",
+    src = system.file("font-awesome-4.7.0", package = "leaflet.minicharts"),
+    stylesheet = "css/font-awesome.min.css"
+  )
+
   map$dependencies <- c(map$dependencies, list(minichartDep))
+
+  map$dependencies <- c(map$dependencies, list(fontAwesomeDep))#list(rmarkdown::html_dependency_font_awesome()))
 
   map <- invokeMethod(map, data = leaflet::getMapData(map), "addMinicharts",
                       options, data, unname(maxValues), colorPalette,
@@ -143,7 +154,7 @@ addMinicharts <- function(map, lng, lat, data = 1, time = NULL, maxValues = NULL
 
   # Generate a legend
   if (legend && !is.null(legendLab)) {
-    legendCol <- colorPalette[(seq_len(ncol(data))-1) %% ncol(data) + 1]
+    legendCol <- colorPalette[(seq_len(ncols)-1) %% ncols + 1]
     map <- addLegend(map, labels = legendLab, colors = legendCol, opacity = 1)
   }
 
