@@ -13,13 +13,14 @@ L.TimeSlider = L.Control.extend({
     container.style.padding = "5px";
     container.style.backgroundColor = 'white';
 
-    var label = L.DomUtil.create("p", "container", container);
+    var label = L.DomUtil.create("p", "time-slider-label", container);
     var sliderContainer = L.DomUtil.create("div", "leaflet-control-slider", container);
 
     var slider = L.DomUtil.create("input", "time-slider", sliderContainer);
     slider.type = "range";
     slider.min = 0;
     slider.max = options.timeLabels.length - 1;
+    slider.value = 0;
 
     var btn = L.DomUtil.create("i", "playpause fa fa-play", sliderContainer);
 
@@ -35,7 +36,7 @@ L.TimeSlider = L.Control.extend({
     self._slider.onchange = function(e) {self.options.onTimeIdChange(self._slider.value)};
     self._btn.onclick = function(e) {self.playPause()};
 
-    self.setTimeId(0);
+    self.setTimeLabels(self.options.timeLabels);
 
     L.DomEvent.on(self._slider, 'mousedown mouseup click', L.DomEvent.stopPropagation);
     L.DomEvent.on(self._slider, 'mouseenter', function(e) {
@@ -53,13 +54,13 @@ L.TimeSlider = L.Control.extend({
     self._play = !self._play;
     if(self._play) {
       self._btn.className = "playpause fa fa-pause";
-      if (self._slider.value == self._slider.max) {
+      if (self.getTimeId() == self._slider.max) {
         self.setTimeId(0);
       }
 
       self._intervalId = setInterval(function() {
-        self.setTimeId(parseInt(self._slider.value) + 1);
-        if (self._slider.value == self._slider.max) {
+        self.setTimeId(self.getTimeId() + 1);
+        if (self.getTimeId() == self._slider.max) {
           clearInterval(self._intervalId);
           self._play = false;
           self._btn.className = "playpause fa fa-play";
@@ -74,9 +75,28 @@ L.TimeSlider = L.Control.extend({
   setTimeId: function(timeId) {
     var self = this;
     self._slider.value = timeId;
-    console.log(timeId);
     self._label.innerHTML = self.options.timeLabels[timeId];
     self.options.onTimeIdChange(timeId);
+  },
+
+  getTimeId: function() {
+    return parseInt(this._slider.value);
+  },
+
+  setTimeLabels: function(timeLabels) {
+    var self = this;
+
+    if (typeof timeLabels == "undefined" || timeLabels.length < 2) {
+      self._container.style.display = "none";
+      setTimeId(0);
+    } else {
+      self._container.style.display = "block";
+      var currentTimeLabel = self.options.timeLabels[self.getTimeId()];
+      var newTimeId = timeLabels.indexOf(currentTimeLabel);
+      if (newTimeId == -1) newTimeId = 0;
+      this.options.timeLabels = timeLabels;
+      self.setTimeId(newTimeId);
+    }
   }
 });
 

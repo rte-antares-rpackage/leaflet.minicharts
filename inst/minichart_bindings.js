@@ -50,7 +50,6 @@ LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPa
 
     var id = options.layerId ? options.layerId[i] : undefined;
     layerManager.addLayer(l, "minichart", id);
-    console.log(this);
 
   }
 

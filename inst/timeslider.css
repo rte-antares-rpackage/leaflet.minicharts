@@ -6,6 +6,13 @@
   width: 120px;
 }
 
+p.time-slider-label {
+  margin: 0;
+  font-size: 16px;
+  text-align: center;
+  color: #333;
+}
+
 input[type=range].time-slider {
   -webkit-appearance: none;
   width: 100px;
