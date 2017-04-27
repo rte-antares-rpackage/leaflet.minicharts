@@ -52,6 +52,12 @@
 #'   chart with \code{updateMinicharts}.
 #' @param legend If TRUE and if data has column names, then a legend is
 #'   automatically added to the map.
+#' @param timeFormat Character string used to format dates and times when
+#'   argument \code{time} is a \code{Date}, \code{POSIXct} or \code{POSIXlt}
+#'   object. See \code{\link[base]{strptime}} for more information.
+#' @param initialTime This argument can be used to set the initial time step
+#'   shown when the map is created. It is used only when argument \code{time} is
+#'   set.
 #'
 #' @return
 #' The modified leaflet map object.
@@ -72,7 +78,7 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
                           labelText = NULL, labelMinSize = 8, labelMaxSize = 24,
                           labelStyle = NULL,
                           transitionTime = 750, popup = NULL, layerId = NULL,
-                          legend = TRUE) {
+                          legend = TRUE, timeFormat = NULL, initialTime = NULL) {
   # Prepare options
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
   if (is.null(layerId)) layerId <- sprintf("minichart (%s,%s)", lng, lat)
@@ -117,9 +123,16 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
 
   map$dependencies <- c(map$dependencies, list(minichartDep,fontAwesomeDep))
 
+  # Prepare time label
+  timeLabels <- sort(unique(time))
+  if (!is.null(timeFormat)) {
+    timeLabels <- format(timeLabels, format = timeFormat)
+    if (!is.null(initialTime)) initialTime <- format(initialTime, format = timeFormat)
+  }
+
   map <- invokeMethod(map, data = leaflet::getMapData(map), "addMinicharts",
                       args$options, args$chartdata, maxValues, colorPalette,
-                      sort(unique(time)))
+                      timeLabels, initialTime)
 
   # Generate a legend
   if (legend && !is.null(args$legendLab)) {
@@ -138,7 +151,8 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
                              width = NULL, height = NULL, opacity = NULL, showLabels = NULL,
                              labelText = NULL, labelMinSize = NULL,
                              labelMaxSize = NULL, labelStyle = NULL,
-                             transitionTime = NULL, popup = NULL, legend = TRUE) {
+                             transitionTime = NULL, popup = NULL, legend = TRUE,
+                             timeFormat = NULL, initialTime = NULL) {
 
   if (is.null(chartdata)) type <- NULL # Why?
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
@@ -179,6 +193,10 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
     timeLabels <- NULL
   } else {
     timeLabels <- sort(unique(time))
+    if (!is.null(timeFormat)) {
+      timeLabels <- format(timeLabels, format = timeFormat)
+      if (!is.null(initialTime)) initialTime <- format(initialTime, format = timeFormat)
+    }
   }
 
   map %>%
