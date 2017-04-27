@@ -124,7 +124,8 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
   # Generate a legend
   if (legend && !is.null(args$legendLab)) {
     legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
-    map <- addLegend(map, labels = args$legendLab, colors = legendCol, opacity = 1)
+    map <- addLegend(map, labels = args$legendLab, colors = legendCol, opacity = 1,
+                     layerId = "minichartsLegend")
   }
 
   map %>% expandLimits(args$options$lat, args$options$lng)
@@ -133,43 +134,15 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
 #' @export
 #' @rdname addMinicharts
 updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxValues = NULL, type = NULL,
-                             fillColor = NULL, colorPalette = NULL,
+                             fillColor = NULL, colorPalette = d3.schemeCategory10,
                              width = NULL, height = NULL, opacity = NULL, showLabels = NULL,
                              labelText = NULL, labelMinSize = NULL,
                              labelMaxSize = NULL, labelStyle = NULL,
-                             transitionTime = NULL, popup = NULL) {
+                             transitionTime = NULL, popup = NULL, legend = TRUE) {
 
+  if (is.null(chartdata)) type <- NULL # Why?
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
   if (is.null(time)) time <- 1
-
-  # Data preparation
-  if (!is.null(chartdata)) {
-    if (length(layerId) == 1 & is.null(time)) {
-      chartdata <- matrix(chartdata, nrow = 1)
-    } else {
-      if (is.vector(chartdata)) {
-        chartdata <- matrix(chartdata, ncol = 1, nrow = length(layerId))
-      }
-    }
-
-    chartdata <- unname(as.matrix(chartdata))
-
-    if (type == "auto") {
-      type <- ifelse (ncol(chartdata) == 1, "polar-area", "bar")
-    }
-
-    # Split data by timeId
-    if (is.null(time)) {
-      chartdata <- list(chartdata)
-    } else {
-      ncols <- ncol(chartdata)
-      chartdata <- split(chartdata, time) %>%
-        lapply(., matrix, ncol = ncols) %>%
-        unname()
-    }
-  } else {
-    type <- NULL
-  }
 
   if (is.null(showLabels)) {
     labels <- NULL
@@ -183,7 +156,7 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
   }
 
   options <- .makeOptions(
-    required = list(layerId = layerId),
+    required = list(layerId = layerId, time = time),
     optional = list(type = type, width = width, height = height,
                     opacity = opacity, labels = labels,
                     labelMinSize = labelMinSize, labelMaxSize = labelMaxSize,
@@ -192,8 +165,25 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
                     popup = popup, fillColor = fillColor)
   )
 
+  args <- .prepareArgs(options, chartdata)
+
+  # Update legend if required
+  if (legend && !is.null(args$chartdata) && !is.null(args$legendLab)) {
+    legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
+    map <- addLegend(map, labels = args$legendLab, colors = legendCol, opacity = 1,
+                     layerId = "minichartsLegend")
+  }
+
+  # Update time slider if data is updated
+  if(is.null(chartdata)) {
+    timeLabels <- NULL
+  } else {
+    timeLabels <- sort(unique(time))
+  }
+
   map %>%
     invokeMethod(NULL, "updateMinicharts",
-                 options, chartdata, unname(maxValues), colorPalette)
+                 args$options, args$chartdata, unname(maxValues), colorPalette,
+                 timeLabels)
 
 }

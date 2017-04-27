@@ -52,21 +52,23 @@ LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPa
     layerManager.addLayer(l, "minichart", id);
 
   }
-
-  var tslider = L.timeSlider({
-    timeLabels: timeLabels,
-    onTimeIdChange: function(timeId) {
-      var charts = layerManager._byCategory.minichart;
-      for (var k in charts) {
-        charts[k].setTimeId(timeId);
+  if (!this.controls._controlsById.tslider) {
+    var tslider = L.timeSlider({
+      timeLabels: timeLabels,
+      onTimeIdChange: function(timeId) {
+        var charts = layerManager._byCategory.minichart;
+        for (var k in charts) {
+          charts[k].setTimeId(timeId);
+        }
       }
-    }
-  });
-  this.controls.add(tslider, "tslider");
-
+    });
+    this.controls.add(tslider, "tslider");
+  } else {
+    this.controls._controlsById.tslider.setTimeLabels(timeLabels);
+  }
 };
 
-LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colorPalette) {
+LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colorPalette, timeLabels) {
   for (var i = 0; i < options.layerId.length; i++) {
     var l = this.layerManager.getLayer("minichart", options.layerId[i]);
 
@@ -90,8 +92,12 @@ LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colo
 
     if (colorPalette) l.colorPalette = colorPalette;
     if (opt.fillColor) l.fillColor = opt.fillColor;
-    if (l.data.length == 1) opt.colors = l.fillColor;
+    if (l.data[0].length == 1) opt.colors = l.fillColor;
     else opt.colors = l.colorPalette;
     l.setOptions(opt);
+  }
+
+  if (typeof timeLabels != "undefined") {
+    this.controls._controlsById.tslider.setTimeLabels(timeLabels);
   }
 };

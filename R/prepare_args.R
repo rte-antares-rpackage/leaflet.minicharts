@@ -9,7 +9,7 @@
   } else {
     # When adding only one minichart, chartdata can be a vector or a data frame, so it
     # needs to be converted to a matrix with correct lines and columns
-    if (nrow(options) == 1) {
+    if (nrow(options) == 1 && is.vector(chartdata)) {
       chartdata <- matrix(chartdata, nrow = 1)
     } else {
       if (is.vector(chartdata)) {

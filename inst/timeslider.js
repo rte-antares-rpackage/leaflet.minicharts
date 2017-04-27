@@ -91,6 +91,7 @@ L.TimeSlider = L.Control.extend({
       self.setTimeId(0);
     } else {
       self._container.style.display = "block";
+      self._slider.max = timeLabels.length - 1;
       var currentTimeLabel = self.options.timeLabels[self.getTimeId()];
       var newTimeId = timeLabels.indexOf(currentTimeLabel);
       if (newTimeId == -1) newTimeId = 0;
