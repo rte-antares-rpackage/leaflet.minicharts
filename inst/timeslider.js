@@ -86,18 +86,35 @@ L.TimeSlider = L.Control.extend({
   setTimeLabels: function(timeLabels) {
     var self = this;
 
-    if (typeof timeLabels == "undefined" || timeLabels.constructor != Array || timeLabels.length < 2) {
+    if (typeof timeLabels == "undefined") {
+      timeLabels = ["undefined"];
+    } else if (timeLabels.constructor != Array) {
+      timeLabels = [timeLabels];
+    }
+
+    if (timeLabels.length < 2) {
       self._container.style.display = "none";
-      self.setTimeId(0);
     } else {
       self._container.style.display = "block";
-      self._slider.max = timeLabels.length - 1;
-      var currentTimeLabel = self.options.timeLabels[self.getTimeId()];
-      var newTimeId = timeLabels.indexOf(currentTimeLabel);
-      if (newTimeId == -1) newTimeId = 0;
-      this.options.timeLabels = timeLabels;
-      self.setTimeId(newTimeId);
     }
+
+    var currentTimeLabel = self.options.timeLabels[self.getTimeId()];
+    self.options.timeLabels = timeLabels;
+    var newTimeId = self.toTimeId(currentTimeLabel);
+
+    self._slider.max = timeLabels.length - 1;
+    self.setTimeId(newTimeId);
+  },
+
+  toTimeId: function(label) {
+    if (typeof this.options.timeLabels == "undefined" ||
+          this.options.timeLabels.constructor != Array) {
+      return 0;
+    }
+
+    var timeId = this.options.timeLabels.indexOf(label);
+    if (timeId == -1) timeId = 0;
+    return timeId;
   }
 });
 

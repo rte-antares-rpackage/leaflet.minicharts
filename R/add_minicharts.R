@@ -202,6 +202,6 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
   map %>%
     invokeMethod(NULL, "updateMinicharts",
                  args$options, args$chartdata, unname(maxValues), colorPalette,
-                 timeLabels)
+                 timeLabels, initialTime)
 
 }
