@@ -52,6 +52,7 @@
 #'   chart with \code{updateMinicharts}.
 #' @param legend If TRUE and if data has column names, then a legend is
 #'   automatically added to the map.
+#' @param legendPosition Where should legend be placed?
 #' @param timeFormat Character string used to format dates and times when
 #'   argument \code{time} is a \code{Date}, \code{POSIXct} or \code{POSIXlt}
 #'   object. See \code{\link[base]{strptime}} for more information.
@@ -82,7 +83,8 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
                           labelText = NULL, labelMinSize = 8, labelMaxSize = 24,
                           labelStyle = NULL,
                           transitionTime = 750, popup = NULL, layerId = NULL,
-                          legend = TRUE, timeFormat = NULL, initialTime = NULL) {
+                          legend = TRUE, legendPosition = "topright",
+                          timeFormat = NULL, initialTime = NULL) {
   # Prepare options
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
   if (is.null(layerId)) layerId <- sprintf("minichart (%s,%s)", lng, lat)
@@ -141,7 +143,7 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
   if (legend && !is.null(args$legendLab)) {
     legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
     map <- addLegend(map, labels = args$legendLab, colors = legendCol, opacity = 1,
-                     layerId = "minichartsLegend")
+                     layerId = "minichartsLegend", position = legendPosition)
   }
 
   map %>% expandLimits(args$options$lat, args$options$lng)
@@ -155,6 +157,7 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
                              labelText = NULL, labelMinSize = NULL,
                              labelMaxSize = NULL, labelStyle = NULL,
                              transitionTime = NULL, popup = NULL, legend = TRUE,
+                             legendPosition = NULL,
                              timeFormat = NULL, initialTime = NULL) {
 
   if (is.null(chartdata)) type <- NULL # Why?
@@ -188,7 +191,7 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
   if (legend && !is.null(args$chartdata) && !is.null(args$legendLab)) {
     legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
     map <- addLegend(map, labels = args$legendLab, colors = legendCol, opacity = 1,
-                     layerId = "minichartsLegend")
+                     layerId = "minichartsLegend", position = legendPosition)
   }
 
   # Update time slider if data is updated
