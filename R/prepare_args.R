@@ -52,6 +52,9 @@
     options$type <- ifelse (!is.null(ncols) && ncols == 1, "polar-area", "bar")
   }
 
+  # Ensure layerId is a character vector
+  if ("layerId" %in% names(options)) options$layerId <- as.character(options$layerId)
+
   list(
     options = options,
     chartdata = chartdata,
