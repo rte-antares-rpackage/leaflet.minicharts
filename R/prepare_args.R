@@ -33,6 +33,17 @@
   }
 
   options <- options[correctOrder, ]
+
+  # Split popup by time
+  if ("popup" %in% names(options)) {
+    popup <- split(options$popup, options$time) %>%
+      lapply(., I) %>%
+      unname()
+  } else {
+    popup <- NULL
+  }
+
+
   options <- options[!duplicated(options$layerId),]
 
   # If there is only one variable in chartdata, we draw circles with different radius
@@ -46,6 +57,7 @@
     chartdata = chartdata,
     legendLab = legendLab,
     maxValues = maxValues,
-    ncols = ncols
+    ncols = ncols,
+    popup = popup
   )
 }

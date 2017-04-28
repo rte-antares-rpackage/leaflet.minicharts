@@ -5,7 +5,7 @@
         that contains data for this minichart.
 
 */
-LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime) {
+LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popup) {
   var layerManager = this.layerManager;
 
   // Initialize time slider
@@ -32,10 +32,15 @@ LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPa
   // Add method to update time
   if (!L.Minichart.prototype.setTimeId) {
     L.Minichart.prototype.setTimeId = function(timeId) {
-      if (typeof this.data[timeId] !== 'undefined' && timeId != this.timeId) {
+      if (timeId == this.timeId) return;
+
+      if (typeof this.data !== "undefined" && typeof this.data[timeId] !== 'undefined') {
         this.setOptions({data: this.data[timeId]});
-        this.timeId = timeId;
       }
+      if (typeof this.popups !== "undefined" && typeof this.popups[timeId] !== 'undefined') {
+        this.bindPopup(this.popups[timeId]);
+      }
+      this.timeId = timeId;
     };
   }
 
@@ -69,7 +74,14 @@ LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPa
     l.data = inddata;
     l.timeId = timeId;
 
-    if (options.popup) l.bindPopup(options.popup[i]);
+    // Popups
+    if (popup) {
+      l.popups = [];
+      for (var t = 0; t < popup.length; t++) {
+        l.popups.push("" + popup[t][i]);
+      }
+      l.bindPopup(l.popups[timeId]);
+    }
 
     var id = options.layerId ? options.layerId[i] : undefined;
     layerManager.addLayer(l, "minichart", id);
@@ -77,7 +89,7 @@ LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPa
 
 };
 
-LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime) {
+LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popup) {
   var tslider = this.controls._controlsById.tslider;
   if (typeof timeLabels != "undefined") tslider.setTimeLabels(timeLabels);
 
@@ -108,7 +120,14 @@ LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colo
 
     if (maxValues) opt.maxValues = maxValues;
 
-    if (options.popup) l.bindPopup(options.popup[i]);
+    if (popup) {
+      l.popups = [];
+      for (var t = 0; t < popup.length; t++) {
+        l.popups.push("" + popup[t][i]);
+      }
+
+      l.bindPopup(l.popups[timeId]);
+    }
 
     if (colorPalette) l.colorPalette = colorPalette;
     if (opt.fillColor) l.fillColor = opt.fillColor;

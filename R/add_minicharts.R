@@ -136,9 +136,8 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
 
   map <- invokeMethod(map, data = leaflet::getMapData(map), "addMinicharts",
                       args$options, args$chartdata, maxValues, colorPalette,
-                      timeLabels, initialTime)
+                      I(timeLabels), initialTime, args$popup)
 
-  # Generate a legend
   if (legend && !is.null(args$legendLab)) {
     legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
     map <- addLegend(map, labels = args$legendLab, colors = legendCol, opacity = 1,
@@ -206,7 +205,7 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
   map %>%
     invokeMethod(leaflet::getMapData(map), "updateMinicharts",
                  args$options, args$chartdata, unname(maxValues), colorPalette,
-                 timeLabels, initialTime)
+                 I(timeLabels), initialTime, args$popup)
 
 }
 
@@ -222,5 +221,3 @@ clearMinicharts <- function(map) {
   invokeMethod(map, leaflet::getMapData(map), "clearMinicharts") %>%
     leaflet::removeControl("minichartsLegend")
 }
-
-

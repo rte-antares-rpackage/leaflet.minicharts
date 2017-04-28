@@ -33,18 +33,11 @@ L.TimeSlider = L.Control.extend({
 
   onAdd: function(map) {
     var self = this;
+    L.DomEvent.disableClickPropagation(self._container);
     self._slider.onchange = function(e) {self.setTimeId(self.getTimeId(), true)};
     self._btn.onclick = function(e) {self.playPause()};
 
     self.setTimeLabels(self.options.timeLabels);
-
-    L.DomEvent.on(self._slider, 'mousedown mouseup click', L.DomEvent.stopPropagation);
-    L.DomEvent.on(self._slider, 'mouseenter', function(e) {
-        map.dragging.disable();
-    });
-    L.DomEvent.on(self._slider, 'mouseleave', function(e) {
-        map.dragging.enable();
-    });
 
     return self._container;
   },
