@@ -8,11 +8,12 @@
 \title{Add or update charts on a leaflet map}
 \usage{
 addMinicharts(map, lng, lat, chartdata = 1, time = NULL, maxValues = NULL,
-  type = "auto", fillColor = "blue", colorPalette = d3.schemeCategory10,
-  width = 30, height = 30, opacity = 1, showLabels = FALSE,
-  labelText = NULL, labelMinSize = 8, labelMaxSize = 24,
-  labelStyle = NULL, transitionTime = 750, popup = NULL, layerId = NULL,
-  legend = TRUE, timeFormat = NULL, initialTime = NULL)
+  type = "auto", fillColor = d3.schemeCategory10[1],
+  colorPalette = d3.schemeCategory10, width = 30, height = 30,
+  opacity = 1, showLabels = FALSE, labelText = NULL, labelMinSize = 8,
+  labelMaxSize = 24, labelStyle = NULL, transitionTime = 750,
+  popup = NULL, layerId = NULL, legend = TRUE, timeFormat = NULL,
+  initialTime = NULL)
 
 updateMinicharts(map, layerId, chartdata = NULL, time = NULL,
   maxValues = NULL, type = NULL, fillColor = NULL,

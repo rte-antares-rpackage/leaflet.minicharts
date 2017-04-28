@@ -77,7 +77,7 @@
 #' @export
 #'
 addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues = NULL, type = "auto",
-                          fillColor = "blue", colorPalette = d3.schemeCategory10,
+                          fillColor = d3.schemeCategory10[1], colorPalette = d3.schemeCategory10,
                           width = 30, height = 30, opacity = 1, showLabels = FALSE,
                           labelText = NULL, labelMinSize = 8, labelMaxSize = 24,
                           labelStyle = NULL,
