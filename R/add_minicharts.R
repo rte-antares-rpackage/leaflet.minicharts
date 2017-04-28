@@ -60,7 +60,11 @@
 #'   set.
 #'
 #' @return
-#' The modified leaflet map object.
+#' The modified leaflet map object. \code{addMinicharts} add new minicharts to
+#' the map. \code{updateMinicharts} updates minicharts that have already been
+#' added to the map. \code{removeMinicharts} removes some specific charts from
+#' the map and \code{clearMinicharts} removes all charts from the map and
+#' if necessary the legend that has been automatically created.
 #'
 #' @examples
 #' require(leaflet)
@@ -200,8 +204,23 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
   }
 
   map %>%
-    invokeMethod(NULL, "updateMinicharts",
+    invokeMethod(leaflet::getMapData(map), "updateMinicharts",
                  args$options, args$chartdata, unname(maxValues), colorPalette,
                  timeLabels, initialTime)
 
 }
+
+#' @rdname addMinicharts
+#' @export
+removeMinicharts <- function(map, layerId) {
+  invokeMethod(map, leaflet::getMapData(map), "removeMinicharts", layerId)
+}
+
+#' @rdname addMinicharts
+#' @export
+clearMinicharts <- function(map) {
+  invokeMethod(map, leaflet::getMapData(map), "clearMinicharts") %>%
+    leaflet::removeControl("minichartsLegend")
+}
+
+

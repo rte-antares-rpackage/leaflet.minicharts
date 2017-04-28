@@ -123,5 +123,12 @@ LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colo
 };
 
 LeafletWidget.methods.removeMinicharts = function(layerId) {
+  if (layerId.constructor != Array) layerId = [layerId];
+  for (var i = 0; i < layerId.length; i++) {
+    this.layerManager.removeLayer("minichart", layerId[i]);
+  }
+};
 
+LeafletWidget.methods.clearMinicharts = function() {
+  this.layerManager.clearLayers("minichart");
 };

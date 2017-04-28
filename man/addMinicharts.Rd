@@ -3,6 +3,8 @@
 \name{addMinicharts}
 \alias{addMinicharts}
 \alias{updateMinicharts}
+\alias{removeMinicharts}
+\alias{clearMinicharts}
 \title{Add or update charts on a leaflet map}
 \usage{
 addMinicharts(map, lng, lat, chartdata = 1, time = NULL, maxValues = NULL,
@@ -19,6 +21,10 @@ updateMinicharts(map, layerId, chartdata = NULL, time = NULL,
   labelMinSize = NULL, labelMaxSize = NULL, labelStyle = NULL,
   transitionTime = NULL, popup = NULL, legend = TRUE, timeFormat = NULL,
   initialTime = NULL)
+
+removeMinicharts(map, layerId)
+
+clearMinicharts(map)
 }
 \arguments{
 \item{map}{A leaflet map object created with \code{\link[leaflet]{leaflet}}.}
@@ -97,7 +103,11 @@ shown when the map is created. It is used only when argument \code{time} is
 set.}
 }
 \value{
-The modified leaflet map object.
+The modified leaflet map object. \code{addMinicharts} add new minicharts to
+the map. \code{updateMinicharts} updates minicharts that have already been
+added to the map. \code{removeMinicharts} removes some specific charts from
+the map and \code{clearMinicharts} removes all charts from the map and
+if necessary the legend that has been automatically created.
 }
 \description{
 these functions add or update minicharts in a leaflet map at given coordinates:
