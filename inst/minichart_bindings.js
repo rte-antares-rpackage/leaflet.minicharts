@@ -94,7 +94,8 @@ LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colo
   if (typeof timeLabels != "undefined") tslider.setTimeLabels(timeLabels);
 
   var timeId;
-  if (typeof initialTime != "undefined") {
+  if (typeof initialTime != "undefined" && initialTime !== null) {
+    console.log(initialTime);
     timeId = tslider.toTimeId(initialTime);
   } else {
     timeId = tslider.getTimeId();
