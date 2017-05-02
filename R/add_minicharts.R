@@ -188,10 +188,14 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
   args <- .prepareArgs(options, chartdata)
 
   # Update legend if required
-  if (legend && !is.null(args$chartdata) && !is.null(args$legendLab)) {
-    legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
-    map <- addLegend(map, labels = args$legendLab, colors = legendCol, opacity = 1,
-                     layerId = "minichartsLegend", position = legendPosition)
+  if (!is.null(args$chartdata)) {
+    if (legend && !is.null(args$legendLab)) {
+      legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
+      map <- addLegend(map, labels = args$legendLab, colors = legendCol, opacity = 1,
+                       layerId = "minichartsLegend", position = legendPosition)
+    } else {
+      map <- leaflet::removeControl(map, "minichartsLegend")
+    }
   }
 
   # Update time slider if data is updated
