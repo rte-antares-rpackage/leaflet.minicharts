@@ -33,6 +33,14 @@ To see how simple it is to use this package, have a look at the [package vignett
 
 Contributions to the library are welcome and can be submitted in the form of pull requests to this repository.
 
+This package contains some javascript code. To modify it requires `npm` and `grunt`. First modify files in the `javascript` folder. Then in a terminal, run the following commands:
+
+```
+cd javascript
+npm install
+grunt build
+```
+
 ## License Information:
 
 Copyright 2015-2016 RTE (France)
