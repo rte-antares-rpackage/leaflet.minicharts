@@ -1,6 +1,8 @@
 .prepareArgs <- function(options, chartdata) {
 
-  correctOrder <- order(options$time, options$layerId)
+  correctOrder <- order(options$layerId, options$time)
+
+  options <- options[correctOrder, ]
 
   if (is.null(chartdata)) {
     legendLab <- NULL
@@ -25,26 +27,12 @@
     maxValues <- max(abs(chartdata))
     ncols <- ncol(chartdata)
 
-    # sort data and split it by time
+    # sort data and split it by layer
     chartdata <- chartdata[correctOrder, ] %>%
-      split(options$time[correctOrder]) %>%
+      split(options$layerId) %>%
       lapply(., matrix, ncol = ncols) %>%
       unname()
   }
-
-  options <- options[correctOrder, ]
-
-  # Split popup by time
-  if ("popup" %in% names(options)) {
-    popup <- split(options$popup, options$time) %>%
-      lapply(., I) %>%
-      unname()
-  } else {
-    popup <- NULL
-  }
-
-
-  options <- options[!duplicated(options$layerId),]
 
   # If there is only one variable in chartdata, we draw circles with different radius
   # else we draw bar charts by default.
@@ -55,12 +43,14 @@
   # Ensure layerId is a character vector
   if ("layerId" %in% names(options)) options$layerId <- as.character(options$layerId)
 
+  # Finally split options by layer
+  options <- split(options, options$layerId) %>% unname()
+
   list(
     options = options,
     chartdata = chartdata,
     legendLab = legendLab,
     maxValues = maxValues,
-    ncols = ncols,
-    popup = popup
+    ncols = ncols
   )
 }

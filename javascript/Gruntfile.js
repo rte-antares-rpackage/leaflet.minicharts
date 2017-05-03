@@ -30,7 +30,7 @@ module.exports = function(grunt) {
     watch: {
       build: {
         files: ["*.js"],
-        tasks: ['browserify', 'uglify']
+        tasks: ['browserify']
       }
     }
   });
