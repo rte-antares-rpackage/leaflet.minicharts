@@ -28,8 +28,8 @@ addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", weight = 3,
   if (is.null(time)) time <- 1
   if (is.null(layerId)) layerId <- sprintf("Flow (%s,%s) -> (%s,%s)", lng0, lat0, lng1, lat1)
 
-  weight <- pmax(1, abs(weight))
   if (is.null(dir)) dir <- sign(weight)
+  weight <- pmax(1, abs(weight))
 
   options <- .makeOptions(
     required = list(lng0 = lng0, lat0 = lat0, lng1 = lng1, lat1 = lat1, layerId = layerId, time = time),
@@ -50,7 +50,7 @@ addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", weight = 3,
 
   invokeMethod(map, data = leaflet::getMapData(map), "addFlows", args$options,
                timeLabels, initialTime) %>%
-    expandLimits(c(lng0, lng1), c(lat0, lat1))
+    expandLimits(c(lat0, lat1), c(lng0, lng1))
 }
 
 #' @rdname addFlows
@@ -60,8 +60,8 @@ updateFlows <- function(map, layerId, color = NULL, weight = NULL, opacity = NUL
                         timeFormat = NULL, initialTime = NULL) {
   if (is.null(time)) time <- 1
   if (!is.null(weight)) {
-    weight <- pmax(1, abs(weight))
     if (is.null(dir)) dir <- sign(weight)
+    weight <- pmax(1, abs(weight))
   }
 
   options <- .makeOptions(
