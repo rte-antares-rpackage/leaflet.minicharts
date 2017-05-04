@@ -32,7 +32,7 @@ addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", weight = 3,
   if (is.null(dir)) dir <- sign(weight)
 
   options <- .makeOptions(
-    required = list(x0 = lng0, y0 = lat0, x1 = lng1, y1 = lat1, layerId = layerId, time = time),
+    required = list(lng0 = lng0, lat0 = lat0, lng1 = lng1, lat1 = lat1, layerId = layerId, time = time),
     optional = list(dir = dir, color = color, weight = weight,
                     opacity = opacity, popup = popup)
   )
