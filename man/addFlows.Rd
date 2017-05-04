@@ -7,13 +7,15 @@
 \alias{clearFlows}
 \title{Add or modify flows on a leaflet map}
 \usage{
-addFlows(map, lng0, lat0, lng1, lat1, color = "blue", weight = 3,
+addFlows(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
   opacity = 1, dir = NULL, time = NULL, popup = NULL, layerId = NULL,
-  timeFormat = NULL, initialTime = NULL)
+  timeFormat = NULL, initialTime = NULL, maxFlow = max(abs(flow)),
+  minThickness = 1, maxThickness = 20)
 
-updateFlows(map, layerId, color = NULL, weight = NULL, opacity = NULL,
+updateFlows(map, layerId, color = NULL, flow = NULL, opacity = NULL,
   dir = NULL, time = NULL, popup = NULL, timeFormat = NULL,
-  initialTime = NULL)
+  initialTime = NULL, maxFlow = NULL, minThickness = 1,
+  maxThickness = 20)
 
 removeFlows(map, layerId)
 
@@ -32,7 +34,9 @@ clearFlows(map)
 
 \item{color}{Color of the flow.}
 
-\item{weight}{Size of the flow (in pixels).}
+\item{flow}{Value of the flow between the origin and the destination. If
+argument \code{dir} is not set, negative values are interpreted as flows
+from destination to origin.}
 
 \item{opacity}{Opacity of the flow.}
 
@@ -60,6 +64,12 @@ object. See \code{\link[base]{strptime}} for more information.}
 \item{initialTime}{This argument can be used to set the initial time step
 shown when the map is created. It is used only when argument \code{time} is
 set.}
+
+\item{maxFlow}{Maximal value a flow could take.}
+
+\item{minThickness}{minimal thickness of the line that represents the flow.}
+
+\item{maxThickness}{maximal thickness of the line that represents the flow.}
 }
 \value{
 The modified leaflet map object.
