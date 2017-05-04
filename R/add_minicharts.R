@@ -112,22 +112,7 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
   if (is.null(maxValues)) maxValues <- args$maxValues
 
   # Add minichart and font-awesome to the map dependencies
-  minichartDep <- htmltools::htmlDependency(
-    "minichart",
-    "0.2.2",
-    src = system.file(package = "leaflet.minicharts"),
-    stylesheet = c("timeslider.css"),
-    script = c("leaflet.minicharts.min.js")
-  )
-
-  fontAwesomeDep <- htmltools::htmlDependency(
-    "font-awesome",
-    "4.7.0",
-    src = system.file("font-awesome-4.7.0", package = "leaflet.minicharts"),
-    stylesheet = "css/font-awesome.min.css"
-  )
-
-  map$dependencies <- c(map$dependencies, list(minichartDep,fontAwesomeDep))
+  map$dependencies <- c(map$dependencies, minichartDeps())
 
   # Prepare time label
   timeLabels <- sort(unique(time))
@@ -212,7 +197,7 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
   map %>%
     invokeMethod(leaflet::getMapData(map), "updateMinicharts",
                  args$options, args$chartdata, unname(maxValues), colorPalette,
-                 I(timeLabels), initialTime, args$popup)
+                 I(timeLabels), initialTime)
 
 }
 

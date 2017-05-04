@@ -13,9 +13,12 @@
       tslider = L.timeSlider({
         timeLabels: timeLabels,
         onTimeIdChange: function(timeId) {
-          var charts = layerManager._byCategory.minichart;
-          for (var k in charts) {
-            charts[k].setTimeId(timeId);
+          var types = ["minichart", "flow"];
+          for (var i = 0; i < types.length; i++) {
+            var layers = layerManager._byCategory[types[i]];
+            for (var k in layers) {
+              if (layers[k]) layers[k].setTimeId(timeId);
+            }
           }
         }
       });

@@ -3,4 +3,5 @@
   require("leaflet.minichart");
   require("./timeslider");
   require("./minichart_bindings");
+  require("./flow_bindings");
 })();
