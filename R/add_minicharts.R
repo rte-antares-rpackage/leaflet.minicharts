@@ -131,7 +131,7 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
                      layerId = "minichartsLegend", position = legendPosition)
   }
 
-  map %>% expandLimits(args$options$lat, args$options$lng)
+  map %>% expandLimits(lat, lng)
 }
 
 #' @export
