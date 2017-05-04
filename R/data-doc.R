@@ -15,18 +15,6 @@
 #' @keywords datasets
 "eco2mix"
 
-#' Contours of the french new regions
-#'
-#' @description
-#' An object of class \code{SpatialPolygons} containing the contours of the
-#' french new regions.
-#'
-#' @docType data
-#' @author Francois Guillem \email{francois.guillem@rte-france.com}
-#' @references \url{http://www.rte-france.com/fr/eco2mix/eco2mix}
-#' @keywords datasets
-"regions"
-
 #' d3 color palette
 #'
 #' @description

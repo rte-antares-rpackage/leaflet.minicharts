@@ -27,13 +27,6 @@ data("eco2mix")
 head(eco2mix)
 ```
 
-The package also provides the contours of french regions.
-
-```{r}
-data("regions")
-class(regions)
-```
-
 ## Renewable productions in 2016
 
 Nowadays, France has an objective of 23% of renewable energies in the consumption of the country by 2020. Are the country close to its objective. Is the share of renewable energies similar in all regions? 
@@ -65,10 +58,7 @@ library(leaflet)
 tilesURL <- "http://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
 
 basemap <- leaflet(width = "100%", height = "400px") %>%
-  addTiles(tilesURL) %>%
-  addPolylines(data = regions, color = "brown", weight = 1, fillOpacity = 0)
-
-basemap
+  addTiles(tilesURL)
 ```
 
 We now add to the base map a pie chart for each region that represents the share of renewable energies. We also change the width of the pie charts so their area is proportional to the total production of the corresponding region.
@@ -82,7 +72,7 @@ basemap %>%
     type = "pie",
     chartdata = prod2016[, c("renewable", "non_renewable")], 
     colorPalette = colors, 
-    width = 60 * sqrt(prod2016$total) / sqrt(max(prod2016$total))
+    width = 60 * sqrt(prod2016$total) / sqrt(max(prod2016$total)), transitionTime = 0
   )
 ```
 
