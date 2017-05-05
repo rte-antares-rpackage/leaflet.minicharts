@@ -1,0 +1,14 @@
+Changes in version 0.2 (2017-05-05)
+
+BREAKING CHANGES:
+* Argument "data" of addMinicharts() and updateMinicharts() has been renamed "chartdata" to avoid confusion with parameter "data" of function leaflet().
+
+NEW FEATURES:
+* addMinicharts() now automatically adds a legend to the map by default.
+* addMinicharts() has new parameters "labelMinSize" and "labelMaxSize" to control label size.
+* addMinicharts() has a new parameter "time" that can be used to create an animated map that represents the evolution of one or more variables. Animations can be shared by saving the map as html or including it in a Ramrkdown document. No need to use Shiny anymore!
+* New functions removeMinicharts() and clearMinicharts() to remove some or all minicharts from a map.
+* It is now possible to represent flows between two points with function addFlow() and the associated functions updateFlows(), removeFlows() and clearFlows().
+
+BUGFIXES:
+* addMinicharts was crashing if user tried to add a single chart to a map.
