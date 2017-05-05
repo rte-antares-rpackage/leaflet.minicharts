@@ -15,9 +15,7 @@ Here are screenshots of sample outputs:
 ![](vignettes/barcharts.png)
 ![](vignettes/bubblecharts.png)
 
-And here is an example using this package inside a shiny application:
-
-![](vignettes/minicharts_shiny.gif)
+You can also find a [live example here](https://francoisguillem.shinyapps.io/shiny-demo/).
 
 ## Installation and usage
 
