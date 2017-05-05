@@ -1,6 +1,6 @@
 Package: leaflet.minicharts
 Type: Package
-Title: Minicharts for Interactive Maps
+Title: Mini Charts for Interactive Maps
 Version: 0.2.0
 Authors@R: c(
     person("Francois", "Guillem", , "francois.guillem@rte-france.com", role = c("aut", "cre")),
