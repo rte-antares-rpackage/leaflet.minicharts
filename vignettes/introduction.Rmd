@@ -131,64 +131,54 @@ basemap %>%
   )
 ```
 
-## Use in shiny web applications
+## Represent flows
 
-`leaflet.minicharts` contains a function called `updateMinicharts` that can be used inside a shiny application to update the data or the appearance of existing minicharts on a map. 
+Since version 0.2, `leaflet.minicharts` has also functions to represent flows between points and their evolution. To illustrate this, let's represent the evolution of electricity exchanges between France and Neighboring countries. 
 
-To illustrate this, let create a simple application to visualize the evolution of the different renewable electric productions. First we prepare the data for our application by splitting it by month. But before splitting the data, we compute the maximal value of the columns we will represent. Indeed, the function `addMinichart` will only have a small proportion of the data and so it won't be able to correctly set the maximal value data can take. This will create invalid scales and truncated charts.
+To do that, we use function `addFlows`. It requires coordinates of two points for each flow and the value of the flow. Other arguments are similar to `addMinicharts`.
 
 ```{r}
-appdata <- eco2mix %>% filter(area != "France")
-maxValue <- max(appdata[, c("hydraulic", "solar", "wind")])
-appdata <- split(appdata, appdata$month)
+data("eco2mixBalance")
+bal <- eco2mixBalance
+basemap %>%
+  addFlows(
+    bal$lng0, bal$lat0, bal$lng1, bal$lat1,
+    flow = bal$balance,
+    time = bal$month
+  )
 ```
 
-`appdata` is a list with one data.frame for each month in the data. We can now create our shiny application. The important thing to note is the usage of parameter `layerId`. This parameter is mandatory if one wants to use `updateMinicharts` and it must contain only unique values.
+Of course, you can represent flows and minicharts on the same map!
 
-```{r eval=FALSE}
-library(shiny)
+## Use in shiny web applications
 
-ui <- fluidPage(
-  sliderInput("monthId", "", 1, length(appdata), value = 1, step = 1, animate = TRUE),
-  tags$h4(textOutput("month")),
-  leafletOutput("map")
-)
+In shiny applications, you can create nice transition effects by using functions `leafletproxy` and `updateMinicharts`/`updateFlows`. In the server function you first need to initialize the map and the minicharts. The important thing here is to use parameter `layerId` so that `updateMinicharts` can know which chart to update with which values. 
 
+```{r eval = FALSE}
 server <- function(input, output, session) {
-  # Display month
-  output$month <- renderText(names(appdata)[input$monthId])
-  
-  # Initialize the map
-  output$map <- renderLeaflet({
-    data <- appdata[[1]]
-    
-    basemap %>% 
-      addMinicharts(
-        data$lng, data$lat, 
-        data = data[, c("hydraulic", "solar", "wind")],
-        maxValues = maxValue,
-        colorPalette = colors,
-        width = 45, height = 45,
-        layerId = data$area
-      )
-  })
-  
-  # Update minicharts when the slider value changes
-  observeEvent(input$monthId ,{
-    data <- appdata[[input$monthId]]
-    
-    leafletProxy("map", session) %>% 
-      updateMinicharts(
-        layerId = data$area,
-        data = data[, c("hydraulic", "solar", "wind")]
-      )
-  })
-  
+  # Initialize map
+  output$mymap <- renderLeaflet(
+    leaflet() %>% addTiles() %>%
+      addMinicharts(lon, lat, layerId = uniqueChartIds)
+  )
 }
-
-shinyApp(ui, server)
 ```
 
-Here is a gif of the result:
+Then use `leafletProxy()` and `updateMinicharts` in your reactive code:
 
-![](minicharts_shiny.gif)
+```{r eval = FALSE} 
+server <- function(input, output, session) {
+  # Initialize map
+  ...
+  
+  # Update map
+  observe({
+    newdata <- getData(input$myinput)
+    
+    leafletProxy("mymap") %>% 
+      updateMinicharts(uniqueChartIds, chartdata = newdata, ...)
+  })
+}
+```
+
+You can find a [live example here](https://francoisguillem.shinyapps.io/shiny-demo/).
