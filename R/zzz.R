@@ -5,5 +5,5 @@ NULL
 globalVariables(c('d3.schemeCategory10', "."))
 
 .onLoad <- function(libname, pkgname) {
-  data("d3.schemeCategory10", package=pkgname, envir=parent.env(environment()))
+  utils::data("d3.schemeCategory10", package=pkgname, envir=parent.env(environment()))
 }
