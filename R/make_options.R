@@ -14,8 +14,18 @@
 #'
 .makeOptions <- function(required, optional) {
   options <- do.call(data.frame, required)
+  staticOptions <- list()
   for (o in names(optional)) {
-    if (!is.null(optional[[o]])) options[[o]] <- optional[[o]]
+    if (!is.null(optional[[o]])) {
+      if (length(optional[[o]]) == 1) {
+        staticOptions[[o]] <- optional[[o]]
+      } else {
+        options[[o]] <- optional[[o]]
+      }
+    }
   }
-  options
+  list(
+    options = options,
+    staticOptions = staticOptions
+  )
 }

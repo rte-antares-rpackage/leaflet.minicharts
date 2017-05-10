@@ -14,7 +14,7 @@
     utils.addSetTimeIdMethod("Minichart", "setOptions");
 
     // Create and add minicharts to the map
-    utils.processOptions(options, function(opts, i) {
+    utils.processOptions(options, function(opts, i, staticOpts) {
       for (var t = 0; t < opts.length; t++) {
         if (data) {
           opts[t].data = data[i][t];
@@ -29,7 +29,10 @@
         }
       }
 
-      var l = L.minichart([opts[timeId].lat, opts[timeId].lng], opts[timeId]);
+      var l = L.minichart(
+        [staticOpts.lat, staticOpts.lng],
+        utils.getInitOptions(opts, staticOpts, timeId)
+      );
 
       // Keep a reference of colors and data for later use.
       l.opts = opts;
@@ -41,7 +44,7 @@
         l.bindPopup(opts[timeId].popup);
       }
 
-      self.layerManager.addLayer(l, "minichart", opts[timeId].layerId);
+      self.layerManager.addLayer(l, "minichart", staticOpts.layerId);
     });
   };
 
@@ -49,8 +52,8 @@
     var self = this;
     var timeId = utils.initTimeSlider(this, timeLabels, initialTime);
 
-    utils.processOptions(options, function(opts, i) {
-      var l = self.layerManager.getLayer("minichart", opts[timeId].layerId);
+    utils.processOptions(options, function(opts, i, staticOpts) {
+      var l = self.layerManager.getLayer("minichart", staticOpts.layerId);
 
       for (var t = 0; t < opts.length; t++) { // loop over time steps
         if (data) {
@@ -66,7 +69,7 @@
       }
 
       l.opts = opts;
-      l.setOptions(opts[timeId]);
+      l.setOptions(utils.getInitOptions(opts, staticOpts, timeId));
 
       if (opts[timeId].popup) {
         l.bindPopup(opts[timeId].popup);

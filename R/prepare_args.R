@@ -1,4 +1,8 @@
-.prepareArgs <- function(options, chartdata) {
+.prepareArgs <- function(options, chartdata,
+                         static = c("layerId", "lat", "lat0", "lat1", "lng", "lng0", "lng1")) {
+
+  staticOptions <- options$staticOptions
+  options <- options$options
 
   correctOrder <- order(options$layerId, options$time)
 
@@ -30,21 +34,38 @@
     # sort data and split it by layer
     chartdata <- chartdata[correctOrder, ] %>%
       split(options$layerId) %>%
-      lapply(., matrix, ncol = ncols) %>%
+      lapply(matrix, ncol = ncols) %>%
       unname()
   }
 
   # If there is only one variable in chartdata, we draw circles with different radius
   # else we draw bar charts by default.
-  if ("type" %in% names(options) && options$type[1] == "auto") {
-    options$type <- ifelse (!is.null(ncols) && ncols == 1, "polar-area", "bar")
+  if ("type" %in% names(staticOptions) && staticOptions$type == "auto") {
+    staticOptions$type <- ifelse (!is.null(ncols) && ncols == 1, "polar-area", "bar")
   }
 
   # Ensure layerId is a character vector
   if ("layerId" %in% names(options)) options$layerId <- as.character(options$layerId)
 
   # Finally split options by layer
-  options <- split(options, options$layerId) %>% unname()
+  options <- split(options, options$layerId) %>%
+    unname() %>%
+    lapply(function(df) {
+      df$time <- NULL
+      res <- list(dyn = df, static = list(), timeSteps = nrow(df))
+      # Add common static options
+      for (var in names(staticOptions)) {
+        res$static[[var]] <- staticOptions[[var]]
+      }
+      # Add individual static options
+      for (var in static) {
+        if (var %in% names(df)) {
+          res$dyn[[var]] <- NULL
+          res$static[[var]] <- df[[var]][1]
+        }
+      }
+      res
+    })
 
   list(
     options = options,

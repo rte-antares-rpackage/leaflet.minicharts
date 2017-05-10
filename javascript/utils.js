@@ -5,6 +5,7 @@
   module.exports.processOptions = processOptions;
   module.exports.addSetTimeIdMethod = addSetTimeIdMethod;
   module.exports.addRemoveMethods = addRemoveMethods;
+  module.exports.getInitOptions = getInitOptions;
 
   // Add a time slider if it does not already exist
   function initTimeSlider(leafletInstance, timeLabels, initialTime) {
@@ -49,20 +50,36 @@
   function processOptions(options, callback) {
     for (var i = 0; i < options.length; i++) {
       var opts = [];
+      var timesteps = getNumberOfTimesteps(options);
 
-      for (var t = 0; t < options[i].layerId.length; t++) {
+      for (var t = 0; t < timesteps; t++) {
         var opt = {};
-        for (var k in options[i]) {
-          if (options[i].hasOwnProperty(k)) {
-            opt[k] = options[i][k][t];
+        for (var k in options[i].dyn) {
+          if (options[i].dyn.hasOwnProperty(k)) {
+            opt[k] = options[i].dyn[k][t];
           }
         }
 
         opts.push(opt);
       }
 
-      callback(opts, i);
+      callback(opts, i, options[i].static);
     }
+  }
+
+  function getNumberOfTimesteps(options) {
+    return options[0].timeSteps;
+  }
+
+  function getInitOptions(opts, staticOpts, timeId) {
+    debugger;
+    var opt = opts[timeId];
+    for (var k in opt) {
+      if (opt.hasOwnProperty(k)) {
+        staticOpts[k] = opt[k];
+      }
+    }
+    return staticOpts;
   }
 
   // Add to a leaflet class the method "setTimeId" to update a layer when timeId
