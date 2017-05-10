@@ -33,7 +33,7 @@
 
     # sort data and split it by layer
     chartdata <- chartdata[correctOrder, ] %>%
-      split(options$layerId) %>%
+      split(options$layerId, drop = TRUE) %>%
       lapply(matrix, ncol = ncols) %>%
       unname()
   }
@@ -48,7 +48,7 @@
   if ("layerId" %in% names(options)) options$layerId <- as.character(options$layerId)
 
   # Finally split options by layer
-  options <- split(options, options$layerId) %>%
+  options <- split(options, options$layerId, drop = TRUE) %>%
     unname() %>%
     lapply(function(df) {
       df$time <- NULL

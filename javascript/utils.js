@@ -72,7 +72,6 @@
   }
 
   function getInitOptions(opts, staticOpts, timeId) {
-    debugger;
     var opt = opts[timeId];
     for (var k in opt) {
       if (opt.hasOwnProperty(k)) {
