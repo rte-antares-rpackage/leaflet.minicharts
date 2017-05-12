@@ -6,7 +6,7 @@
   var utils = require("./utils");
   var d3 = require("d3");
 
-  LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popup) {
+  LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, legendLab) {
     var self = this;
     var timeId = utils.initTimeSlider(this, timeLabels, initialTime);
 
@@ -38,17 +38,21 @@
       l.opts = opts;
       l.colorPalette = colorPalette || d3.schemeCategory10;
       l.timeId = timeId;
+      l.legendLab = legendLab;
+      if (staticOpts.layerId.indexOf("_minichart") != 0) l.layerId = staticOpts.layerId;
 
       // Popups
       if (opts[timeId].popup) {
         l.bindPopup(opts[timeId].popup);
+      } else {
+        l.bindPopup(utils.defaultPopup(l.layerId, opts[timeId].data, legendLab))
       }
 
       self.layerManager.addLayer(l, "minichart", staticOpts.layerId);
     });
   };
 
-  LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime) {
+  LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, legendLab) {
     var self = this;
     var timeId = utils.initTimeSlider(this, timeLabels, initialTime);
 
@@ -73,6 +77,8 @@
 
       if (opts[timeId].popup) {
         l.bindPopup(opts[timeId].popup);
+      } else {
+        l.bindPopup(utils.defaultPopup(l.layerId, opts[timeId].data, legendLab));
       }
     });
   };

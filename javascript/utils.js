@@ -6,6 +6,7 @@
   module.exports.addSetTimeIdMethod = addSetTimeIdMethod;
   module.exports.addRemoveMethods = addRemoveMethods;
   module.exports.getInitOptions = getInitOptions;
+  module.exports.defaultPopup = defaultPopup;
 
   // Add a time slider if it does not already exist
   function initTimeSlider(leafletInstance, timeLabels, initialTime) {
@@ -93,6 +94,8 @@
           this[updateFunName](opt);
           if (opt.popup) {
             this.bindPopup(opt.popup);
+          } else {
+            this.bindPopup(defaultPopup(this.layerId, this.opts[timeId].data, this.legendLab))
           }
         }
         this.timeId = timeId;
@@ -111,5 +114,31 @@
     LeafletWidget.methods["clear" + className + "s"] = function() {
       this.layerManager.clearLayers(groupName);
     };
+  }
+
+  function defaultPopup(title, values, keys) {
+    if (title) title = "<h2>" + title + "</h2>";
+    else title = "";
+    var content = "";
+    if (values) {
+      if (keys) {
+        var rows = [];
+        for (var i = 0; i < values.length; i++) {
+          var row = "";
+          row += "<td class='key'>" + keys[i] + "</td>";
+          row += "<td class='value'>" + values[i] + "</td>";
+          row = "<tr>" + row + "</tr>";
+          rows.push(row);
+        }
+        content = rows.join("");
+        content = '<table><tbody>' + content +'</tbody></table>';
+      } else {
+        content = values.join(", ");
+      }
+
+      if (title) content = "<hr/>" + content;
+    }
+
+    return '<div class="popup">'+ title + content + '</div>'
   }
 }());

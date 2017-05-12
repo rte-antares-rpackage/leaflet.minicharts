@@ -87,7 +87,7 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
                           timeFormat = NULL, initialTime = NULL) {
   # Prepare options
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
-  if (is.null(layerId)) layerId <- sprintf("minichart (%s,%s)", lng, lat)
+  if (is.null(layerId)) layerId <- sprintf("_minichart (%s,%s)", lng, lat)
   if (is.null(time)) time <- 1
 
   if (showLabels) {
@@ -123,7 +123,7 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
 
   map <- invokeMethod(map, data = leaflet::getMapData(map), "addMinicharts",
                       args$options, args$chartdata, maxValues, colorPalette,
-                      I(timeLabels), initialTime)
+                      I(timeLabels), initialTime, args$legendLab)
 
   if (legend && !is.null(args$legendLab)) {
     legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
@@ -197,7 +197,7 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
   map %>%
     invokeMethod(leaflet::getMapData(map), "updateMinicharts",
                  args$options, args$chartdata, unname(maxValues), colorPalette,
-                 I(timeLabels), initialTime)
+                 I(timeLabels), initialTime, args$legendLab)
 
 }
 

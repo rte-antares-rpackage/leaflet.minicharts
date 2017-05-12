@@ -10,7 +10,7 @@
     popup and layerId
 
   */
-  LeafletWidget.methods.addFlows = function(options, timeLabels, initialTime) {
+  LeafletWidget.methods.addFlows = function(options, timeLabels, initialTime, legendLab) {
     var self = this;
 
     // Initialize time slider
@@ -21,6 +21,11 @@
 
     // Create flows
     utils.processOptions(options, function(opts, i, staticOpts) {
+      for (var t = 0; t < opts.length; t++) {
+        if (typeof opts[t].weight != "undefined") opts[t].data = [opts[t].weight];
+        else if (typeof staticOpts.weight != "undefined") opts[t].data = [staticOpts.weight];
+      }
+
       var l = L.flow(
         [staticOpts.lat0, staticOpts.lng0],
         [staticOpts.lat1, staticOpts.lng1],
@@ -28,8 +33,10 @@
       );
       l.opts = opts;
       l.timeId = timeId;
+      if (staticOpts.layerId.indexOf("_flow") != 0) l.layerId = staticOpts.layerId;
 
       if (opts[timeId].popup) l.bindPopup(opts[timeId].popup);
+      else l.bindPopup(utils.defaultPopup(l.layerId, l.opts[timeId].data));
 
       self.layerManager.addLayer(l, "flow", staticOpts.layerId);
     });
@@ -43,18 +50,23 @@
     and weight
 
   */
-  LeafletWidget.methods.updateFlows = function(options, timeLabels, initialTime) {
+  LeafletWidget.methods.updateFlows = function(options, timeLabels, initialTime, legendLab) {
     var self = this;
 
     var timeId = utils.initTimeSlider(this, timeLabels, initialTime);
 
     utils.processOptions(options, function(opts, i, staticOpts) {
+      for (var t = 0; t < opts.length; t++) {
+        opts[t].data = [opts[t].weight];
+      }
+
       var l = self.layerManager.getLayer("flow", staticOpts.layerId);
       l.setStyle(utils.getInitOptions(opts, staticOpts, timeId));
       l.opts = opts;
       l.timeId = timeId;
 
       if (opts[timeId].popup) l.bindPopup(opts[timeId].popup);
+      else l.bindPopup(utils.defaultPopup(l.layerId, l.opts[timeId].data));
     });
   };
 

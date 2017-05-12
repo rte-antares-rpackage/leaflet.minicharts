@@ -1,3 +1,45 @@
+/* popups */
+
+.popup > h2 {
+  color: #555;
+  font-size: 16px;
+  margin: 5px 0 0 0;
+}
+
+.popup table {
+  border: none 1px;
+  border-collapse: collapse;
+}
+
+.popup table td {
+  border: none;
+  padding: 2px 5px;
+  border: solid 1px #DDDDDD;
+  border-left-style: none;
+  border-right-style: none;
+}
+
+.popup .key {
+  font-weight:bold;
+  color: #1f77b4;
+  text-align: right;
+  padding-right: 5px;
+}
+
+.popup .key::after {
+  content:" :";
+}
+
+.popup .value {
+  text-align: right;
+}
+
+.popup hr {
+  margin: 3px 0 6px 0;
+}
+
+/* time slider */
+
 .leaflet-control-slider {
   font-size: 16px;
   height:16px;

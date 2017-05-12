@@ -3,7 +3,7 @@ minichartDeps <- function() {
     "minichart",
     "0.2.2",
     src = system.file(package = "leaflet.minicharts"),
-    stylesheet = c("timeslider.css"),
+    stylesheet = c("minicharts.css"),
     script = c("leaflet.minicharts.min.js")
   )
 

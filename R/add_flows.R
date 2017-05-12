@@ -50,7 +50,7 @@ addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
                      timeFormat = NULL, initialTime = NULL, maxFlow = max(abs(flow)),
                      minThickness = 1, maxThickness = 20) {
   if (is.null(time)) time <- 1
-  if (is.null(layerId)) layerId <- sprintf("Flow (%s,%s) -> (%s,%s)", lng0, lat0, lng1, lat1)
+  if (is.null(layerId)) layerId <- sprintf("_flow (%s,%s) -> (%s,%s)", lng0, lat0, lng1, lat1)
 
   weight <- minThickness + flow / maxFlow * (maxThickness - minThickness)
 
@@ -87,11 +87,11 @@ updateFlows <- function(map, layerId, color = NULL, flow = NULL, opacity = NULL,
                         minThickness = 1, maxThickness = 20) {
   if (is.null(time)) time <- 1
   if (!is.null(flow)) {
-    if (is.null(maxFlow)) maxFlow = max(flow)
+    if (is.null(dir)) dir <- sign(flow)
+    flow <- abs(flow)
+    if (is.null(maxFlow)) maxFlow <- max(flow)
     weight <- minThickness + flow / maxFlow * (maxThickness - minThickness)
 
-    if (is.null(dir)) dir <- sign(weight)
-    weight <- pmax(minThickness, abs(weight))
   }
 
   options <- .makeOptions(
