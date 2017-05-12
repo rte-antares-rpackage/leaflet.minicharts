@@ -9,7 +9,7 @@
   "author": "Francois Guillem",
   "license": "GPL-2.0+",
   "dependencies": {
-    "leaflet.flow": "0.1.0",
+    "leaflet.flow": "0.2.1",
     "leaflet.minichart": "0.2.4"
   },
   "devDependencies": {

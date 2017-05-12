@@ -22,14 +22,14 @@
     // Create flows
     utils.processOptions(options, function(opts, i, staticOpts) {
       for (var t = 0; t < opts.length; t++) {
-        if (typeof opts[t].weight != "undefined") opts[t].data = [opts[t].weight];
-        else if (typeof staticOpts.weight != "undefined") opts[t].data = [staticOpts.weight];
+        if (typeof opts[t].value != "undefined") opts[t].data = [opts[t].value];
+        else if (typeof staticOpts.value != "undefined") opts[t].data = [staticOpts.value];
       }
 
       var l = L.flow(
         [staticOpts.lat0, staticOpts.lng0],
         [staticOpts.lat1, staticOpts.lng1],
-        opts[timeId]
+        utils.getInitOptions(opts, staticOpts, timeId)
       );
       l.opts = opts;
       l.timeId = timeId;
@@ -57,7 +57,8 @@
 
     utils.processOptions(options, function(opts, i, staticOpts) {
       for (var t = 0; t < opts.length; t++) {
-        opts[t].data = [opts[t].weight];
+        if (typeof opts[t].value != "undefined") opts[t].data = [opts[t].value];
+        else if (typeof staticOpts.value != "undefined") opts[t].data = [staticOpts.value];
       }
 
       var l = self.layerManager.getLayer("flow", staticOpts.layerId);
