@@ -92,7 +92,7 @@ updateFlows <- function(map, layerId, color = NULL, flow = NULL, opacity = NULL,
 
   args <- .prepareArgs(options, NULL)
 
-  if(is.null(weight)) {
+  if(is.null(flow)) {
     timeLabels <- NULL
   } else {
     timeLabels <- sort(unique(time))
