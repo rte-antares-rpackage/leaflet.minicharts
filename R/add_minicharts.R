@@ -127,7 +127,7 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
 
   map <- invokeMethod(map, data = leaflet::getMapData(map), "addMinicharts",
                       args$options, args$chartdata, maxValues, colorPalette,
-                      I(timeLabels), initialTime, args$legendLab)
+                      I(timeLabels), initialTime, args$popupLabels, args$popupData)
 
   if (legend && !is.null(args$legendLab)) {
     legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
@@ -145,12 +145,13 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
                              width = NULL, height = NULL, opacity = NULL, showLabels = NULL,
                              labelText = NULL, labelMinSize = NULL,
                              labelMaxSize = NULL, labelStyle = NULL,
-                             transitionTime = NULL, popup = NULL, legend = TRUE,
-                             legendPosition = NULL,
+                             transitionTime = NULL, popup = NULL, popupData = NULL,
+                             legend = TRUE, legendPosition = NULL,
                              timeFormat = NULL, initialTime = NULL) {
 
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
   if (is.null(time)) time <- 1
+  if (!is.null(popup)) popupData <- NULL
 
   if (is.null(showLabels)) {
     labels <- NULL
@@ -173,7 +174,7 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
                     popup = popup, fillColor = fillColor)
   )
 
-  args <- .prepareArgs(options, chartdata)
+  args <- .prepareArgs(options, chartdata, popupData)
 
   # Update legend if required
   if (!is.null(args$chartdata)) {
@@ -200,7 +201,7 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
   map %>%
     invokeMethod(leaflet::getMapData(map), "updateMinicharts",
                  args$options, args$chartdata, unname(maxValues), colorPalette,
-                 I(timeLabels), initialTime, args$legendLab)
+                 I(timeLabels), initialTime, args$popupLabels, args$popupData)
 
 }
 

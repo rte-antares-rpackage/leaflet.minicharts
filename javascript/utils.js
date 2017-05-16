@@ -95,7 +95,7 @@
           if (opt.popup) {
             this.bindPopup(opt.popup);
           } else {
-            this.bindPopup(defaultPopup(this.layerId, this.opts[timeId].data, this.legendLab))
+            this.bindPopup(defaultPopup(this.layerId, this.opts[timeId].data, this.opts[timeId].popupData, this.popupLabels))
           }
         }
         this.timeId = timeId;
@@ -116,11 +116,14 @@
     };
   }
 
-  function defaultPopup(title, values, keys) {
+  function defaultPopup(title, values, supValues, keys) {
     if (title) title = "<h2>" + title + "</h2>";
     else title = "";
     var content = "";
     if (values) {
+
+      if (supValues) values = values.concat(supValues);
+
       if (keys) {
         var rows = [];
         for (var i = 0; i < values.length; i++) {

@@ -47,13 +47,14 @@
     if (is.null(popupLabels)) {
       if (!is.null(legendLab)) popupLabels <- c(legendLab, rep("", ncol(popupData)))
     } else {
-      if (is.null(legendLab)) popupLabels <- c(rep("", ncols), popupData)
-      else popupLabels <- c(legendLab, popupData)
+      if (is.null(legendLab)) popupLabels <- c(rep("", ncols), popupLabels)
+      else popupLabels <- c(legendLab, popupLabels)
     }
 
     popupData <- popupData[correctOrder, ] %>%
+      as.matrix() %>%
       split(options$layerId, drop = TRUE) %>%
-      lapply(matrix, ncol = ncols) %>%
+      lapply(matrix, ncol = ncol(popupData)) %>%
       unname()
   }
 
@@ -93,6 +94,6 @@
     maxValues = maxValues,
     ncols = ncols,
     popupData = popupData,
-    popupLabels
+    popupLabels = unname(popupLabels)
   )
 }
