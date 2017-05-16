@@ -1,4 +1,4 @@
-.prepareArgs <- function(options, chartdata,
+.prepareArgs <- function(options, chartdata, popupData,
                          static = c("layerId", "lat", "lat0", "lat1", "lng", "lng0", "lng1")) {
 
   staticOptions <- options$staticOptions
@@ -38,6 +38,25 @@
       unname()
   }
 
+  # Popup additional data
+  if (is.null(popupData)) {
+    popupLabels <- legendLab
+  } else {
+    popupLabels <- dimnames(popupData)[[2]]
+
+    if (is.null(popupLabels)) {
+      if (!is.null(legendLab)) popupLabels <- c(legendLab, rep("", ncol(popupData)))
+    } else {
+      if (is.null(legendLab)) popupLabels <- c(rep("", ncols), popupData)
+      else popupLabels <- c(legendLab, popupData)
+    }
+
+    popupData <- popupData[correctOrder, ] %>%
+      split(options$layerId, drop = TRUE) %>%
+      lapply(matrix, ncol = ncols) %>%
+      unname()
+  }
+
   # If there is only one variable in chartdata, we draw circles with different radius
   # else we draw bar charts by default.
   if ("type" %in% names(staticOptions) && staticOptions$type == "auto") {
@@ -72,6 +91,8 @@
     chartdata = chartdata,
     legendLab = legendLab,
     maxValues = maxValues,
-    ncols = ncols
+    ncols = ncols,
+    popupData = popupData,
+    popupLabels
   )
 }

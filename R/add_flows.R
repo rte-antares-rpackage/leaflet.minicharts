@@ -46,7 +46,8 @@
 #'
 #' @export
 addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
-                     opacity = 1, dir = NULL, time = NULL, popup = NULL, layerId = NULL,
+                     opacity = 1, dir = NULL, time = NULL, popup = NULL, popupData = NULL,
+                     layerId = NULL,
                      timeFormat = NULL, initialTime = NULL, maxFlow = max(abs(flow)),
                      minThickness = 1, maxThickness = 20) {
   if (is.null(time)) time <- 1
