@@ -138,8 +138,6 @@
       } else {
         content = values.join(", ");
       }
-
-      if (title) content = "<hr/>" + content;
     }
 
     return '<div class="popup">'+ title + content + '</div>'

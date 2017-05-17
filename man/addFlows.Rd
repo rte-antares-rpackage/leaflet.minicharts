@@ -8,14 +8,15 @@
 \title{Add or modify flows on a leaflet map}
 \usage{
 addFlows(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
-  opacity = 1, dir = NULL, time = NULL, popup = NULL, layerId = NULL,
+  opacity = 1, dir = NULL, time = NULL, popup = NULL,
+  popupLabel = "Flow", popupData = NULL, layerId = NULL,
   timeFormat = NULL, initialTime = NULL, maxFlow = max(abs(flow)),
   minThickness = 1, maxThickness = 20)
 
 updateFlows(map, layerId, color = NULL, flow = NULL, opacity = NULL,
-  dir = NULL, time = NULL, popup = NULL, timeFormat = NULL,
-  initialTime = NULL, maxFlow = NULL, minThickness = 1,
-  maxThickness = 20)
+  dir = NULL, time = NULL, popup = NULL, popupLabel = "Flow",
+  popupData = NULL, timeFormat = NULL, initialTime = NULL,
+  maxFlow = NULL, minThickness = 1, maxThickness = 20)
 
 removeFlows(map, layerId)
 
@@ -51,8 +52,14 @@ datetimes. Each unique value must appear as many times as the others. This
 parameter can be used when one wants to represent the evolution of some
 variables on a map.}
 
-\item{popup}{Content of the popup bind to a given chart. This can be html
-text.}
+\item{popup}{Custom popup content. It can contain HTML code. If this parameter
+is not set, default popups are generated with \code{layerId} as title, and
+with values of \code{chartdata}.}
+
+\item{popupLabel}{Label to use in popups.}
+
+\item{popupData}{A data.frame containing additional information to display in
+popups. This parameter is used only if \code{popup} is \code{NULL}.}
 
 \item{layerId}{An ID variable. It is mandatoy when one wants to update some
 chart with \code{updateMinicharts}.}

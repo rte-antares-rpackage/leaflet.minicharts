@@ -11,7 +11,7 @@
   if (is.null(chartdata)) {
     legendLab <- NULL
     maxValues <- NULL
-    ncols <- NULL
+    ncols <- 0
   } else {
     # When adding only one minichart, chartdata can be a vector or a data frame, so it
     # needs to be converted to a matrix with correct lines and columns

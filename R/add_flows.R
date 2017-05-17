@@ -13,6 +13,7 @@
 #' @param flow Value of the flow between the origin and the destination. If
 #'   argument \code{dir} is not set, negative values are interpreted as flows
 #'   from destination to origin.
+#' @param popupLabel Label to use in popups.
 #' @param opacity Opacity of the flow.
 #' @param dir Direction of the flow. 1 indicates that the flow goes from origin
 #'   to destination and -1 indicates that it goes from destination to origin. If
@@ -46,7 +47,8 @@
 #'
 #' @export
 addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
-                     opacity = 1, dir = NULL, time = NULL, popup = NULL, popupData = NULL,
+                     opacity = 1, dir = NULL, time = NULL, popup = NULL, popupLabel = "Flow",
+                     popupData = NULL,
                      layerId = NULL,
                      timeFormat = NULL, initialTime = NULL, maxFlow = max(abs(flow)),
                      minThickness = 1, maxThickness = 20) {
@@ -60,7 +62,7 @@ addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
                     opacity = opacity, popup = popup)
   )
 
-  args <- .prepareArgs(options, NULL)
+  args <- .prepareArgs(options, NULL, popupData)
 
   timeLabels <- sort(unique(time))
   if (!is.null(timeFormat)) {
@@ -72,14 +74,15 @@ addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
   map$dependencies <- c(map$dependencies, minichartDeps())
 
   invokeMethod(map, data = leaflet::getMapData(map), "addFlows", args$options,
-               timeLabels, initialTime) %>%
+               timeLabels, initialTime, I(c(popupLabel, args$popupLabels)), args$popupData) %>%
     expandLimits(c(lat0, lat1), c(lng0, lng1))
 }
 
 #' @rdname addFlows
 #' @export
 updateFlows <- function(map, layerId, color = NULL, flow = NULL, opacity = NULL,
-                        dir = NULL, time = NULL, popup = NULL,
+                        dir = NULL, time = NULL, popup = NULL, popupLabel = "Flow",
+                        popupData = NULL,
                         timeFormat = NULL, initialTime = NULL, maxFlow = NULL,
                         minThickness = 1, maxThickness = 20) {
   if (is.null(time)) time <- 1
@@ -91,7 +94,7 @@ updateFlows <- function(map, layerId, color = NULL, flow = NULL, opacity = NULL,
                     opacity = opacity, popup = popup)
   )
 
-  args <- .prepareArgs(options, NULL)
+  args <- .prepareArgs(options, NULL, popupData)
 
   if(is.null(flow)) {
     timeLabels <- NULL
@@ -104,7 +107,7 @@ updateFlows <- function(map, layerId, color = NULL, flow = NULL, opacity = NULL,
   }
 
   invokeMethod(map, data = leaflet::getMapData(map), "updateFlows", args$options,
-               I(timeLabels), initialTime)
+               I(timeLabels), initialTime, I(c("popupLabel", args$popupLabels)), args$popupData)
 }
 
 #' @rdname addFlows
