@@ -61,16 +61,19 @@
     var timeId = utils.initTimeSlider(this, timeLabels, initialTime);
 
     utils.processOptions(options, function(opts, i, staticOpts) {
+      var l = self.layerManager.getLayer("flow", staticOpts.layerId);
+
       for (var t = 0; t < opts.length; t++) {
         if (typeof opts[t].value != "undefined") opts[t].data = [opts[t].value];
         else if (typeof staticOpts.value != "undefined") opts[t].data = [staticOpts.value];
 
         if(popupData) {
           opts[t].popupData = popupData[i][t];
+        } else {
+          if (l.opts[t]) opts[t].popupData = l.opts[t].popupData;
         }
       }
 
-      var l = self.layerManager.getLayer("flow", staticOpts.layerId);
       l.setStyle(utils.getInitOptions(opts, staticOpts, timeId));
       l.opts = opts;
       l.timeId = timeId;

@@ -68,13 +68,13 @@
         if (data) {
           opts[t].data = data[i][t];
         } else {
-          opts[t].data = l.opts[t].data;
+          if (l.opts[t]) opts[t].data = l.opts[t].data;
         }
 
         if (popupData) {
           opts[t].popupData = popupData[i][t];
         } else {
-          opts[t].popupData = l.opts[t].popupData;
+          if (l.opts[t]) opts[t].popupData = l.opts[t].popupData;
         }
 
 

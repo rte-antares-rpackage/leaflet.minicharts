@@ -107,7 +107,7 @@ updateFlows <- function(map, layerId, color = NULL, flow = NULL, opacity = NULL,
   }
 
   invokeMethod(map, data = leaflet::getMapData(map), "updateFlows", args$options,
-               I(timeLabels), initialTime, I(c("popupLabel", args$popupLabels)), args$popupData)
+               I(timeLabels), initialTime, I(c(popupLabel, args$popupLabels)), args$popupData)
 }
 
 #' @rdname addFlows
