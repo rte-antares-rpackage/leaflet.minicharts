@@ -12,7 +12,7 @@ addMinicharts(map, lng, lat, chartdata = 1, time = NULL, maxValues = NULL,
   colorPalette = d3.schemeCategory10, width = 30, height = 30,
   opacity = 1, showLabels = FALSE, labelText = NULL, labelMinSize = 8,
   labelMaxSize = 24, labelStyle = NULL, transitionTime = 750,
-  popup = NULL, popupData = NULL, layerId = NULL, legend = TRUE,
+  popup = popupArgs(), layerId = NULL, legend = TRUE,
   legendPosition = "topright", timeFormat = NULL, initialTime = NULL)
 
 updateMinicharts(map, layerId, chartdata = NULL, time = NULL,
@@ -20,7 +20,7 @@ updateMinicharts(map, layerId, chartdata = NULL, time = NULL,
   colorPalette = d3.schemeCategory10, width = NULL, height = NULL,
   opacity = NULL, showLabels = NULL, labelText = NULL,
   labelMinSize = NULL, labelMaxSize = NULL, labelStyle = NULL,
-  transitionTime = NULL, popup = NULL, popupData = NULL, legend = TRUE,
+  transitionTime = NULL, popup = NULL, legend = TRUE,
   legendPosition = NULL, timeFormat = NULL, initialTime = NULL)
 
 removeMinicharts(map, layerId)
@@ -86,13 +86,6 @@ labels.}
 \item{transitionTime}{Duration in milliseconds of the transitions when a
 property of a chart is updated.}
 
-\item{popup}{Custom popup content. It can contain HTML code. If this parameter
-is not set, default popups are generated with \code{layerId} as title, and
-with values of \code{chartdata}.}
-
-\item{popupData}{A data.frame containing additional information to display in
-popups. This parameter is used only if \code{popup} is \code{NULL}.}
-
 \item{layerId}{An ID variable. It is mandatoy when one wants to update some
 chart with \code{updateMinicharts}.}
 
@@ -108,6 +101,8 @@ object. See \code{\link[base]{strptime}} for more information.}
 \item{initialTime}{This argument can be used to set the initial time step
 shown when the map is created. It is used only when argument \code{time} is
 set.}
+
+\item{popupArgs}{Options that control popup generation.}
 }
 \value{
 The modified leaflet map object. \code{addMinicharts} add new minicharts to

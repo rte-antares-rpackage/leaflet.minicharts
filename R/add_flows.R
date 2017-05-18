@@ -47,8 +47,7 @@
 #'
 #' @export
 addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
-                     opacity = 1, dir = NULL, time = NULL, popup = NULL, popupLabel = "Flow",
-                     popupData = NULL,
+                     opacity = 1, dir = NULL, time = NULL, popup = popupArgs(labels = "Flow"),
                      layerId = NULL,
                      timeFormat = NULL, initialTime = NULL, maxFlow = max(abs(flow)),
                      minThickness = 1, maxThickness = 20) {
@@ -59,10 +58,10 @@ addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
     required = list(lng0 = lng0, lat0 = lat0, lng1 = lng1, lat1 = lat1, layerId = layerId, time = time),
     optional = list(dir = dir, color = color, value = flow, maxValue = maxFlow,
                     minThickness = minThickness, maxThickness = maxThickness,
-                    opacity = opacity, popup = popup)
+                    opacity = opacity)
   )
 
-  args <- .prepareArgs(options, NULL, popupData)
+  args <- .prepareArgs(options, NULL, popup)
 
   timeLabels <- sort(unique(time))
   if (!is.null(timeFormat)) {
@@ -74,15 +73,14 @@ addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
   map$dependencies <- c(map$dependencies, minichartDeps())
 
   invokeMethod(map, data = leaflet::getMapData(map), "addFlows", args$options,
-               timeLabels, initialTime, I(c(popupLabel, args$popupLabels)), args$popupData) %>%
+               timeLabels, initialTime, args$popupArgs) %>%
     expandLimits(c(lat0, lat1), c(lng0, lng1))
 }
 
 #' @rdname addFlows
 #' @export
 updateFlows <- function(map, layerId, color = NULL, flow = NULL, opacity = NULL,
-                        dir = NULL, time = NULL, popup = NULL, popupLabel = "Flow",
-                        popupData = NULL,
+                        dir = NULL, time = NULL, popup = NULL,
                         timeFormat = NULL, initialTime = NULL, maxFlow = NULL,
                         minThickness = 1, maxThickness = 20) {
   if (is.null(time)) time <- 1
@@ -91,10 +89,10 @@ updateFlows <- function(map, layerId, color = NULL, flow = NULL, opacity = NULL,
     required = list(layerId = layerId, time = time),
     optional = list(dir = dir, color = color, value = flow, maxValue = maxFlow,
                     minThickness = minThickness, maxThickness = maxThickness,
-                    opacity = opacity, popup = popup)
+                    opacity = opacity)
   )
 
-  args <- .prepareArgs(options, NULL, popupData)
+  args <- .prepareArgs(options, NULL, popup)
 
   if(is.null(flow)) {
     timeLabels <- NULL
@@ -107,7 +105,7 @@ updateFlows <- function(map, layerId, color = NULL, flow = NULL, opacity = NULL,
   }
 
   invokeMethod(map, data = leaflet::getMapData(map), "updateFlows", args$options,
-               I(timeLabels), initialTime, I(c(popupLabel, args$popupLabels)), args$popupData)
+               I(timeLabels), initialTime, args$popupArgs)
 }
 
 #' @rdname addFlows

@@ -6,7 +6,7 @@
   module.exports.addSetTimeIdMethod = addSetTimeIdMethod;
   module.exports.addRemoveMethods = addRemoveMethods;
   module.exports.getInitOptions = getInitOptions;
-  module.exports.defaultPopup = defaultPopup;
+  module.exports.setPopup = setPopup;
 
   // Add a time slider if it does not already exist
   function initTimeSlider(leafletInstance, timeLabels, initialTime) {
@@ -92,11 +92,7 @@
         if (typeof this.opts !== "undefined" && typeof this.opts[timeId] !== 'undefined') {
           var opt = this.opts[timeId];
           this[updateFunName](opt);
-          if (opt.popup) {
-            this.bindPopup(opt.popup);
-          } else {
-            this.bindPopup(defaultPopup(this.layerId, this.opts[timeId].data, this.opts[timeId].popupData, this.popupLabels))
-          }
+          setPopup(this, timeId);
         }
         this.timeId = timeId;
       };
@@ -116,15 +112,28 @@
     };
   }
 
-  function defaultPopup(title, values, supValues, keys) {
-    if (title) title = "<h2>" + title + "</h2>";
+  function setPopup(l, timeId) {
+    if (l.popupArgs.noPopup) return;
+
+    var title, content, popup;
+    if (l.layerId && l.popupArgs.showTitle) title = "<h2>" + l.layerId + "</h2>";
     else title = "";
-    var content = "";
-    if (values) {
+    content = "";
+    if (l.opts[timeId].data) {
+      var values, keys;
+      if(l.popupArgs.showValues) {
+        values = l.opts[timeId].data;
+        keys = l.popupArgs.labels.concat(l.popupArgs.supLabels);
+      } else {
+        values = [];
+        keys = l.popupArgs.supLabels;
+      }
 
-      if (supValues) values = values.concat(supValues);
+      if (l.opts[timeId].popupData) values = values.concat(l.opts[timeId].popupData);
 
-      if (keys && keys.length > 0) {
+      if (keys.length == 0) {
+        content = values.join(", ");
+      } else {
         var rows = [];
         for (var i = 0; i < values.length; i++) {
           var row = "";
@@ -135,11 +144,10 @@
         }
         content = rows.join("");
         content = '<table><tbody>' + content +'</tbody></table>';
-      } else {
-        content = values.join(", ");
       }
     }
 
-    return '<div class="popup">'+ title + content + '</div>'
+    popup =  '<div class="popup">'+ title + content + '</div>';
+    l.bindPopup(popup);
   }
 }());

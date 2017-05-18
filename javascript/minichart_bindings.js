@@ -6,7 +6,7 @@
   var utils = require("./utils");
   var d3 = require("d3");
 
-  LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popupLabels, popupData) {
+  LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popupArgs) {
     var self = this;
     var timeId = utils.initTimeSlider(this, timeLabels, initialTime);
 
@@ -20,8 +20,8 @@
           opts[t].data = data[i][t];
         }
 
-        if(popupData) {
-          opts[t].popupData = popupData[i][t];
+        if(popupArgs.supValues) {
+          opts[t].popupData = popupArgs.supValues[i][t];
         }
 
         if (maxValues) opts[t].maxValues = maxValues;
@@ -42,27 +42,24 @@
       l.opts = opts;
       l.colorPalette = colorPalette || d3.schemeCategory10;
       l.timeId = timeId;
-      l.popupLabels = popupLabels;
+      l.popupArgs = popupArgs;
       if (staticOpts.layerId.indexOf("_minichart") != 0) l.layerId = staticOpts.layerId;
 
       // Popups
-      if (opts[timeId].popup) {
-        l.bindPopup(opts[timeId].popup);
-      } else {
-        l.bindPopup(utils.defaultPopup(l.layerId, opts[timeId].data, opts[timeId].popupData, popupLabels))
-      }
+      utils.setPopup(l, timeId);
 
       self.layerManager.addLayer(l, "minichart", staticOpts.layerId);
     });
   };
 
-  LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popupLabels, popupData) {
+  LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popupArgs, legendLab) {
     var self = this;
     var timeId = utils.initTimeSlider(this, timeLabels, initialTime);
 
     utils.processOptions(options, function(opts, i, staticOpts) {
       var l = self.layerManager.getLayer("minichart", staticOpts.layerId);
-      if (popupLabels) l.popupLabels = popupLabels;
+      if (popupArgs) l.popupArgs = popupArgs;
+      else if(data && legendLab) {l.popupArgs.labels = legendLab}
 
       for (var t = 0; t < opts.length; t++) { // loop over time steps
         if (data) {
@@ -71,8 +68,8 @@
           if (l.opts[t]) opts[t].data = l.opts[t].data;
         }
 
-        if (popupData) {
-          opts[t].popupData = popupData[i][t];
+        if (popupArgs && popupArgs.supValues) {
+          opts[t].popupData = popupArgs.supValues[i][t];
         } else {
           if (l.opts[t]) opts[t].popupData = l.opts[t].popupData;
         }
@@ -89,11 +86,7 @@
       l.opts = opts;
       l.setOptions(utils.getInitOptions(opts, staticOpts, timeId));
 
-      if (opts[timeId].popup) {
-        l.bindPopup(opts[timeId].popup);
-      } else {
-        l.bindPopup(utils.defaultPopup(l.layerId, opts[timeId].data, opts[timeId].popupData, popupLabels));
-      }
+      utils.setPopup(l, timeId);
     });
   };
 

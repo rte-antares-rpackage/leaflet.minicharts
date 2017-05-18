@@ -10,7 +10,7 @@
     popup and layerId
 
   */
-  LeafletWidget.methods.addFlows = function(options, timeLabels, initialTime, popupLabels, popupData) {
+  LeafletWidget.methods.addFlows = function(options, timeLabels, initialTime, popupArgs) {
     var self = this;
 
     // Initialize time slider
@@ -25,8 +25,8 @@
         if (typeof opts[t].value != "undefined") opts[t].data = [opts[t].value];
         else if (typeof staticOpts.value != "undefined") opts[t].data = [staticOpts.value];
 
-        if(popupData) {
-          opts[t].popupData = popupData[i][t];
+        if(popupArgs && popupArgs.supValues) {
+          opts[t].popupData = popupArgs.supValues[i][t];
         }
       }
 
@@ -38,11 +38,9 @@
       l.opts = opts;
       l.timeId = timeId;
       if (staticOpts.layerId.indexOf("_flow") != 0) l.layerId = staticOpts.layerId;
-      l.popupLabels = popupLabels;
+      l.popupArgs = popupArgs;
 
-      if (opts[timeId].popup) l.bindPopup(opts[timeId].popup);
-      else l.bindPopup(utils.defaultPopup(l.layerId, l.opts[timeId].data, l.opts[timeId].popupData, l.popupLabels));
-
+      utils.setPopup(l, timeId);
       self.layerManager.addLayer(l, "flow", staticOpts.layerId);
     });
   };
@@ -55,7 +53,7 @@
     and weight
 
   */
-  LeafletWidget.methods.updateFlows = function(options, timeLabels, initialTime, popupLabels, popupData) {
+  LeafletWidget.methods.updateFlows = function(options, timeLabels, initialTime, popupArgs) {
     var self = this;
 
     var timeId = utils.initTimeSlider(this, timeLabels, initialTime);
@@ -63,12 +61,15 @@
     utils.processOptions(options, function(opts, i, staticOpts) {
       var l = self.layerManager.getLayer("flow", staticOpts.layerId);
 
+      if (popupArgs) l.popupArgs = popupArgs;
+
       for (var t = 0; t < opts.length; t++) {
         if (typeof opts[t].value != "undefined") opts[t].data = [opts[t].value];
         else if (typeof staticOpts.value != "undefined") opts[t].data = [staticOpts.value];
+        else if (l.opts[t]) opts[t].data = l.opts[t].data
 
-        if(popupData) {
-          opts[t].popupData = popupData[i][t];
+        if(popupArgs && popupArgs.supValues) {
+          opts[t].popupData = popupArgs.supValues[i][t];
         } else {
           if (l.opts[t]) opts[t].popupData = l.opts[t].popupData;
         }
@@ -77,10 +78,8 @@
       l.setStyle(utils.getInitOptions(opts, staticOpts, timeId));
       l.opts = opts;
       l.timeId = timeId;
-      l.popupLabels = popupLabels;
 
-      if (opts[timeId].popup) l.bindPopup(opts[timeId].popup);
-      else l.bindPopup(utils.defaultPopup(l.layerId, l.opts[timeId].data, l.opts[timeId].popupData, l.popupLabels));
+      utils.setPopup(l, timeId);
     });
   };
 

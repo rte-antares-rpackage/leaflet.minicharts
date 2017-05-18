@@ -46,11 +46,7 @@
 #' @param labelMaxSize Maximal height of labels in pixels.
 #' @param transitionTime Duration in milliseconds of the transitions when a
 #'   property of a chart is updated.
-#' @param popup Custom popup content. It can contain HTML code. If this parameter
-#'   is not set, default popups are generated with \code{layerId} as title, and
-#'   with values of \code{chartdata}.
-#' @param popupData A data.frame containing additional information to display in
-#'   popups. This parameter is used only if \code{popup} is \code{NULL}.
+#' @param popupArgs Options that control popup generation.
 #' @param layerId An ID variable. It is mandatoy when one wants to update some
 #'   chart with \code{updateMinicharts}.
 #' @param legend If TRUE and if data has column names, then a legend is
@@ -85,14 +81,15 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
                           width = 30, height = 30, opacity = 1, showLabels = FALSE,
                           labelText = NULL, labelMinSize = 8, labelMaxSize = 24,
                           labelStyle = NULL,
-                          transitionTime = 750, popup = NULL, popupData = NULL,
+                          transitionTime = 750,
+                          popup = popupArgs(),
                           layerId = NULL, legend = TRUE, legendPosition = "topright",
                           timeFormat = NULL, initialTime = NULL) {
   # Prepare options
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
   if (is.null(layerId)) layerId <- sprintf("_minichart (%s,%s)", lng, lat)
   if (is.null(time)) time <- 1
-  if (!is.null(popup)) popupData <- NULL
+  if (is.null(popup$labels)) popup$labels <- colnames(chartdata)
 
   if (showLabels) {
     if (!is.null(labelText)) labels <- labelText
@@ -107,11 +104,10 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
                     opacity = opacity, labels = labels,
                     labelMinSize = labelMinSize, labelMaxSize = labelMaxSize,
                     labelStyle = labelStyle,
-                    transitionTime = transitionTime,
-                    popup = popup, fillColor = fillColor)
+                    transitionTime = transitionTime, fillColor = fillColor)
   )
 
-  args <- .prepareArgs(options, chartdata, popupData)
+  args <- .prepareArgs(options, chartdata, popup)
 
   if (is.null(maxValues)) maxValues <- args$maxValues
 
@@ -127,9 +123,9 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
 
   map <- invokeMethod(map, data = leaflet::getMapData(map), "addMinicharts",
                       args$options, args$chartdata, maxValues, colorPalette,
-                      I(timeLabels), initialTime, I(args$popupLabels), args$popupData)
+                      I(timeLabels), initialTime, args$popupArgs)
 
-  if (legend && !is.null(args$legendLab)) {
+  if (legend && !is.null(args$legendLab) && args$ncol > 1) {
     legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
     map <- addLegend(map, labels = args$legendLab, colors = legendCol, opacity = 1,
                      layerId = "minichartsLegend", position = legendPosition)
@@ -145,13 +141,13 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
                              width = NULL, height = NULL, opacity = NULL, showLabels = NULL,
                              labelText = NULL, labelMinSize = NULL,
                              labelMaxSize = NULL, labelStyle = NULL,
-                             transitionTime = NULL, popup = NULL, popupData = NULL,
+                             transitionTime = NULL, popup = NULL,
                              legend = TRUE, legendPosition = NULL,
                              timeFormat = NULL, initialTime = NULL) {
 
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
   if (is.null(time)) time <- 1
-  if (!is.null(popup)) popupData <- NULL
+  if (!is.null(chartdata) & !is.null(popup) & is.null(popup$labels)) popup$labels <- colnames(chartdata)
 
   if (is.null(showLabels)) {
     labels <- NULL
@@ -171,14 +167,14 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
                     labelMinSize = labelMinSize, labelMaxSize = labelMaxSize,
                     labelStyle = labelStyle,
                     labelText = labelText, transitionTime = transitionTime,
-                    popup = popup, fillColor = fillColor)
+                    fillColor = fillColor)
   )
 
-  args <- .prepareArgs(options, chartdata, popupData)
+  args <- .prepareArgs(options, chartdata, popup)
 
   # Update legend if required
   if (!is.null(args$chartdata)) {
-    if (legend && !is.null(args$legendLab)) {
+    if (legend && !is.null(args$legendLab) && args$ncols > 1) {
       legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
       map <- addLegend(map, labels = args$legendLab, colors = legendCol, opacity = 1,
                        layerId = "minichartsLegend", position = legendPosition)
@@ -201,8 +197,7 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
   map %>%
     invokeMethod(leaflet::getMapData(map), "updateMinicharts",
                  args$options, args$chartdata, unname(maxValues), colorPalette,
-                 I(timeLabels), initialTime, I(args$popupLabels), args$popupData)
-
+                 I(timeLabels), initialTime, args$popupArgs, args$legendLab)
 }
 
 #' @rdname addMinicharts
