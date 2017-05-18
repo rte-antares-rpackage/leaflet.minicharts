@@ -77,10 +77,11 @@
           if (l.opts[t]) opts[t].popupData = l.opts[t].popupData;
         }
 
-
-
-        if (opts[t].data.length == 1) opts[t].colors = opts[t].fillColor || l.opts[t].fillColor;
-        else opts[t].colors = l.colorPalette;
+        if (opts[t].data.length == 1) {
+          if (opts[t].fillColor) opts[t].colors = opts[t].fillColor
+          else if (l.opts[t] && l.opts[t].fillColor) opts[t].colors = l.opts[t].fillColor;
+          else opts[t].colors = l.opts[0].fillColor;
+        } else opts[t].colors = l.colorPalette;
 
         if (maxValues) opts[t].maxValues = maxValues;
       }

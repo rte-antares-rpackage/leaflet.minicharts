@@ -124,7 +124,7 @@
 
       if (supValues) values = values.concat(supValues);
 
-      if (keys) {
+      if (keys && keys.length > 0) {
         var rows = [];
         for (var i = 0; i < values.length; i++) {
           var row = "";
