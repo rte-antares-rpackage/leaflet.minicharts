@@ -115,6 +115,11 @@
   function setPopup(l, timeId) {
     if (l.popupArgs.noPopup) return;
 
+    if (l.opts[timeId].popupHTML) {
+      l.bindPopup(l.opts[timeId].popupHTML);
+      return;
+    }
+
     var title, content, popup;
     if (l.layerId && l.popupArgs.showTitle) title = "<h2>" + l.layerId + "</h2>";
     else title = "";

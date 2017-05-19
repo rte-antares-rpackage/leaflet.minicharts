@@ -28,6 +28,9 @@
         if(popupArgs && popupArgs.supValues) {
           opts[t].popupData = popupArgs.supValues[i][t];
         }
+        if(popupArgs && popupArgs.html) {
+          opts[t].popupHTML = popupArgs.html[i][t];
+        }
       }
 
       var l = L.flow(
@@ -72,6 +75,11 @@
           opts[t].popupData = popupArgs.supValues[i][t];
         } else {
           if (l.opts[t]) opts[t].popupData = l.opts[t].popupData;
+        }
+        if(popupArgs && popupArgs.html) {
+          opts[t].popupHTML = popupArgs.html[i][t];
+        } else {
+          if (l.opts[t]) opts[t].popupHTML = l.opts[t].popupHTML;
         }
       }
 

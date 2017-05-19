@@ -24,6 +24,10 @@
           opts[t].popupData = popupArgs.supValues[i][t];
         }
 
+        if(popupArgs.html) {
+          opts[t].popupHTML = popupArgs.html[i][t];
+        }
+
         if (maxValues) opts[t].maxValues = maxValues;
 
         if (!opts[t].data || opts[t].data.length == 1) {
@@ -72,6 +76,11 @@
           opts[t].popupData = popupArgs.supValues[i][t];
         } else {
           if (l.opts[t]) opts[t].popupData = l.opts[t].popupData;
+        }
+        if (popupArgs && popupArgs.html) {
+          opts[t].popupHTML = popupArgs.html[i][t];
+        } else {
+          if (l.opts[t]) opts[t].popupHTML = l.opts[t].popupHTML;
         }
 
         if (opts[t].data.length == 1) {

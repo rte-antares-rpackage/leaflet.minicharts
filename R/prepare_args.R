@@ -60,6 +60,15 @@
       unname()
   }
 
+  # Popup html
+  if (!is.null(popupArgs$html)) {
+    popupArgs$html <- popupArgs$html[correctOrder] %>%
+      split(options$layerId, drop = TRUE) %>%
+      lapply(I) %>%
+      unname()
+  }
+
+
   # If there is only one variable in chartdata, we draw circles with different radius
   # else we draw bar charts by default.
   if ("type" %in% names(staticOptions) && staticOptions$type == "auto") {
