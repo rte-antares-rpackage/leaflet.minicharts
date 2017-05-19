@@ -51,6 +51,8 @@ datetimes. Each unique value must appear as many times as the others. This
 parameter can be used when one wants to represent the evolution of some
 variables on a map.}
 
+\item{popup}{Options that control popup generation.}
+
 \item{layerId}{An ID variable. It is mandatoy when one wants to update some
 chart with \code{updateMinicharts}.}
 
@@ -67,8 +69,6 @@ set.}
 \item{minThickness}{minimal thickness of the line that represents the flow.}
 
 \item{maxThickness}{maximal thickness of the line that represents the flow.}
-
-\item{popupLabel}{Label to use in popups.}
 }
 \value{
 The modified leaflet map object.

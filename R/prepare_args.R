@@ -45,7 +45,7 @@
 
   # Popup additional data
   if (!is.null(popupArgs$supValues)) {
-    if (is.null(popupArgs$supLabels)) popupArgs$supLabels <- colnames(popupData)
+    if (is.null(popupArgs$supLabels)) popupArgs$supLabels <- colnames(popupArgs$supValues)
 
     if (is.null(popupArgs$supLabels) && !is.null(popupArgs$labels)) {
       popupArgs$supLabels <- rep("", ncol(popupArgs$supValues))

@@ -86,6 +86,8 @@ labels.}
 \item{transitionTime}{Duration in milliseconds of the transitions when a
 property of a chart is updated.}
 
+\item{popup}{Options that control popup generation.}
+
 \item{layerId}{An ID variable. It is mandatoy when one wants to update some
 chart with \code{updateMinicharts}.}
 
@@ -101,8 +103,6 @@ object. See \code{\link[base]{strptime}} for more information.}
 \item{initialTime}{This argument can be used to set the initial time step
 shown when the map is created. It is used only when argument \code{time} is
 set.}
-
-\item{popupArgs}{Options that control popup generation.}
 }
 \value{
 The modified leaflet map object. \code{addMinicharts} add new minicharts to

@@ -137,6 +137,9 @@
         var rows = [];
         for (var i = 0; i < values.length; i++) {
           var row = "";
+          if (l.popupArgs.digits && isNumeric(values[i])) {
+            values[i] = parseFloat(parseFloat(values[i]).toFixed(l.popupArgs.digits));
+          }
           row += "<td class='key'>" + keys[i] + "</td>";
           row += "<td class='value'>" + values[i] + "</td>";
           row = "<tr>" + row + "</tr>";
@@ -149,5 +152,9 @@
 
     popup =  '<div class="popup">'+ title + content + '</div>';
     l.bindPopup(popup);
+  }
+
+  function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
   }
 }());

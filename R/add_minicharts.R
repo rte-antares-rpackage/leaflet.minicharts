@@ -46,7 +46,7 @@
 #' @param labelMaxSize Maximal height of labels in pixels.
 #' @param transitionTime Duration in milliseconds of the transitions when a
 #'   property of a chart is updated.
-#' @param popupArgs Options that control popup generation.
+#' @param popup Options that control popup generation.
 #' @param layerId An ID variable. It is mandatoy when one wants to update some
 #'   chart with \code{updateMinicharts}.
 #' @param legend If TRUE and if data has column names, then a legend is
@@ -125,7 +125,7 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
                       args$options, args$chartdata, maxValues, colorPalette,
                       I(timeLabels), initialTime, args$popupArgs)
 
-  if (legend && !is.null(args$legendLab) && args$ncol > 1) {
+  if (legend && length(args$legendLab) > 0 && args$ncol > 1) {
     legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
     map <- addLegend(map, labels = args$legendLab, colors = legendCol, opacity = 1,
                      layerId = "minichartsLegend", position = legendPosition)
@@ -174,7 +174,7 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
 
   # Update legend if required
   if (!is.null(args$chartdata)) {
-    if (legend && !is.null(args$legendLab) && args$ncols > 1) {
+    if (legend && length(args$legendLab) > 0 && args$ncols > 1) {
       legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
       map <- addLegend(map, labels = args$legendLab, colors = legendCol, opacity = 1,
                        layerId = "minichartsLegend", position = legendPosition)

@@ -13,7 +13,6 @@
 #' @param flow Value of the flow between the origin and the destination. If
 #'   argument \code{dir} is not set, negative values are interpreted as flows
 #'   from destination to origin.
-#' @param popupLabel Label to use in popups.
 #' @param opacity Opacity of the flow.
 #' @param dir Direction of the flow. 1 indicates that the flow goes from origin
 #'   to destination and -1 indicates that it goes from destination to origin. If

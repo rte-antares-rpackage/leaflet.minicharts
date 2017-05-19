@@ -6,7 +6,7 @@
 \usage{
 popupArgs(showTitle = TRUE, showValues = TRUE, labels = NULL,
   supValues = NULL, supLabels = colnames(supValues), html = NULL,
-  noPopup = FALSE)
+  noPopup = FALSE, digits = NULL)
 }
 \arguments{
 \item{showTitle}{If \code{TRUE} layer id is displayed as title of
@@ -26,6 +26,9 @@ in popups.}
 use this parameter when you are not happy with the default popups.}
 
 \item{noPopup}{If \code{TRUE}, popups are not created.}
+
+\item{digits}{Max number of decimal digits to display for numeric values. If
+\code{NULL}, all digits are displayed.}
 }
 \value{
 List containing options for popup generation
