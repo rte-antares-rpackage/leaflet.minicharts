@@ -1,3 +1,15 @@
+Changes in version 0.3 (2017-05-19)
+
+NEW FEATURES:
+* Default popups are now automatically generated for charts and flows. A new function "popupArgs()" has been added to control how popups are generated.
+* The size of the JSON data passed from R to javascript has been optimized. In some situations it has been divided by 10, so maps are generated quicker and when they are saved on harddrive, the resulting files are smaller.
+
+BUGFIXES:
+* The default color palette was not found when leaflet.minicharts was imported in another package.
+* add/updateMinicharts/Flows were crashing if layerId was a factor and some levels were missing.
+* Some bugs were occuring if after an update of a map, the number of timesteps increased.
+
+
 Changes in version 0.2 (2017-05-05)
 
 BREAKING CHANGES:
