@@ -36,18 +36,42 @@
 
     onAdd: function(map) {
       var self = this;
+      self.map = map;
+
       L.DomEvent.disableClickPropagation(self._container);
-      self._slider.onchange = function(e) {self.setTimeId(self.getTimeId(), true)};
-      self._btn.onclick = function(e) {self.playPause()};
+      self._slider.onchange = function(e) {
+        self.setTimeId(self.getTimeId(), true);
+        if (map.syncGroup) {
+          var syncMap;
+          for (var i = 0; i < LeafletWidget.syncGroups[map.syncGroup].length; i++) {
+            syncMap = LeafletWidget.syncGroups[map.syncGroup][i]
+            if (syncMap.controls._controlsById.tslider) {
+              syncMap.controls._controlsById.tslider.setTimeId(self.getTimeId());
+            }
+          }
+        }
+      };
+      self._btn.onclick = function(e) {
+        self.playPause(!self._play);
+        if (map.syncGroup) {
+          var syncMap;
+          for (var i = 0; i < LeafletWidget.syncGroups[map.syncGroup].length; i++) {
+            syncMap = LeafletWidget.syncGroups[map.syncGroup][i]
+            if (syncMap != self.map && syncMap.controls._controlsById.tslider) {
+              syncMap.controls._controlsById.tslider.playPause(self._play);
+            }
+          }
+        }
+      };
 
       self.setTimeLabels(self.options.timeLabels);
 
       return self._container;
     },
 
-    playPause: function() {
+    playPause: function(play) {
       var self = this;
-      self._play = !self._play;
+      self._play = play;
       if(self._play) {
         self._btn.className = "playpause fa fa-pause";
         if (self.getTimeId() == self._slider.max) {

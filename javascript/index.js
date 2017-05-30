@@ -4,4 +4,5 @@
   require("./timeslider");
   require("./minichart_bindings");
   require("./flow_bindings");
+  require("./sync_with");
 })();

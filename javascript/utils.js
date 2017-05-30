@@ -9,25 +9,25 @@
   module.exports.setPopup = setPopup;
 
   // Add a time slider if it does not already exist
-  function initTimeSlider(leafletInstance, timeLabels, initialTime) {
+  function initTimeSlider(map, timeLabels, initialTime) {
     var tslider;
 
-    if (!leafletInstance.controls._controlsById.tslider) {
+    if (!map.controls._controlsById.tslider) {
       tslider = L.timeSlider({
         timeLabels: timeLabels,
         onTimeIdChange: function(timeId) {
           var types = ["minichart", "flow"];
           for (var i = 0; i < types.length; i++) {
-            var layers = leafletInstance.layerManager._byCategory[types[i]];
+            var layers = map.layerManager._byCategory[types[i]];
             for (var k in layers) {
               if (layers[k]) layers[k].setTimeId(timeId);
             }
           }
         }
       });
-      leafletInstance.controls.add(tslider, "tslider");
+      map.controls.add(tslider, "tslider");
     } else {
-      tslider = leafletInstance.controls._controlsById.tslider;
+      tslider = map.controls._controlsById.tslider;
       if (typeof timeLabels != "undefined") tslider.setTimeLabels(timeLabels);
     }
 
