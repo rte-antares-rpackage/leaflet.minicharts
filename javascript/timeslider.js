@@ -41,27 +41,15 @@
       L.DomEvent.disableClickPropagation(self._container);
       self._slider.onchange = function(e) {
         self.setTimeId(self.getTimeId(), true);
-        if (map.syncGroup) {
-          var syncMap;
-          for (var i = 0; i < LeafletWidget.syncGroups[map.syncGroup].length; i++) {
-            syncMap = LeafletWidget.syncGroups[map.syncGroup][i]
-            if (syncMap.controls._controlsById.tslider) {
-              syncMap.controls._controlsById.tslider.setTimeId(self.getTimeId());
-            }
-          }
-        }
+        self.updateGroup(function(map) {
+          map.controls._controlsById.tslider.setTimeId(self.getTimeId());
+        });
       };
       self._btn.onclick = function(e) {
         self.playPause(!self._play);
-        if (map.syncGroup) {
-          var syncMap;
-          for (var i = 0; i < LeafletWidget.syncGroups[map.syncGroup].length; i++) {
-            syncMap = LeafletWidget.syncGroups[map.syncGroup][i]
-            if (syncMap != self.map && syncMap.controls._controlsById.tslider) {
-              syncMap.controls._controlsById.tslider.playPause(self._play);
-            }
-          }
-        }
+        self.updateGroup(function(map) {
+          map.controls._controlsById.tslider.playPause(self._play);
+        });
       };
 
       self.setTimeLabels(self.options.timeLabels);
@@ -135,6 +123,19 @@
       var timeId = this.options.timeLabels.indexOf(label);
       if (timeId == -1) timeId = 0;
       return timeId;
+    },
+
+    updateGroup: function(updateFun) {
+      var self = this;
+      if (self.map.syncGroup) {
+        var syncMap;
+        for (var i = 0; i < LeafletWidget.syncGroups[self.map.syncGroup].length; i++) {
+          syncMap = LeafletWidget.syncGroups[self.map.syncGroup][i];
+          if (syncMap != self.map && syncMap.controls._controlsById.tslider) {
+            updateFun(syncMap);
+          }
+        }
+      }
     }
   });
 
