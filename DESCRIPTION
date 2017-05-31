@@ -21,5 +21,6 @@ RoxygenNote: 6.0.1
 Suggests: knitr,
     rmarkdown,
     dplyr,
-    shiny
+    shiny,
+    manipulateWidget
 VignetteBuilder: knitr
