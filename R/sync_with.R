@@ -36,5 +36,8 @@
 #'
 #' @export
 syncWith <- function(map, groupname) {
+  # Add minichart dependency to the map dependencies
+  map$dependencies <- c(map$dependencies, minichartDeps())
+
   invokeMethod(map, data = leaflet::getMapData(map), "syncWith", groupname)
 }
