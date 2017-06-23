@@ -13,7 +13,8 @@ addMinicharts(map, lng, lat, chartdata = 1, time = NULL, maxValues = NULL,
   opacity = 1, showLabels = FALSE, labelText = NULL, labelMinSize = 8,
   labelMaxSize = 24, labelStyle = NULL, transitionTime = 750,
   popup = popupArgs(), layerId = NULL, legend = TRUE,
-  legendPosition = "topright", timeFormat = NULL, initialTime = NULL)
+  legendPosition = "topright", timeFormat = NULL, initialTime = NULL,
+  onChange = NULL)
 
 updateMinicharts(map, layerId, chartdata = NULL, time = NULL,
   maxValues = NULL, type = NULL, fillColor = NULL,
@@ -21,7 +22,8 @@ updateMinicharts(map, layerId, chartdata = NULL, time = NULL,
   opacity = NULL, showLabels = NULL, labelText = NULL,
   labelMinSize = NULL, labelMaxSize = NULL, labelStyle = NULL,
   transitionTime = NULL, popup = NULL, legend = TRUE,
-  legendPosition = NULL, timeFormat = NULL, initialTime = NULL)
+  legendPosition = NULL, timeFormat = NULL, initialTime = NULL,
+  onChange = NULL)
 
 removeMinicharts(map, layerId)
 
@@ -103,6 +105,10 @@ object. See \code{\link[base]{strptime}} for more information.}
 \item{initialTime}{This argument can be used to set the initial time step
 shown when the map is created. It is used only when argument \code{time} is
 set.}
+
+\item{onChange}{(Advanced usage) Javascript function that is called each time
+a minichart is modified. This function can take as parameter an object
+containing all options that are modified.}
 }
 \value{
 The modified leaflet map object. \code{addMinicharts} add new minicharts to

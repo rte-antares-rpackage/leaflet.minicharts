@@ -1,5 +1,5 @@
 # Copyright © 2016 RTE Réseau de transport d’électricité
-#' @importFrom leaflet expandLimits invokeMethod %>% addLegend
+#' @importFrom leaflet expandLimits invokeMethod %>% addLegend JS
 NULL
 
 globalVariables(c('d3.schemeCategory10', "."))
