@@ -84,7 +84,7 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
                           transitionTime = 750,
                           popup = popupArgs(),
                           layerId = NULL, legend = TRUE, legendPosition = "topright",
-                          timeFormat = NULL, initialTime = NULL) {
+                          timeFormat = NULL, initialTime = NULL, onChange = JS("null")) {
   # Prepare options
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
   if (is.null(layerId)) layerId <- sprintf("_minichart (%s,%s)", lng, lat)
@@ -123,7 +123,7 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
 
   map <- invokeMethod(map, data = leaflet::getMapData(map), "addMinicharts",
                       args$options, args$chartdata, maxValues, colorPalette,
-                      I(timeLabels), initialTime, args$popupArgs)
+                      I(timeLabels), initialTime, args$popupArgs, onChange)
 
   if (legend && length(args$legendLab) > 0 && args$ncol > 1) {
     legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
@@ -143,7 +143,7 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
                              labelMaxSize = NULL, labelStyle = NULL,
                              transitionTime = NULL, popup = NULL,
                              legend = TRUE, legendPosition = NULL,
-                             timeFormat = NULL, initialTime = NULL) {
+                             timeFormat = NULL, initialTime = NULL, onChange = JS("null")) {
 
   type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
   if (is.null(time)) time <- 1
@@ -197,7 +197,7 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
   map %>%
     invokeMethod(leaflet::getMapData(map), "updateMinicharts",
                  args$options, args$chartdata, unname(maxValues), colorPalette,
-                 I(timeLabels), initialTime, args$popupArgs, args$legendLab)
+                 I(timeLabels), initialTime, args$popupArgs, args$legendLab, onChange)
 }
 
 #' @rdname addMinicharts

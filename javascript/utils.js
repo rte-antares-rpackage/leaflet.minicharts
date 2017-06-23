@@ -93,6 +93,7 @@
           var opt = this.opts[timeId];
           this[updateFunName](opt);
           setPopup(this, timeId);
+          if (this.onChange) this.onChange(opt);
         }
         this.timeId = timeId;
       };

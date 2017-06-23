@@ -6,7 +6,7 @@
   var utils = require("./utils");
   var d3 = require("d3");
 
-  LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popupArgs) {
+  LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popupArgs, onChange) {
     var self = this;
     var timeId = utils.initTimeSlider(this, timeLabels, initialTime);
 
@@ -41,6 +41,10 @@
         [staticOpts.lat, staticOpts.lng],
         utils.getInitOptions(opts, staticOpts, timeId)
       );
+      if (onChange) {
+        l.onChange = onChange;
+        l.onChange(utils.getInitOptions(opts, staticOpts, timeId));
+      }
 
       // Keep a reference of colors and data for later use.
       l.opts = opts;
@@ -56,7 +60,7 @@
     });
   };
 
-  LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popupArgs, legendLab) {
+  LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popupArgs, legendLab, onChange) {
     var self = this;
     var timeId = utils.initTimeSlider(this, timeLabels, initialTime);
 
@@ -94,6 +98,10 @@
 
       l.opts = opts;
       l.setOptions(utils.getInitOptions(opts, staticOpts, timeId));
+      if (onChange) {
+        l.onChange = onChange;
+      }
+      if (l.onChange) l.onChange(utils.getInitOptions(opts, staticOpts, timeId));
 
       utils.setPopup(l, timeId);
     });
