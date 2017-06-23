@@ -31,7 +31,7 @@
         if (maxValues) opts[t].maxValues = maxValues;
 
         if (!opts[t].data || opts[t].data.length == 1) {
-          opts[t].colors = opts[t].fillColor || d3.schemeCategory10[0];
+          opts[t].colors = opts[t].fillColor || staticOpts.fillColor || d3.schemeCategory10[0];
         } else {
           opts[t].colors = colorPalette || d3.schemeCategory10;
         }
