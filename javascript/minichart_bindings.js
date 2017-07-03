@@ -41,10 +41,6 @@
         [staticOpts.lat, staticOpts.lng],
         utils.getInitOptions(opts, staticOpts, timeId)
       );
-      if (onChange) {
-        l.onChange = onChange;
-        l.onChange(utils.getInitOptions(opts, staticOpts, timeId));
-      }
 
       // Keep a reference of colors and data for later use.
       l.opts = opts;
@@ -57,6 +53,11 @@
       utils.setPopup(l, timeId);
 
       self.layerManager.addLayer(l, "minichart", staticOpts.layerId);
+
+      if (onChange) {
+        l.onChange = onChange;
+        l.onChange(utils.getInitOptions(opts, staticOpts, timeId), d3);
+      }
     });
   };
 
@@ -66,6 +67,9 @@
 
     utils.processOptions(options, function(opts, i, staticOpts) {
       var l = self.layerManager.getLayer("minichart", staticOpts.layerId);
+      // If the layer does not exist quit the function
+      if (!l) return;
+
       if (popupArgs) l.popupArgs = popupArgs;
       else if(data && legendLab) {l.popupArgs.labels = legendLab}
 
@@ -89,6 +93,7 @@
 
         if (opts[t].data.length == 1) {
           if (opts[t].fillColor) opts[t].colors = opts[t].fillColor
+          else if (staticOpts.fillColor) opts[t].colors = staticOpts.fillColor;
           else if (l.opts[t] && l.opts[t].fillColor) opts[t].colors = l.opts[t].fillColor;
           else opts[t].colors = l.opts[0].fillColor;
         } else opts[t].colors = l.colorPalette;
@@ -99,9 +104,9 @@
       l.opts = opts;
       l.setOptions(utils.getInitOptions(opts, staticOpts, timeId));
       if (onChange) {
-        l.onChange = onChange;
+        l.onChange = eval(onChange);
       }
-      if (l.onChange) l.onChange(utils.getInitOptions(opts, staticOpts, timeId));
+      if (l.onChange) l.onChange(utils.getInitOptions(opts, staticOpts, timeId), d3);
 
       utils.setPopup(l, timeId);
     });

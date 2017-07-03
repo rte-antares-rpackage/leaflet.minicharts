@@ -63,6 +63,7 @@
 
     utils.processOptions(options, function(opts, i, staticOpts) {
       var l = self.layerManager.getLayer("flow", staticOpts.layerId);
+      if (!l) return;
 
       if (popupArgs) l.popupArgs = popupArgs;
 

@@ -1,6 +1,8 @@
 (function() {
   'use strict';
 
+  var d3 = require("d3");
+
   module.exports.initTimeSlider = initTimeSlider;
   module.exports.processOptions = processOptions;
   module.exports.addSetTimeIdMethod = addSetTimeIdMethod;
@@ -93,7 +95,7 @@
           var opt = this.opts[timeId];
           this[updateFunName](opt);
           setPopup(this, timeId);
-          if (this.onChange) this.onChange(opt);
+          if (this.onChange) this.onChange(opt, d3);
         }
         this.timeId = timeId;
       };
