@@ -50,13 +50,13 @@
       if (staticOpts.layerId.indexOf("_minichart") != 0) l.layerId = staticOpts.layerId;
 
       // Popups
-      utils.setPopup(l, timeId);
+      var popup = utils.setPopup(l, timeId);
 
       self.layerManager.addLayer(l, "minichart", staticOpts.layerId);
 
       if (onChange) {
         l.onChange = onChange;
-        l.onChange(utils.getInitOptions(opts, staticOpts, timeId), d3);
+        l.onChange(utils.getInitOptions(opts, staticOpts, timeId), popup, d3);
       }
     });
   };
@@ -106,9 +106,10 @@
       if (onChange) {
         l.onChange = eval(onChange);
       }
-      if (l.onChange) l.onChange(utils.getInitOptions(opts, staticOpts, timeId), d3);
+      var popup = utils.setPopup(l, timeId);
+      if (l.onChange) l.onChange(utils.getInitOptions(opts, staticOpts, timeId), popup, d3);
 
-      utils.setPopup(l, timeId);
+
     });
   };
 

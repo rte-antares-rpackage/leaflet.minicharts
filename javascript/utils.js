@@ -94,8 +94,8 @@
         if (typeof this.opts !== "undefined" && typeof this.opts[timeId] !== 'undefined') {
           var opt = this.opts[timeId];
           this[updateFunName](opt);
-          setPopup(this, timeId);
-          if (this.onChange) this.onChange(opt, d3);
+          var popup = setPopup(this, timeId);
+          if (this.onChange) this.onChange(opt, popup, d3);
         }
         this.timeId = timeId;
       };
@@ -160,6 +160,8 @@
 
     popup =  '<div class="popup">'+ title + content + '</div>';
     l.bindPopup(popup);
+
+    return popup;
   }
 
   function isNumeric(n) {
