@@ -53,7 +53,7 @@ addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
   if (is.null(time)) time <- 1
   if (is.null(layerId)) layerId <- sprintf("_flow (%s,%s) -> (%s,%s)", lng0, lat0, lng1, lat1)
 
-  options <- .makeOptions(
+  options <- .preprocessArgs(
     required = list(lng0 = lng0, lat0 = lat0, lng1 = lng1, lat1 = lat1, layerId = layerId, time = time),
     optional = list(dir = dir, color = color, value = flow, maxValue = maxFlow,
                     minThickness = minThickness, maxThickness = maxThickness,
@@ -84,7 +84,7 @@ updateFlows <- function(map, layerId, color = NULL, flow = NULL, opacity = NULL,
                         minThickness = 1, maxThickness = 20) {
   if (is.null(time)) time <- 1
 
-  options <- .makeOptions(
+  options <- .preprocessArgs(
     required = list(layerId = layerId, time = time),
     optional = list(dir = dir, color = color, value = flow, maxValue = maxFlow,
                     minThickness = minThickness, maxThickness = maxThickness,

@@ -146,7 +146,7 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
     labels <- "none"
   }
 
-  options <- .makeOptions(
+  options <- .preprocessArgs(
     required = list(lng = lng, lat = lat, layerId = layerId, time = time),
     optional = list(type = type, width = width, height = height,
                     opacity = opacity, labels = labels,
@@ -208,7 +208,7 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
     }
   }
 
-  options <- .makeOptions(
+  options <- .preprocessArgs(
     required = list(layerId = layerId, time = time),
     optional = list(type = type, width = width, height = height,
                     opacity = opacity, labels = labels,

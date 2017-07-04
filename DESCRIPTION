@@ -22,5 +22,6 @@ Suggests: knitr,
     rmarkdown,
     dplyr,
     shiny,
-    manipulateWidget
+    manipulateWidget,
+    testthat
 VignetteBuilder: knitr
