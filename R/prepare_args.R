@@ -1,4 +1,4 @@
-.prepareArgs <- function(options, chartdata, popupArgs,
+.prepareArgs <- function(options, chartdata, popupArgs, onChange = NULL,
                          static = c("layerId", "lat", "lat0", "lat1", "lng", "lng0", "lng1")) {
 
   staticOptions <- options$staticOptions
@@ -104,12 +104,19 @@
     popupArgs$supLabels <- I(popupArgs$supLabels)
   }
 
+  # Prepare onChange argument
+  if (!is.null(onChange)) {
+    onChange <- sprintf("(function(opts, popup, d3){%s})", onChange)
+    onChange <- JS(onChange)
+  }
+
   list(
     options = options,
     chartdata = chartdata,
     maxValues = maxValues,
     ncols = ncols,
     popupArgs = popupArgs,
-    legendLab = I(legendLab)
+    legendLab = I(legendLab),
+    onChange = onChange
   )
 }
