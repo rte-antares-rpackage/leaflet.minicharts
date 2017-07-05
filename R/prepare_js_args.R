@@ -11,7 +11,9 @@
 #'
 #' @return
 #' A list with the following elements:
-#' - options:   data.frame of graphical options, split by layerId
+#' - options:   graphical options, split by layerId. Each element contains
+#'     elements "dyn" (data.frame with values that vary with time), "static"
+#'     and "timeSteps" (number of time steps)
 #' - chartdata: numeric matrix split by layerId
 #' - maxValues: maximal value observed in chartdata (NULL if chartdata is NULL)
 #' - ncols: number of columns in chartdata
@@ -90,6 +92,7 @@
   # Popup html
   if (!is.null(popupArgs$html)) {
     popupArgs$html <- popupArgs$html[correctOrder] %>%
+      as.character() %>%
       split(options$layerId, drop = TRUE) %>%
       lapply(I) %>%
       unname()
