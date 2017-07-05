@@ -1,5 +1,32 @@
-.prepareArgs <- function(options, chartdata, popupArgs, onChange = NULL,
-                         static = c("layerId", "lat", "lat0", "lat1", "lng", "lng0", "lng1")) {
+#' Prepare arguments before sending them to the javascript program.
+#'
+#' Globally the function reorder data by layerId and time and then it split it
+#' by layerId. It also compute some useful values like labels for legend,
+#' domain of data, number of data columns.
+#'
+#' @param options Object created with .preprocessArgs()
+#' @param chartdata Data to represent with minicharts
+#' @param popupArgs object created with function popupArgs()
+#' @param onChange see addMinicharts()
+#'
+#' @return
+#' A list with the following elements:
+#' - options:   data.frame of graphical options, split by layerId
+#' - chartdata: numeric matrix split by layerId
+#' - maxValues: maximal value observed in chartdata (NULL if chartdata is NULL)
+#' - ncols: number of columns in chartdata
+#' - popupArgs: List containing additional data to display in popups (or the
+#'      popup HTML) split by layerId
+#' - legendLab: Labels to use in legends
+#' - onChange:  Javascript function that will be executed when charts are
+#'      updated
+#'
+#' @noRd
+#'
+.prepareJSArgs <- function(options, chartdata = NULL, popupArgs = NULL,
+                           onChange = NULL) {
+
+  static <- c("layerId", "lat", "lat0", "lat1", "lng", "lng0", "lng1")
 
   staticOptions <- options$staticOptions
   options <- options$options

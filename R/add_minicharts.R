@@ -155,7 +155,7 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
                     transitionTime = transitionTime, fillColor = fillColor)
   )
 
-  args <- .prepareArgs(options, chartdata, popup, onChange)
+  args <- .prepareJSArgs(options, chartdata, popup, onChange)
 
   if (is.null(maxValues)) maxValues <- args$maxValues
 
@@ -218,7 +218,7 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
                     fillColor = fillColor)
   )
 
-  args <- .prepareArgs(options, chartdata, popup, onChange)
+  args <- .prepareJSArgs(options, chartdata, popup, onChange)
 
   # Update legend if required
   if (!is.null(args$chartdata)) {

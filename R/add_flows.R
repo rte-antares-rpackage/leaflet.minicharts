@@ -60,7 +60,7 @@ addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
                     opacity = opacity)
   )
 
-  args <- .prepareArgs(options, NULL, popup)
+  args <- .prepareJSArgs(options, NULL, popup)
 
   timeLabels <- sort(unique(time))
   if (!is.null(timeFormat)) {
@@ -91,7 +91,7 @@ updateFlows <- function(map, layerId, color = NULL, flow = NULL, opacity = NULL,
                     opacity = opacity)
   )
 
-  args <- .prepareArgs(options, NULL, popup)
+  args <- .prepareJSArgs(options, NULL, popup)
 
   if(is.null(flow)) {
     timeLabels <- NULL
