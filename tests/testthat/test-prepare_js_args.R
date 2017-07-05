@@ -96,7 +96,7 @@ describe(".prepareJSArgs", {
 
   it ("uses default values when chartdata is NULL", {
     expect_silent(jsArgs <- .prepareJSArgs(myOptions, NULL))
-    expect_equal(jsArgs$legendLab, I(NULL))
+    expect_equal(jsArgs$legendLab, I(list()))
     expect_equal(jsArgs$maxValues, NULL)
     expect_equal(jsArgs$ncols, 0)
   })

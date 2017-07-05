@@ -94,7 +94,7 @@
     popupArgs$html <- popupArgs$html[correctOrder] %>%
       as.character() %>%
       split(options$layerId, drop = TRUE) %>%
-      lapply(I) %>%
+      lapply(.I) %>%
       unname()
   }
 
@@ -130,8 +130,8 @@
 
   # Ensure labels will always be translated as arrays in JSON
   if(!is.null(popupArgs)) {
-    popupArgs$labels <- I(popupArgs$labels)
-    popupArgs$supLabels <- I(popupArgs$supLabels)
+    popupArgs$labels <- .I(popupArgs$labels)
+    popupArgs$supLabels <- .I(popupArgs$supLabels)
   }
 
   # Prepare onChange argument
@@ -146,7 +146,13 @@
     maxValues = maxValues,
     ncols = ncols,
     popupArgs = popupArgs,
-    legendLab = I(legendLab),
+    legendLab = .I(legendLab),
     onChange = onChange
   )
+}
+
+
+.I <- function(x) {
+  if(is.null(x)) x <- list()
+  I(x)
 }

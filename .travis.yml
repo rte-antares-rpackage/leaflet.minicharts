@@ -14,4 +14,4 @@ r_packages:
   - rgeos
 
 after_success:
-  - Rscript -e 'covr::codecov()
+  - Rscript -e 'covr::codecov()'
