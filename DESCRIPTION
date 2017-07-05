@@ -23,5 +23,6 @@ Suggests: knitr,
     dplyr,
     shiny,
     manipulateWidget,
-    testthat
+    testthat,
+    covr
 VignetteBuilder: knitr

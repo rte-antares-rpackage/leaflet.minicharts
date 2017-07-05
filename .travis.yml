@@ -12,3 +12,6 @@ before_install:
 
 r_packages:
   - rgeos
+
+after_success:
+  - Rscript -e 'covr::codecov()
