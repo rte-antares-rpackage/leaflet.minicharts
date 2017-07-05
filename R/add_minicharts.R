@@ -155,23 +155,17 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
                     transitionTime = transitionTime, fillColor = fillColor)
   )
 
-  args <- .prepareJSArgs(options, chartdata, popup, onChange)
+  args <- .prepareJSArgs(options, chartdata, popup, onChange,
+                         initialTime = initialTime, timeFormat = timeFormat)
 
   if (is.null(maxValues)) maxValues <- args$maxValues
 
   # Add minichart and font-awesome to the map dependencies
   map$dependencies <- c(map$dependencies, minichartDeps())
 
-  # Prepare time label
-  timeLabels <- sort(unique(time))
-  if (!is.null(timeFormat)) {
-    timeLabels <- format(timeLabels, format = timeFormat)
-    if (!is.null(initialTime)) initialTime <- format(initialTime, format = timeFormat)
-  }
-
   map <- invokeMethod(map, data = leaflet::getMapData(map), "addMinicharts",
                       args$options, args$chartdata, maxValues, colorPalette,
-                      I(timeLabels), initialTime, args$popupArgs, args$onChange)
+                      args$timeLabels, args$initialTime, args$popupArgs, args$onChange)
 
   if (legend && length(args$legendLab) > 0 && args$ncol > 1) {
     legendCol <- colorPalette[(seq_len(args$ncols)-1) %% args$ncols + 1]
@@ -218,7 +212,14 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
                     fillColor = fillColor)
   )
 
-  args <- .prepareJSArgs(options, chartdata, popup, onChange)
+  args <- .prepareJSArgs(options, chartdata, popup, onChange,
+                         initialTime = initialTime, timeFormat = timeFormat)
+
+  # Update time slider only if data is updated
+  if(is.null(chartdata)) {
+    args$timeLabels <- NULL
+    args$initialTime <- NULL
+  }
 
   # Update legend if required
   if (!is.null(args$chartdata)) {
@@ -231,21 +232,10 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
     }
   }
 
-  # Update time slider if data is updated
-  if(is.null(chartdata)) {
-    timeLabels <- NULL
-  } else {
-    timeLabels <- sort(unique(time))
-    if (!is.null(timeFormat)) {
-      timeLabels <- format(timeLabels, format = timeFormat)
-      if (!is.null(initialTime)) initialTime <- format(initialTime, format = timeFormat)
-    }
-  }
-
   map %>%
     invokeMethod(leaflet::getMapData(map), "updateMinicharts",
                  args$options, args$chartdata, unname(maxValues), colorPalette,
-                 I(timeLabels), initialTime, args$popupArgs, args$legendLab, args$onChange)
+                 args$timeLabels, args$initialTime, args$popupArgs, args$legendLab, args$onChange)
 }
 
 #' @rdname addMinicharts

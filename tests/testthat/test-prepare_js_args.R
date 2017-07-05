@@ -38,12 +38,13 @@ describe(".prepareJSArgs", {
 
   it("returns an object with the correct structure", {
     elements <- c("options", "chartdata", "maxValues", "ncols", "legendLab",
-                  "onChange")
+                  "onChange", "timeLabels", "initialTime")
     expect_true(all(elements %in% names(jsArgs)))
     expect_is(jsArgs$legendLab, "AsIs")
     expect_equal(jsArgs$legendLab, I(colnames(mydata)))
     expect_equal(jsArgs$maxValues, max(abs(mydata)))
     expect_equal(jsArgs$ncols, ncol(mydata))
+    expect_is(jsArgs$timeLabels, "AsIs")
 
     expect_split_by_layer(jsArgs$options, function(el) {
       expect_is(el$dyn, "data.frame")
@@ -182,5 +183,14 @@ describe(".prepareJSArgs", {
     expect_equal(jsArgs$popupArgs$supLabels, I(names(popupData)))
   })
 
+  it ("can use custom format for time labels", {
+    myOptions$options$time <- Sys.Date() + myOptions$options$time
+    format <- "%m - %d"
+    expectedLabels <- format(unique(myOptions$options$time), format = format)
 
+    jsArgs <- .prepareJSArgs(myOptions, mydata, timeFormat = format,
+                             initialTime = min(myOptions$options$time))
+    expect_equal(jsArgs$timeLabels, I(expectedLabels))
+    expect_equal(jsArgs$initialTime, expectedLabels[1])
+  })
 })

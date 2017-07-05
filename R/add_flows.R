@@ -60,19 +60,14 @@ addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
                     opacity = opacity)
   )
 
-  args <- .prepareJSArgs(options, NULL, popup)
-
-  timeLabels <- sort(unique(time))
-  if (!is.null(timeFormat)) {
-    timeLabels <- format(timeLabels, format = timeFormat)
-    if (!is.null(initialTime)) initialTime <- format(initialTime, format = timeFormat)
-  }
+  args <- .prepareJSArgs(options, NULL, popup,
+                         initialTime = initialTime, timeFormat = timeFormat)
 
   # Add minichart and font-awesome to the map dependencies
   map$dependencies <- c(map$dependencies, minichartDeps())
 
   invokeMethod(map, data = leaflet::getMapData(map), "addFlows", args$options,
-               timeLabels, initialTime, args$popupArgs) %>%
+               args$timeLabels, args$initialTime, args$popupArgs) %>%
     expandLimits(c(lat0, lat1), c(lng0, lng1))
 }
 
@@ -91,20 +86,15 @@ updateFlows <- function(map, layerId, color = NULL, flow = NULL, opacity = NULL,
                     opacity = opacity)
   )
 
-  args <- .prepareJSArgs(options, NULL, popup)
+  args <- .prepareJSArgs(options, NULL, popup,
+                         initialTime = initialTime, timeFormat = timeFormat)
 
   if(is.null(flow)) {
-    timeLabels <- NULL
-  } else {
-    timeLabels <- sort(unique(time))
-    if (!is.null(timeFormat)) {
-      timeLabels <- format(timeLabels, format = timeFormat)
-      if (!is.null(initialTime)) initialTime <- format(initialTime, format = timeFormat)
-    }
+    args$timeLabels <- NULL
   }
 
   invokeMethod(map, data = leaflet::getMapData(map), "updateFlows", args$options,
-               I(timeLabels), initialTime, args$popupArgs)
+               args$timeLabels, args$initialTime, args$popupArgs)
 }
 
 #' @rdname addFlows

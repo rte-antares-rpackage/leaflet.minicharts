@@ -26,12 +26,14 @@
 #' @noRd
 #'
 .prepareJSArgs <- function(options, chartdata = NULL, popupArgs = NULL,
-                           onChange = NULL) {
+                           onChange = NULL, timeFormat = NULL,
+                           initialTime = NULL)  {
 
   static <- c("layerId", "lat", "lat0", "lat1", "lng", "lng0", "lng1")
 
   staticOptions <- options$staticOptions
   options <- options$options
+  time <- options$time
 
   correctOrder <- order(options$layerId, options$time)
 
@@ -140,6 +142,16 @@
     onChange <- JS(onChange)
   }
 
+  # Prepare time labels
+  timeLabels <- sort(unique(time))
+  if (!is.null(timeFormat)) {
+    timeLabels <- format(timeLabels, format = timeFormat)
+    if (!is.null(initialTime)) {
+      initialTime <- format(initialTime, format = timeFormat)
+    }
+  }
+  timeLabels <- as.character(timeLabels)
+
   list(
     options = options,
     chartdata = chartdata,
@@ -147,7 +159,9 @@
     ncols = ncols,
     popupArgs = popupArgs,
     legendLab = .I(legendLab),
-    onChange = onChange
+    onChange = onChange,
+    timeLabels = .I(timeLabels),
+    initialTime = initialTime
   )
 }
 
