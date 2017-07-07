@@ -187,7 +187,9 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
                              legend = TRUE, legendPosition = NULL,
                              timeFormat = NULL, initialTime = NULL, onChange = NULL) {
 
-  type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
+  if (!is.null(type)) {
+    type <- match.arg(type, c("auto", "bar", "pie", "polar-area", "polar-radius"))
+  }
   if (is.null(time)) time <- 1
   if (!is.null(chartdata) & !is.null(popup) & is.null(popup$labels)) popup$labels <- colnames(chartdata)
 
@@ -218,7 +220,6 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
   # Update time slider only if data is updated
   if(is.null(chartdata)) {
     args$timeLabels <- NULL
-    args$initialTime <- NULL
   }
 
   # Update legend if required

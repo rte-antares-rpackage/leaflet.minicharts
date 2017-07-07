@@ -92,6 +92,7 @@
     },
 
     setTimeLabels: function(timeLabels) {
+      if (timeLabels === null) return;
       var self = this;
 
       if (typeof timeLabels == "undefined") {

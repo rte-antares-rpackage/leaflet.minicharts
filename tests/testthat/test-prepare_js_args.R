@@ -193,4 +193,11 @@ describe(".prepareJSArgs", {
     expect_equal(jsArgs$timeLabels, I(expectedLabels))
     expect_equal(jsArgs$initialTime, expectedLabels[1])
   })
+
+  it ("returns timeLabels and initialTimes in character format", {
+    jsArgs <- .prepareJSArgs(myOptions, mydata,
+                             initialTime = min(myOptions$options$time))
+    expect_equal(mode(jsArgs$timeLabels), "character")
+    expect_is(jsArgs$initialTime, "character")
+  })
 })

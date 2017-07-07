@@ -151,6 +151,7 @@
     }
   }
   timeLabels <- as.character(timeLabels)
+  if (!is.null(initialTime)) initialTime <- as.character(initialTime)
 
   list(
     options = options,
