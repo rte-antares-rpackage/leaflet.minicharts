@@ -1,3 +1,15 @@
+Changes in version 0.5.0 (2017-07-10)
+
+NEW FEATURES:
+* addMinicharts() and updateMinicharts() gain a new parameter "onChange" that permits to execute some arbitrary javascript code each time a minichart is updated.
+* The package now uses unit testing, code coverage and continuous integration in order to improve code quality and reliability.
+
+BUGFIXES:
+* Some warnings that appeared with R 3.4 have been removed.
+* Parameter "initialTime" was not working correctly in some situations.
+* Parameter "fillColor" was ignored if someone tried to add a single minicharts.
+
+
 Changes in version 0.4.0 (2017-06-19)
 
 NEW FEATURES:
