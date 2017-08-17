@@ -1,3 +1,8 @@
+Changes in version 0.5.1 (2017-08-17)
+
+BUGFIXES:
+* updateMinicharts() was incapable of updating color palette (#19)
+
 Changes in version 0.5.0 (2017-07-10)
 
 NEW FEATURES:
