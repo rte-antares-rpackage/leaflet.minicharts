@@ -1,13 +1,12 @@
 Package: leaflet.minicharts
 Type: Package
 Title: Mini Charts for Interactive Maps
-Version: 0.5.1
+Version: 0.5.2
 Authors@R: c(
-    person("Francois", "Guillem", , "francois.guillem@rte-france.com", role = c("aut", "cre")),
-    person("Jalal-Edine", "ZAWAM", , "jalal-edine.zawam@rte-france.com", role = "ctb"),
+    person("Jalal-Edine", "ZAWAM", email = "jalal-edine.zawam@rte-france.com", role = c("aut", "cre")),
+    person("Francois", "Guillem", email = "francois.guillem@rte-france.com", role = c("aut")),
     person("RTE", role = "cph")
     )
-Maintainer: Francois Guillem <francois.guillem@rte-france.com>
 Description: Add and modify small charts on an interactive map created with 
     package 'leaflet'. These charts can be used to represent at same time multiple 
     variables on a single map.
