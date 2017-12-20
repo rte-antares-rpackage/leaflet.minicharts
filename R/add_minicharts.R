@@ -163,6 +163,17 @@ addMinicharts <- function(map, lng, lat, chartdata = 1, time = NULL, maxValues =
   # Add minichart and font-awesome to the map dependencies
   map$dependencies <- c(map$dependencies, minichartDeps())
 
+  # control maxValues
+  if(!is.null(maxValues)){
+    if(!is.null(args$chartdata)){
+      if(!(length(maxValues) == 1 | length(maxValues) == ncol(args$chartdata[[1]]))){
+        stop("'maxValues' should be a single number or have same length as 'data'")
+      }
+    }
+    maxValues <- unname(maxValues)
+    maxValues[maxValues == 0 | is.na(maxValues) | is.infinite(maxValues)] <- 1
+  }
+
   map <- invokeMethod(map, data = leaflet::getMapData(map), "addMinicharts",
                       args$options, args$chartdata, maxValues, colorPalette,
                       args$timeLabels, args$initialTime, args$popupArgs, args$onChange)
@@ -233,9 +244,20 @@ updateMinicharts <- function(map, layerId, chartdata = NULL, time = NULL, maxVal
     }
   }
 
+  # control maxValues
+  if(!is.null(maxValues)){
+    if(!is.null(args$chartdata)){
+      if(!(length(maxValues) == 1 | length(maxValues) == ncol(args$chartdata[[1]]))){
+        stop("'maxValues' should be a single number or have same length as 'data'")
+      }
+    }
+    maxValues <- unname(maxValues)
+    maxValues[maxValues == 0 | is.na(maxValues) | is.infinite(maxValues)] <- 1
+  }
+
   map %>%
     invokeMethod(leaflet::getMapData(map), "updateMinicharts",
-                 args$options, args$chartdata, unname(maxValues), colorPalette,
+                 args$options, args$chartdata, maxValues, colorPalette,
                  args$timeLabels, args$initialTime, args$popupArgs, args$legendLab, args$onChange)
 }
 
