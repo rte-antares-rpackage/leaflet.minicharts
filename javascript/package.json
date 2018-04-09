@@ -9,7 +9,7 @@
   "author": "Francois Guillem",
   "license": "GPL-2.0+",
   "dependencies": {
-    "leaflet.flow": "file:C:\\Users\\Datastorm\\Documents\\git\\leaflet.flow",
+    "leaflet.flow": "0.2.3",
     "leaflet.minichart": "0.2.4"
   },
   "devDependencies": {
