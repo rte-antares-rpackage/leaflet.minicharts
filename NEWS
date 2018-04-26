@@ -1,3 +1,6 @@
+Changes in version 0.5.3 (2018-04-25)
+* leaflet.minicharts take into account leaflet 2.0.0 and leaflet.flow 0.2.3
+
 Changes in version 0.5.2 (2017-12-06)
 
 BUGFIXES:
