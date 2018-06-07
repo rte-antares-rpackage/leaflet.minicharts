@@ -76,7 +76,7 @@
 #'     addPolygons(data = myPolygons, layerId = myPolygons$myIds) \%>\%
 #'     addMinicharts(
 #'       mydata$lon, mydata$lat,
-#'       time = mydata^time
+#'       time = mydata$time
 #'       fillColor = mydata$color,
 #'       layerId = mydata$myIds,
 #'       width = 0, height = 0,
