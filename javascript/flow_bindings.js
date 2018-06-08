@@ -92,5 +92,5 @@
     });
   };
 
-  utils.addRemoveMethods("Minichart", "minichart");
+  utils.addRemoveMethods("Flow", "flow");
 }());
