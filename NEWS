@@ -2,6 +2,7 @@ Changes in version 0.5.4 (2018-06-06)
 
 BUGFIXES:
 * Fix syncGroups using leaflet 2.0.0
+* Fix clear and remove methods leaflet 2.0.0
 
 Changes in version 0.5.3 (2018-04-25)
 
