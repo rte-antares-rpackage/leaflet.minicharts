@@ -1,6 +1,6 @@
 {
   "name": "leaflet.minicharts",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "javascript  library for the R package leaflet.minicharts",
   "main": "index.js",
   "scripts": {
@@ -9,8 +9,8 @@
   "author": "Francois Guillem",
   "license": "GPL-2.0+",
   "dependencies": {
-    "leaflet.flow": "0.2.3",
-    "leaflet.minichart": "0.2.4"
+    "leaflet.flow": "0.2.4",
+    "leaflet.minichart": "0.2.5"
   },
   "devDependencies": {
     "grunt": "^1.0.1",
