@@ -18,9 +18,9 @@
     LeafletWidget.syncGroups[groupname].push(self);
 
     // Bug with leafet > 1, & no really need...?
-    /*self.on("move", function() {
+    self.on("move", function() {
       LeafletWidget.syncGroups.sync(self, groupname);
-    });*/
+    });
 
     self.syncGroup = groupname;
     LeafletWidget.syncGroups.sync(self, groupname);
