@@ -2,6 +2,7 @@ Changes in version 0.5.5 (2019-02-22)
 
 BUGFIXES:
 * Fix syncGroups
+* Fix flow with NULL value / nearest position
 
 Changes in version 0.5.4 (2018-06-06)
 
