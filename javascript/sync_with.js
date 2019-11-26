@@ -8,8 +8,10 @@
       LeafletWidget.syncGroups.sync = function(map, groupname) {
         var zoom = map.getZoom();
         var center = map.getCenter();
-        for (var i = 0; i < LeafletWidget.syncGroups[groupname].length; i++) {
-          LeafletWidget.syncGroups[groupname][i].setView(center, zoom, {animate: false});
+        if(LeafletWidget.syncGroups[groupname].length > 1){
+          for (var i = 0; i < LeafletWidget.syncGroups[groupname].length; i++) {
+            LeafletWidget.syncGroups[groupname][i].setView(center, zoom, {animate: false});
+          }
         }
       }
     }
