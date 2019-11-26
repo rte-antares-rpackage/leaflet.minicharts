@@ -7,23 +7,59 @@
 \alias{clearMinicharts}
 \title{Add or update charts on a leaflet map}
 \usage{
-addMinicharts(map, lng, lat, chartdata = 1, time = NULL, maxValues = NULL,
-  type = "auto", fillColor = d3.schemeCategory10[1],
-  colorPalette = d3.schemeCategory10, width = 30, height = 30,
-  opacity = 1, showLabels = FALSE, labelText = NULL, labelMinSize = 8,
-  labelMaxSize = 24, labelStyle = NULL, transitionTime = 750,
-  popup = popupArgs(), layerId = NULL, legend = TRUE,
-  legendPosition = "topright", timeFormat = NULL, initialTime = NULL,
-  onChange = NULL)
+addMinicharts(
+  map,
+  lng,
+  lat,
+  chartdata = 1,
+  time = NULL,
+  maxValues = NULL,
+  type = "auto",
+  fillColor = d3.schemeCategory10[1],
+  colorPalette = d3.schemeCategory10,
+  width = 30,
+  height = 30,
+  opacity = 1,
+  showLabels = FALSE,
+  labelText = NULL,
+  labelMinSize = 8,
+  labelMaxSize = 24,
+  labelStyle = NULL,
+  transitionTime = 750,
+  popup = popupArgs(),
+  layerId = NULL,
+  legend = TRUE,
+  legendPosition = "topright",
+  timeFormat = NULL,
+  initialTime = NULL,
+  onChange = NULL
+)
 
-updateMinicharts(map, layerId, chartdata = NULL, time = NULL,
-  maxValues = NULL, type = NULL, fillColor = NULL,
-  colorPalette = d3.schemeCategory10, width = NULL, height = NULL,
-  opacity = NULL, showLabels = NULL, labelText = NULL,
-  labelMinSize = NULL, labelMaxSize = NULL, labelStyle = NULL,
-  transitionTime = NULL, popup = NULL, legend = TRUE,
-  legendPosition = NULL, timeFormat = NULL, initialTime = NULL,
-  onChange = NULL)
+updateMinicharts(
+  map,
+  layerId,
+  chartdata = NULL,
+  time = NULL,
+  maxValues = NULL,
+  type = NULL,
+  fillColor = NULL,
+  colorPalette = d3.schemeCategory10,
+  width = NULL,
+  height = NULL,
+  opacity = NULL,
+  showLabels = NULL,
+  labelText = NULL,
+  labelMinSize = NULL,
+  labelMaxSize = NULL,
+  labelStyle = NULL,
+  transitionTime = NULL,
+  popup = NULL,
+  legend = TRUE,
+  legendPosition = NULL,
+  timeFormat = NULL,
+  initialTime = NULL,
+  onChange = NULL
+)
 
 removeMinicharts(map, layerId)
 

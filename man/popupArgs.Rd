@@ -4,9 +4,16 @@
 \alias{popupArgs}
 \title{Options for popup generation}
 \usage{
-popupArgs(showTitle = TRUE, showValues = TRUE, labels = NULL,
-  supValues = NULL, supLabels = colnames(supValues), html = NULL,
-  noPopup = FALSE, digits = NULL)
+popupArgs(
+  showTitle = TRUE,
+  showValues = TRUE,
+  labels = NULL,
+  supValues = NULL,
+  supLabels = colnames(supValues),
+  html = NULL,
+  noPopup = FALSE,
+  digits = NULL
+)
 }
 \arguments{
 \item{showTitle}{If \code{TRUE} layer id is displayed as title of

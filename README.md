@@ -1,10 +1,15 @@
+# leaflet.minicharts
+
+> Minicharts for dynamic [{leaflet}](https://rstudio.github.io/leaflet/) maps
+
+<!-- badges: start -->
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/leaflet.minicharts)](https://cran.r-project.org/package=leaflet.minicharts)
 [![CRAN Downloads Badge](https://cranlogs.r-pkg.org/badges/leaflet.minicharts)](http://cran.r-project.org/package=leaflet.minicharts)
 [![Travis-CI Build Status](https://travis-ci.org/rte-antares-rpackage/leaflet.minicharts.svg?branch=master)](https://travis-ci.org/rte-antares-rpackage/leaflet.minicharts)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rte-antares-rpackage/leaflet.minicharts?branch=master&svg=true)](https://ci.appveyor.com/project/rte-antares-rpackage/leaflet-minicharts)
 [![Coverage Status](https://img.shields.io/codecov/c/github/rte-antares-rpackage/leaflet.minicharts/master.svg)](https://codecov.io/github/rte-antares-rpackage/leaflet.minicharts?branch=master)
+<!-- badges: end -->
 
-# Minicharts for Interactive Maps
 
 For a few years now, it has become easy to create interactive maps with R thanks to the package `leaflet` by the Rstudio team. Nevertheless, it only provides only a few functions to create basic shapes on a map, so the information that can be represented on a single map is limited: if you have some data associated to some points, you can only represent at most two variables by drawing circles and changing their radius and color according to data.
 
@@ -27,6 +32,7 @@ install.packages("leaflet.minicharts")
 ```
 
 To see how simple it is to use this package, have a look at the [package vignette](https://cran.r-project.org/web/packages/leaflet.minicharts/vignettes/introduction.html).
+
 
 ## Contributing:
 
