@@ -31,7 +31,7 @@ You can install the package from CRAN:
 install.packages("leaflet.minicharts")
 ```
 
-To see how simple it is to use this package, have a look at the [package vignette](http://cran.r-project.org/package=leaflet.minicharts/vignettes/introduction.html).
+To see how simple it is to use this package, have a look at the [package vignette](https://cran.r-project.org/package=leaflet.minicharts/vignettes/introduction.html).
 
 
 ## Contributing:

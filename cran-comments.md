@@ -7,5 +7,5 @@
 
 0 errors | 0 warnings | 1 note
 
-* Fixing CRAN URL not in canonical form in README. Thank you!
+* Re-Fixing CRAN URL not in canonical form in README, Sorry for that. Thank you!
  
