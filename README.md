@@ -4,7 +4,7 @@
 
 <!-- badges: start -->
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/leaflet.minicharts)](https://cran.r-project.org/package=leaflet.minicharts)
-[![CRAN Downloads Badge](https://cranlogs.r-pkg.org/badges/leaflet.minicharts)](http://cran.r-project.org/package=leaflet.minicharts)
+[![CRAN Downloads Badge](https://cranlogs.r-pkg.org/badges/leaflet.minicharts)](https://cran.r-project.org/package=leaflet.minicharts)
 [![Travis-CI Build Status](https://travis-ci.org/rte-antares-rpackage/leaflet.minicharts.svg?branch=master)](https://travis-ci.org/rte-antares-rpackage/leaflet.minicharts)
 [![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rte-antares-rpackage/leaflet.minicharts?branch=master&svg=true)](https://ci.appveyor.com/project/rte-antares-rpackage/leaflet-minicharts)
 [![Coverage Status](https://img.shields.io/codecov/c/github/rte-antares-rpackage/leaflet.minicharts/master.svg)](https://codecov.io/github/rte-antares-rpackage/leaflet.minicharts?branch=master)
@@ -31,7 +31,7 @@ You can install the package from CRAN:
 install.packages("leaflet.minicharts")
 ```
 
-To see how simple it is to use this package, have a look at the [package vignette](https://cran.r-project.org/web/packages/leaflet.minicharts/vignettes/introduction.html).
+To see how simple it is to use this package, have a look at the [package vignette](http://cran.r-project.org/package=leaflet.minicharts/vignettes/introduction.html).
 
 
 ## Contributing:

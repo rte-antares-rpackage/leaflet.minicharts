@@ -7,5 +7,5 @@
 
 0 errors | 0 warnings | 1 note
 
-* There's a new maintainer to the package. Thank you!
+* Fixing CRAN URL not in canonical form in README. Thank you!
  
