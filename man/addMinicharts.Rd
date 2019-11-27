@@ -70,7 +70,7 @@ clearMinicharts(map)
 
 \item{lng}{Longitude where to place the charts.}
 
-\item{lat}{Lattitude where to place the charts.}
+\item{lat}{Latitude where to place the charts.}
 
 \item{chartdata}{A numeric matrix with number of rows equal to the number of
 elements in \code{lng} or \code{lat} and number of column equal to the
@@ -126,7 +126,7 @@ property of a chart is updated.}
 
 \item{popup}{Options that control popup generation.}
 
-\item{layerId}{An ID variable. It is mandatoy when one wants to update some
+\item{layerId}{An ID variable. It is mandatory when one wants to update some
 chart with \code{updateMinicharts}.}
 
 \item{legend}{If TRUE and if data has column names, then a legend is
@@ -143,7 +143,7 @@ shown when the map is created. It is used only when argument \code{time} is
 set.}
 
 \item{onChange}{(For power users who know javascript) A character string
-containing javascript code that is exexuted each time a chart is updated.
+containing javascript code that is executed each time a chart is updated.
 See the details section to understand why and how to use this parameter.}
 }
 \value{

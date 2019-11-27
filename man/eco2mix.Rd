@@ -17,7 +17,7 @@ of France from january 2010 to february 2017 and of 12 french regions from
 january 2013 to february 2017.
 
 In addition to the total production, the table contains one column for each
-type of production. The table also contains the lattitude and longitude of
+type of production. The table also contains the latitude and longitude of
 the center of the regions.
 
 \code{eco2mixBalance} is an extract of \code{eco2mix} that contains only
@@ -28,6 +28,6 @@ to represent flows on a map.
 \url{http://www.rte-france.com/fr/eco2mix/eco2mix}
 }
 \author{
-Francois Guillem \email{francois.guillem@rte-france.com}
+Francois Guillem
 }
 \keyword{datasets}

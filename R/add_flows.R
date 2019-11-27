@@ -6,9 +6,9 @@
 #' direction of the flow.
 #'
 #' @param lng0 Longitude of the origin of the flow.
-#' @param lat0 Lattitude of the origin of the flow.
+#' @param lat0 Latitude of the origin of the flow.
 #' @param lng1 Longitude of the destination of the flow.
-#' @param lat1 Lattitude of the destination of the flow.
+#' @param lat1 Latitude of the destination of the flow.
 #' @param color Color of the flow.
 #' @param flow Value of the flow between the origin and the destination. If
 #'   argument \code{dir} is not set, negative values are interpreted as flows
@@ -33,7 +33,7 @@
 #' leaflet() %>% addTiles() %>%
 #'   addFlows(0, 0, 1, 1, flow = 10)
 #'
-#' # Electric exchanges between France and neighbouring countries
+#' # Electric exchanges between France and neighboring countries
 #' data("eco2mixBalance")
 #' bal <- eco2mixBalance
 #' leaflet() %>% addTiles() %>%

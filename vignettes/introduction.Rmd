@@ -19,7 +19,7 @@ let's have a look to a concrete example.
 
 The package provides a table that contains the electric production, consumption and exchanges of France from january 2010 to february 2017 and of 12 french regions from january 2013 to february 2017. 
 
-In addition to the total production, the table contains one column for each type of production. The table also contains the lattitude and longitude of the center of the regions.
+In addition to the total production, the table contains one column for each type of production. The table also contains the latitude and longitude of the center of the regions.
 
 ```{r}
 library(leaflet.minicharts)
@@ -112,7 +112,7 @@ This is nice, isn't it?
 
 ## Animated maps
 
-Until now, we have only represented aggregated data but it would be nice to create a map that represents the evolution over time of some variables. It is actually easy with `leaflet.minicharts`. The first step is to construct a table containing longitude, lattitude, a time column and the variables we want to represent. The table `eco2mix` already has all these columns. We only need to filter the rows containing data for the entire country.
+Until now, we have only represented aggregated data but it would be nice to create a map that represents the evolution over time of some variables. It is actually easy with `leaflet.minicharts`. The first step is to construct a table containing longitude, latitude, a time column and the variables we want to represent. The table `eco2mix` already has all these columns. We only need to filter the rows containing data for the entire country.
 
 ```{r}
 prodRegions <- eco2mix %>% filter(area != "France")

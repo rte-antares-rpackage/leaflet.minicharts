@@ -5,3 +5,4 @@
 shiny-demo
 javascript
 ^codecov\.yml$
+^cran-comments\.md$

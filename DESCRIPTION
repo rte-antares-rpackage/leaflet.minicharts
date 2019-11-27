@@ -7,7 +7,7 @@ Authors@R: c(
            family = "Bachelier",
            role = c("aut", "cre"),
            email = "veronique.bachelier@rte-france.com"),
-    person("Jalal-Edine", "ZAWAM", email = "jalal-edine.zawam@rte-france.com", role = "aut"),
+    person("Jalal-Edine", "ZAWAM", role = "aut"),
     person("Benoit", "Thieurmel", email = "benoit.thieurmel@datastorm.fr", role = "aut"),
     person("Francois", "Guillem", role = "aut"),
     person("RTE", role = "cph")

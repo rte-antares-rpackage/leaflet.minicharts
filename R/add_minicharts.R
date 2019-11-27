@@ -8,7 +8,7 @@
 #'
 #' @param map A leaflet map object created with \code{\link[leaflet]{leaflet}}.
 #' @param lng Longitude where to place the charts.
-#' @param lat Lattitude where to place the charts.
+#' @param lat Latitude where to place the charts.
 #' @param chartdata A numeric matrix with number of rows equal to the number of
 #'   elements in \code{lng} or \code{lat} and number of column equal to the
 #'   number of variables to represent. If parameter \code{time} is set, the
@@ -47,7 +47,7 @@
 #' @param transitionTime Duration in milliseconds of the transitions when a
 #'   property of a chart is updated.
 #' @param popup Options that control popup generation.
-#' @param layerId An ID variable. It is mandatoy when one wants to update some
+#' @param layerId An ID variable. It is mandatory when one wants to update some
 #'   chart with \code{updateMinicharts}.
 #' @param legend If TRUE and if data has column names, then a legend is
 #'   automatically added to the map.
@@ -59,7 +59,7 @@
 #'   shown when the map is created. It is used only when argument \code{time} is
 #'   set.
 #' @param onChange (For power users who know javascript) A character string
-#'   containing javascript code that is exexuted each time a chart is updated.
+#'   containing javascript code that is executed each time a chart is updated.
 #'   See the details section to understand why and how to use this parameter.
 #'
 #' @details

@@ -16,6 +16,6 @@ color palette
 \url{https://github.com/d3/d3-scale}
 }
 \author{
-Francois Guillem \email{francois.guillem@rte-france.com}
+Francois Guillem
 }
 \keyword{datasets}
