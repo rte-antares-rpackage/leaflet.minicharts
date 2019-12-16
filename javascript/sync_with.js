@@ -10,7 +10,11 @@
         var center = map.getCenter();
         if(LeafletWidget.syncGroups[groupname].length > 1){
           for (var i = 0; i < LeafletWidget.syncGroups[groupname].length; i++) {
+            LeafletWidget.syncGroups[groupname][i].off("move");
             LeafletWidget.syncGroups[groupname][i].setView(center, zoom, {animate: false});
+            LeafletWidget.syncGroups[groupname][i].on("move", function() {
+              LeafletWidget.syncGroups.sync(this, groupname);
+            });
           }
         }
       }

@@ -1,7 +1,7 @@
 Package: leaflet.minicharts
 Type: Package
 Title: Mini Charts for Interactive Maps
-Version: 0.6.0
+Version: 0.6.1
 Authors@R: c(
     person(given = "Veronique",
            family = "Bachelier",
