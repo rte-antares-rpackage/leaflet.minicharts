@@ -49,7 +49,7 @@ addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
                      opacity = 1, dir = NULL, time = NULL, popup = popupArgs(labels = "Flow"),
                      layerId = NULL,
                      timeFormat = NULL, initialTime = NULL, maxFlow = max(abs(flow)),
-                     minThickness = 1, maxThickness = 20) {
+                     minThickness = 1, maxThickness = 20, popupOptions = NULL) {
   if (is.null(time)) time <- 1
   if (is.null(layerId)) layerId <- sprintf("_flow (%s,%s) -> (%s,%s)", lng0, lat0, lng1, lat1)
 
@@ -67,7 +67,7 @@ addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
   map$dependencies <- c(map$dependencies, minichartDeps())
 
   invokeMethod(map, data = leaflet::getMapData(map), "addFlows", args$options,
-               args$timeLabels, args$initialTime, args$popupArgs) %>%
+               args$timeLabels, args$initialTime, args$popupArgs, popupOptions) %>%
     expandLimits(c(lat0, lat1), c(lng0, lng1))
 }
 
@@ -76,7 +76,7 @@ addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
 updateFlows <- function(map, layerId, color = NULL, flow = NULL, opacity = NULL,
                         dir = NULL, time = NULL, popup = NULL,
                         timeFormat = NULL, initialTime = NULL, maxFlow = NULL,
-                        minThickness = 1, maxThickness = 20) {
+                        minThickness = 1, maxThickness = 20, popupOptions = NULL) {
   if (is.null(time)) time <- 1
 
   options <- .preprocessArgs(
@@ -94,7 +94,7 @@ updateFlows <- function(map, layerId, color = NULL, flow = NULL, opacity = NULL,
   }
 
   invokeMethod(map, data = leaflet::getMapData(map), "updateFlows", args$options,
-               args$timeLabels, args$initialTime, args$popupArgs)
+               args$timeLabels, args$initialTime, args$popupArgs, popupOptions)
 }
 
 #' @rdname addFlows

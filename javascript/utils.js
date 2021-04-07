@@ -119,7 +119,12 @@
     if (l.popupArgs.noPopup) return;
 
     if (l.opts[timeId].popupHTML) {
-      l.bindPopup(l.opts[timeId].popupHTML);
+            if(l.isPopupOpen() === false){
+        l.bindPopup(l.opts[timeId].popupHTML, l.popupOptions);
+      } else {
+        l.setPopupContent(l.opts[timeId].popupHTML);
+      }
+      /* l.bindPopup(l.opts[timeId].popupHTML, l.popupOptions); */
       return;
     }
 
@@ -159,8 +164,12 @@
     }
 
     popup =  '<div class="popup">'+ title + content + '</div>';
-    l.bindPopup(popup);
-
+    /* l.bindPopup(popup.popupHTML, l.popupOptions); */
+          if(l.isPopupOpen() === false){
+        l.bindPopup(l.opts[timeId].popupHTML, l.popupOptions);
+      } else {
+        l.setPopupContent(l.opts[timeId].popupHTML);
+      }
     return popup;
   }
 

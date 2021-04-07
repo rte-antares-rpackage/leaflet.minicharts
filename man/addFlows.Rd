@@ -24,7 +24,8 @@ addFlows(
   initialTime = NULL,
   maxFlow = max(abs(flow)),
   minThickness = 1,
-  maxThickness = 20
+  maxThickness = 20,
+  popupOptions = NULL
 )
 
 updateFlows(
@@ -40,7 +41,8 @@ updateFlows(
   initialTime = NULL,
   maxFlow = NULL,
   minThickness = 1,
-  maxThickness = 20
+  maxThickness = 20,
+  popupOptions = NULL
 )
 
 removeFlows(map, layerId)
@@ -95,6 +97,9 @@ set.}
 \item{minThickness}{minimal thickness of the line that represents the flow.}
 
 \item{maxThickness}{maximal thickness of the line that represents the flow.}
+
+\item{popupOptions}{Change popupOptions (ex : autoClose, maxHeight, closeButton ...)
+see leaflet::popupOptions for more informations.}
 }
 \value{
 The modified leaflet map object.

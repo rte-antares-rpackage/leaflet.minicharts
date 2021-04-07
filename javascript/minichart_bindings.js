@@ -6,7 +6,7 @@
   var utils = require("./utils");
   var d3 = require("d3");
 
-  LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popupArgs, onChange) {
+  LeafletWidget.methods.addMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popupArgs, onChange, popupOptions) {
     var self = this;
     var timeId = utils.initTimeSlider(this, timeLabels, initialTime);
 
@@ -47,6 +47,7 @@
       l.colorPalette = colorPalette || d3.schemeCategory10;
       l.timeId = timeId;
       l.popupArgs = popupArgs;
+      if (popupOptions) l.popupOptions = popupOptions;
       if (staticOpts.layerId.indexOf("_minichart") != 0) l.layerId = staticOpts.layerId;
 
       // Popups
@@ -61,7 +62,7 @@
     });
   };
 
-  LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popupArgs, legendLab, onChange) {
+  LeafletWidget.methods.updateMinicharts = function(options, data, maxValues, colorPalette, timeLabels, initialTime, popupArgs, legendLab, onChange, popupOptions) {
     var self = this;
     var timeId = utils.initTimeSlider(this, timeLabels, initialTime);
 
@@ -72,7 +73,7 @@
 
       if (popupArgs) l.popupArgs = popupArgs;
       else if(data && legendLab) {l.popupArgs.labels = legendLab}
-
+      if (popupOptions) l.popupOptions = popupOptions;
       for (var t = 0; t < opts.length; t++) { // loop over time steps
         if (data) {
           opts[t].data = data[i][t];
@@ -110,9 +111,9 @@
       if (onChange) {
         l.onChange = eval(onChange);
       }
+
       var popup = utils.setPopup(l, timeId);
       if (l.onChange) l.onChange(utils.getInitOptions(opts, staticOpts, timeId), popup, d3);
-
 
     });
   };
