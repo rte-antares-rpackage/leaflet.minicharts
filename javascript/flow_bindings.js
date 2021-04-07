@@ -10,7 +10,7 @@
     popup and layerId
 
   */
-  LeafletWidget.methods.addFlows = function(options, timeLabels, initialTime, popupArgs) {
+  LeafletWidget.methods.addFlows = function(options, timeLabels, initialTime, popupArgs, popupOptions) {
     var self = this;
 
     // Initialize time slider
@@ -42,6 +42,7 @@
       l.timeId = timeId;
       if (staticOpts.layerId.indexOf("_flow") != 0) l.layerId = staticOpts.layerId;
       l.popupArgs = popupArgs;
+      if (popupOptions) l.popupOptions = popupOptions;
 
       utils.setPopup(l, timeId);
       self.layerManager.addLayer(l, "flow", staticOpts.layerId);
@@ -56,7 +57,7 @@
     and weight
 
   */
-  LeafletWidget.methods.updateFlows = function(options, timeLabels, initialTime, popupArgs) {
+  LeafletWidget.methods.updateFlows = function(options, timeLabels, initialTime, popupArgs, popupOptions) {
     var self = this;
 
     var timeId = utils.initTimeSlider(this, timeLabels, initialTime);
@@ -66,7 +67,7 @@
       if (!l) return;
 
       if (popupArgs) l.popupArgs = popupArgs;
-
+      if (popupOptions) l.popupOptions = popupOptions;
       for (var t = 0; t < opts.length; t++) {
         if (typeof opts[t].value != "undefined") opts[t].data = [opts[t].value];
         else if (typeof staticOpts.value != "undefined") opts[t].data = [staticOpts.value];

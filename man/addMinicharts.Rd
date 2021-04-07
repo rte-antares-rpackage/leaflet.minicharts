@@ -32,7 +32,8 @@ addMinicharts(
   legendPosition = "topright",
   timeFormat = NULL,
   initialTime = NULL,
-  onChange = NULL
+  onChange = NULL,
+  popupOptions = NULL
 )
 
 updateMinicharts(
@@ -58,7 +59,8 @@ updateMinicharts(
   legendPosition = NULL,
   timeFormat = NULL,
   initialTime = NULL,
-  onChange = NULL
+  onChange = NULL,
+  popupOptions = NULL
 )
 
 removeMinicharts(map, layerId)
@@ -145,6 +147,9 @@ set.}
 \item{onChange}{(For power users who know javascript) A character string
 containing javascript code that is executed each time a chart is updated.
 See the details section to understand why and how to use this parameter.}
+
+\item{popupOptions}{Change popupOptions (ex : autoClose, maxHeight, closeButton ...)
+see leaflet::popupOptions for more informations.}
 }
 \value{
 The modified leaflet map object. \code{addMinicharts} add new minicharts to
