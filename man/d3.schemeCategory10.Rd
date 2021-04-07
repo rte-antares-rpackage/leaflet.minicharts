@@ -4,7 +4,9 @@
 \name{d3.schemeCategory10}
 \alias{d3.schemeCategory10}
 \title{d3 color palette}
-\format{An object of class \code{character} of length 10.}
+\format{
+An object of class \code{character} of length 10.
+}
 \usage{
 d3.schemeCategory10
 }

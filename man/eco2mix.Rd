@@ -5,7 +5,11 @@
 \alias{eco2mix}
 \alias{eco2mixBalance}
 \title{Electric production, consumption and exchanges of France}
-\format{An object of class \code{data.frame} with 686 rows and 22 columns.}
+\format{
+An object of class \code{data.frame} with 686 rows and 22 columns.
+
+An object of class \code{data.frame} with 430 rows and 7 columns.
+}
 \usage{
 eco2mix
 
