@@ -1,7 +1,7 @@
 Package: leaflet.minicharts
 Type: Package
 Title: Mini Charts for Interactive Maps
-Version: 0.6.1
+Version: 0.6.2
 Authors@R: c(
     person(given = "Veronique",
            family = "Bachelier",
@@ -21,7 +21,7 @@ Imports: leaflet (>= 1.1.0),
     htmltools
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.0.1
+RoxygenNote: 7.1.1
 Suggests: knitr,
     rmarkdown,
     dplyr,

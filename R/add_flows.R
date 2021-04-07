@@ -43,6 +43,16 @@
 #'     time = bal$month
 #'   )
 #'
+#' # popupOptions
+#' data("eco2mixBalance")
+#' bal <- eco2mixBalance
+#' leaflet() %>% addTiles() %>%
+#'   addFlows(
+#'     bal$lng0, bal$lat0, bal$lng1, bal$lat1,
+#'     flow = bal$balance,
+#'     time = bal$month,
+#'     popupOptions = list(closeOnClick = FALSE, autoClose = FALSE)
+#'   )
 #'
 #' @export
 addFlows <- function(map, lng0, lat0, lng1, lat1, color = "blue", flow = 1,
