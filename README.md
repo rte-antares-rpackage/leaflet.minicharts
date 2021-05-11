@@ -21,8 +21,6 @@ Here are screenshots of sample outputs:
 ![](vignettes/barcharts.png)
 ![](vignettes/bubblecharts.png)
 
-You can also find a [live example here](https://francoisguillem.shinyapps.io/shiny-demo/).
-
 ## Installation and usage
 
 You can install the package from CRAN:
