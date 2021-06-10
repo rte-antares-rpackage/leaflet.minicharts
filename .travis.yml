@@ -3,7 +3,6 @@
 language: R
 sudo: required
 cache: packages
-dist: trusty
 
 r_github_packages:
  - rstudio/leaflet
