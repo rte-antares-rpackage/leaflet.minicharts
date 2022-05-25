@@ -13,7 +13,7 @@
     "leaflet.minichart": "0.2.5"
   },
   "devDependencies": {
-    "grunt": "^1.4.1",
+    "grunt": "^1.5.3",
     "grunt-browserify": "^6.0.0",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-concat": "^1.0.1",
