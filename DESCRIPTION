@@ -1,12 +1,12 @@
 Package: leaflet.minicharts
 Type: Package
 Title: Mini Charts for Interactive Maps
-Version: 0.6.2
+Version: 0.6.3
 Authors@R: c(
-    person(given = "Veronique",
-           family = "Bachelier",
+    person(given = "Tatiana",
+           family = "Vargas",
            role = c("aut", "cre"),
-           email = "veronique.bachelier@rte-france.com"),
+           email = "tatiana.vargas@rte-france.com"),
     person("Jalal-Edine", "ZAWAM", role = "aut"),
     person("Benoit", "Thieurmel", email = "benoit.thieurmel@datastorm.fr", role = "aut"),
     person("Francois", "Guillem", role = "aut"),
