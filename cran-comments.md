@@ -30,4 +30,9 @@
 
 0 errors ✔ | 1 warning ✖ | 1 note ✖
 
+
+# Re-Fixing OLD Travis URL in README (deleted), 
+Sorry for that (didn't see that with local check `rcmdcheck::rcmdcheck(args = "--as-cran")`. 
+Thank you!
+
  

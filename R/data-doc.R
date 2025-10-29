@@ -15,7 +15,7 @@
 #'
 #' @docType data
 #' @author Francois Guillem
-#' @references \url{https://www.rte-france.com/eco2mix}
+#' @references "https://www.rte-france.com/eco2mix"
 #' @keywords datasets
 "eco2mix"
 
