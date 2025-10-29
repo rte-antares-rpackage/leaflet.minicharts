@@ -29,7 +29,7 @@ exchanges between France and neighbouring countries, in a convenient format
 to represent flows on a map.
 }
 \references{
-\url{https://www.rte-france.com/eco2mix}
+"https://www.rte-france.com/eco2mix"
 }
 \author{
 Francois Guillem

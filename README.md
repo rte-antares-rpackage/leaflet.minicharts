@@ -5,9 +5,6 @@
 <!-- badges: start -->
 [![CRAN_Status_Badge](http://www.r-pkg.org/badges/version/leaflet.minicharts)](https://cran.r-project.org/package=leaflet.minicharts)
 [![CRAN Downloads Badge](https://cranlogs.r-pkg.org/badges/leaflet.minicharts)](https://cran.r-project.org/package=leaflet.minicharts)
-[![Travis-CI Build Status](https://travis-ci.org/rte-antares-rpackage/leaflet.minicharts.svg?branch=master)](https://travis-ci.org/rte-antares-rpackage/leaflet.minicharts)
-[![AppVeyor Build Status](https://ci.appveyor.com/api/projects/status/github/rte-antares-rpackage/leaflet.minicharts?branch=master&svg=true)](https://ci.appveyor.com/project/rte-antares-rpackage/leaflet-minicharts)
-[![Coverage Status](https://img.shields.io/codecov/c/github/rte-antares-rpackage/leaflet.minicharts/master.svg)](https://codecov.io/github/rte-antares-rpackage/leaflet.minicharts?branch=master)
 <!-- badges: end -->
 
 
